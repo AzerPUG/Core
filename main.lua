@@ -1,7 +1,5 @@
 local GlobalAddonName, AIU = ...
 
---local L = LibStub("AceLocale-3.0"):GetLocale("AzerPUGRareUtility", false)
-
 local UpdateInterval = 1.0
 local UpdateSecondCounter = 0
 local zone = GetZoneText()
@@ -76,7 +74,6 @@ function addonMain:OnLoad(self)
 
     local AddonTitle = InstanceUtilityAddonFrame:CreateFontString("AddonTitle", "ARTWORK", "GameFontNormal")
     AddonTitle:SetText(nameFull)
-    --AddonTitle:SetWidth("100")
     AddonTitle:SetHeight("10")
     AddonTitle:SetPoint("TOP", "InstanceUtilityAddonFrame", -100, -3)
 
@@ -216,12 +213,9 @@ function addonMain:createParentFrames(dataSet)
             local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
             local parentFrame = CreateFrame("Frame", "frameFrame")
             parentFrame:SetSize(300,20)
-            -- parentFrame:SetPoint("TOPLEFT", (325 * (j - 1)), -25 * i - 55)
 
             local itemIconLabel = CreateFrame("Frame", "checkIcon", parentFrame)
             itemIconLabel:SetSize(15, 15)
-            -- itemIconLabel:SetPoint("TOPLEFT", 225 * j - 220, -25 * i - 55)
-            --itemIconLabel:SetPoint("TOPLEFT", (325 * (j - 1)), -25 * i - 55)
             itemIconLabel:SetPoint("TOPLEFT", 5, 0)
             itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
             itemIconLabel.texture:SetPoint("LEFT", 0, 0)
@@ -230,14 +224,10 @@ function addonMain:createParentFrames(dataSet)
 
             local itemNameLabel = CreateFrame("Frame", "itemNameLabel", parentFrame)
             itemNameLabel:SetSize(175, 10)
-            --itemNameLabel:SetPoint("TOPLEFT", 195 * j - 185, -25 * i - 57)
-            --itemNameLabel:SetPoint("TOPLEFT", (325 * (j - 1)) + 0, -25 * i - 57)
             itemNameLabel:SetPoint("TOPLEFT", 25, -2)
             itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
             itemNameLabel.contentText:SetPoint("LEFT", 0, 0)
             itemNameLabel.contentText:SetText(itemName)
-            --itemNameLabel.contentText:SetSize(200, 10)
-            --itemNameLabel.contentText:SetJustifyH("LEFT")
 
             itemIconLabel:SetScript("OnEnter", function()
                 GameTooltip:SetOwner(itemIconLabel)
@@ -276,8 +266,6 @@ function addonMain:getItemsCheckListFrame(dataSet)
 
     --             local itemIconLabel = CreateFrame("Frame", "checkIcon", frameFrame)
     --             itemIconLabel:SetSize(15, 15)
-    --             -- itemIconLabel:SetPoint("TOPLEFT", 225 * j - 220, -25 * i - 55)
-    --             --itemIconLabel:SetPoint("TOPLEFT", (325 * (j - 1)), -25 * i - 55)
     --             itemIconLabel:SetPoint("TOPLEFT", 5, 0)
     --             itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
     --             itemIconLabel.texture:SetPoint("LEFT", 0, 0)
@@ -286,14 +274,10 @@ function addonMain:getItemsCheckListFrame(dataSet)
 
     --             local itemNameLabel = CreateFrame("Frame", "itemNameLabel", frameFrame)
     --             itemNameLabel:SetSize(175, 10)
-    --             --itemNameLabel:SetPoint("TOPLEFT", 195 * j - 185, -25 * i - 57)
-    --             --itemNameLabel:SetPoint("TOPLEFT", (325 * (j - 1)) + 0, -25 * i - 57)
     --             itemNameLabel:SetPoint("TOPLEFT", 25, -2)
     --             itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     --             itemNameLabel.contentText:SetPoint("LEFT", 0, 0)
     --             itemNameLabel.contentText:SetText(itemName)
-    --             --itemNameLabel.contentText:SetSize(200, 10)
-    --             --itemNameLabel.contentText:SetJustifyH("LEFT")
 
     --             itemIconLabel:SetScript("OnEnter", function()
     --                 GameTooltip:SetOwner(itemIconLabel)
@@ -317,7 +301,6 @@ function addonMain:getItemsCheckListFrame(dataSet)
     --             itemCountLabel.contentText = itemCountLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     --             itemCountLabel.contentText:SetPoint("LEFT")
     --             itemCountLabel.contentText:SetText(GetItemCount(itemID))
-    --             --itemCountLabel.contentText:SetSize(50, 10)
 
     --         end
     --     end

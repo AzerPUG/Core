@@ -1,31 +1,17 @@
 local GlobalAddonName, AIU = ...
 
-
 AIU.initialConfig =
 {
     ["checkItemIDs"] = {}
 }
 
-AIU.parentFrames =
-{
-
-}
-
--- AIU.flaskData.Roy =
--- {
---     ["int"] = {168652},
---     ["sta"] = {168653},
---     ["str"] = {168654, 152641},
---     ["agi"] = {168651}
--- }
-
 AIU.flaskItemData =
 {
-    {168656}, -- Cauldron
-    {168652, 152639},    -- INT
-    {168653},           -- X
-    {168654, 152641},   -- STR
-    {168651}            -- X
+    {168656, 162519},   -- Cauldron
+    {168652, 152639},   -- Intellect
+    {168653, 152640},   -- Stamina
+    {168654, 152641},   -- Strength
+    {168651, 152638}    -- Agility
 }
 
 AIU.foodBuffData =
@@ -42,15 +28,15 @@ AIU.foodBuffData =
 
 AIU.foodItemData =
 {
-    {168315, 166240, 156526, 156525}, -- Feast
-    {166804}, -- Main Stat
-    {168314, 154886, 154885}, -- Vers
-    {168313, 154884, 154883}, -- Haste
-    {168311, 154888, 154887}, -- Mast
-    {168310, 154882, 154881}, -- Crit
-    {168312, 166344, 166343}, -- Stam
-    {113509, 154891, 154889}, -- Mana
-    {174351, 174350, 174352, 174349, 174348} -- Vision Food
+    {168315, 166240, 156526, 156525},           -- Feast
+    {166804},                                   -- Main Stat
+    {168314, 154886, 154885},                   -- Vers
+    {168313, 154884, 154883},                   -- Haste
+    {168311, 154888, 154887},                   -- Mast
+    {168310, 154882, 154881},                   -- Crit
+    {168312, 166344, 166343},                   -- Stam
+    {113509, 154891, 154889},                   -- Mana
+    {174351, 174350, 174352, 174349, 174348}    -- Vision Food
 }
 
 AIU.runeBuffData =
@@ -67,8 +53,8 @@ AIU.runeBuffData =
 
 AIU.runeItemData =
 {
-    {174906, 160053}, -- Runes (Note, first one only needs 1, as it is a permanent item!)
-    {171203} -- Vantus
+    {174906, 160053},   -- Runes (Note, first one only needs 1, as it is a permanent item!)
+    {171203}            -- Vantus
 }
 
 AIU.raidBuffData =
@@ -83,14 +69,15 @@ AIU.raidBuffData =
 
 AIU.potItemData =
 {
-    {168498, 163222}, -- Int
-    {168489, 163223}, -- Agi
-    {168500, 163224}, -- Str
-    {168499, 163225}, -- Stam
-    {168501, 152557}, -- Armor
-    {152561, 152495}, -- Mana
-    {169451, 152494}, -- Heal
-    {168529, 168506, 169299, 169300, 152560, 152559, 163082}, -- Other
+    {168498, 163222},                   -- Int
+    {168489, 163223},                   -- Agi
+    {168500, 163224},                   -- Str
+    {168499, 163225},                   -- Stam
+    {168501, 152557},                   -- Armor
+    {152561, 152495},                   -- Mana
+    {169451, 152494},                   -- Heal
+    {168529, 168506, 169299, 169300},   -- Other
+    {152560, 152559, 163082}            -- Other
 }
 
 AIU.scrollItemData =
@@ -102,12 +89,12 @@ AIU.scrollItemData =
 
 AIU.otherItemData =
 {
-    {141446}, -- Tomes
-    {120257, 154167}, -- Drums
+    {141446, 153647, 141640}, -- Tomes, All work the same, so track a total, see as 1 item.
+    {120257, 154167, 142406}, -- Drums, All work the same, so track a total, see as 1 item.
     {132514} -- AutoHammers
 }
 
-AIU.otherData =
+AIU.otherBuffData =
 {
     [104934] = "Eating",
     [176458] = "NoDurabilityLoss"
