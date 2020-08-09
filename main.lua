@@ -7,11 +7,14 @@ local zoneID = C_Map.GetBestMapForUnit("player")
 local announceChannel = nil
 local zoneShardID = nil
 local addonChannelName = "AZP-IT-AC"
-local OptionsPanel
-
+local OptionsCorePanel
+local OptionsSubPanelChecklist
+local itemCheckListFrame
+local addonLoaded = false
 local itemData = AIU.itemData
 local initialConfig = AIU.initialConfig
 local testItemData = AIU.itemData["Flasks"]
+
 local addonVersion = "v0.1"
 local dash = " - "
 local name = "InstanceUtility"
@@ -27,6 +30,15 @@ local InstanceUtilityLDB = LibStub("LibDataBroker-1.1"):NewDataObject("InstanceU
 	OnClick = function() addonMain:ShowHideFrame() end
 })
 local icon = LibStub("LibDBIcon-1.0")
+
+function addonMain:ShowHideFrame()
+    if InstanceUtilityAddonFrame:IsShown() then
+        InstanceUtilityAddonFrame:Hide()
+    elseif not InstanceUtilityAddonFrame:IsShown() then
+        InstanceUtilityAddonFrame:Show()
+    end
+end
+
 
 function addonMain:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("InstanceUtilityLDB", {
@@ -64,11 +76,14 @@ function addonMain:OnLoad(self)
     InstanceUtilityAddonFrame:SetScript("OnDragStart", InstanceUtilityAddonFrame.StartMoving)
     InstanceUtilityAddonFrame:SetScript("OnDragStop", InstanceUtilityAddonFrame.StopMovingOrSizing)
     InstanceUtilityAddonFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+    InstanceUtilityAddonFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+    InstanceUtilityAddonFrame:RegisterEvent("PLAYER_LOGIN")
+    InstanceUtilityAddonFrame:RegisterEvent("ADDON_LOADED")
     --InstanceUtilityAddonFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     --InstanceUtilityAddonFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
     --InstanceUtilityAddonFrame.TimeSinceLastUpdate = 0
     --InstanceUtilityAddonFrame.MinuteCounter = 0
-    InstanceUtilityAddonFrame:SetSize(800, 400)
+    InstanceUtilityAddonFrame:SetSize(400, 250)
     InstanceUtilityAddonFrame.texture:SetColorTexture(0.5, 0.5, 0.5, 0.5)
 
     local AddonTitle = InstanceUtilityAddonFrame:CreateFontString("AddonTitle", "ARTWORK", "GameFontNormal")
@@ -78,12 +93,12 @@ function addonMain:OnLoad(self)
 
     TempTestButton1 = CreateFrame("Button", "TempTestButton1", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
     TempTestButton1.contentText = TempTestButton1:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-    TempTestButton1.contentText:SetText("TEST!")
+    TempTestButton1.contentText:SetText("Check Items!")
     TempTestButton1:SetWidth("100")
     TempTestButton1:SetHeight("25")
     TempTestButton1.contentText:SetWidth("100")
     TempTestButton1.contentText:SetHeight("15")
-    TempTestButton1:SetPoint("TOP", 100, -25)
+    TempTestButton1:SetPoint("TOP", 125, -25)
     TempTestButton1.contentText:SetPoint("CENTER", 0, -1)
     TempTestButton1:SetScript("OnClick", function() addonMain:checkListButtonClicked() end )
 
@@ -95,13 +110,19 @@ function addonMain:OnLoad(self)
     ReloadButton:SetHeight("25")
     ReloadButton.contentText:SetWidth("100")
     ReloadButton.contentText:SetHeight("15")
-    ReloadButton:SetPoint("TOP", 100, -50)
+    ReloadButton:SetPoint("TOP", 125, -50)
     ReloadButton.contentText:SetPoint("CENTER", 0, -1)
     ReloadButton:SetScript("OnClick", function() ReloadUI(); end )
     
-    OptionsPanel = CreateFrame("FRAME", "AZP-IU-OptionsPanel")
-    OptionsPanel.name = "AzerPUG InstanceUtility"
-    InterfaceOptions_AddCategory(OptionsPanel)
+    OptionsCorePanel = CreateFrame("FRAME", "AZP-IU-OptionsCorePanel")
+    OptionsCorePanel.name = "AzerPUG InstanceUtility"
+    InterfaceOptions_AddCategory(OptionsCorePanel)
+
+    OptionsSubPanelChecklist = CreateFrame("FRAME", "AZP-IU-OptionsSubPanelChecklist")
+    OptionsSubPanelChecklist.name = "Checklist"
+    OptionsSubPanelChecklist.parent = OptionsSubPanelChecklist
+
+    InterfaceOptions_AddCategory(OptionsSubPanelChecklist);
 
     OpenSettingsButton = CreateFrame("Button", "OpenSettingsButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
     OpenSettingsButton.contentText = OpenSettingsButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -110,26 +131,47 @@ function addonMain:OnLoad(self)
     OpenSettingsButton:SetHeight("25")
     OpenSettingsButton.contentText:SetWidth("100")
     OpenSettingsButton.contentText:SetHeight("15")
-    OpenSettingsButton:SetPoint("TOP", 100, -75)
+    OpenSettingsButton:SetPoint("TOP", 125, -75)
     OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
-    OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsPanel); InterfaceOptionsFrame_OpenToCategory(OptionsPanel); end )
+    OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
 
-    
+    local OptionsCoreHeader = OptionsCorePanel:CreateFontString("OptionsCoreHeader", "ARTWORK", "GameFontNormalHuge")
+    OptionsCoreHeader:SetText(promo)
+    OptionsCoreHeader:SetWidth(OptionsCorePanel:GetWidth())
+    OptionsCoreHeader:SetHeight(OptionsCorePanel:GetHeight())
+    OptionsCoreHeader:SetPoint("TOP", 0, -10)
 
 
+    local OptionsCoreText = CreateFrame("Frame", "OptionsCoreText", OptionsCorePanel)
+    OptionsCoreText:SetSize(500, 500)
+    OptionsCoreText:SetPoint("TOP", 0, -50)
+    OptionsCoreText.contentText = OptionsCoreText:CreateFontString("OptionsCoreText", "ARTWORK", "GameFontNormalLarge")
+    OptionsCoreText.contentText:SetText(
+        "The checklist is now a part of the core Addon, this will be split \nlater when more modules are available (Within the next weeks)." .. "\n\n" ..
+        "Sorry for the bad layout and looks, this will be improved in the next update." .. "\n\n" ..
+        "Checklist functionality will soon be upgraded with:" .. "\n" ..
+        "Scrolls, Tomes, iLVL, Cape level, Neck level, Gems, Enchants, Alchemy support, \n Garrison buff, Repair hammers, Drums and Bonus loot tokens."
+    )
+    -- OptionsCoreText.contentText:SetWidth(OptionsCorePanel:GetWidth())
+    -- OptionsCoreText.contentText:SetHeight(OptionsCorePanel:GetHeight())
+    OptionsCoreText.contentText:SetPoint("TOPLEFT")
 
-    local OptionsHeader = OptionsPanel:CreateFontString("OptionsHeader", "ARTWORK", "GameFontNormalHuge")
-    OptionsHeader:SetText(promo .. dash .. "Options")
-    OptionsHeader:SetWidth(OptionsPanel:GetWidth())
-    OptionsHeader:SetHeight(OptionsPanel:GetHeight())
-    OptionsHeader:SetPoint("TOP", 0, -10)
+    local OptionsSubChecklistHeader = OptionsSubPanelChecklist:CreateFontString("OptionsSubChecklistHeader", "ARTWORK", "GameFontNormalHuge")
+    OptionsSubChecklistHeader:SetText(promo)
+    OptionsSubChecklistHeader:SetWidth(OptionsSubPanelChecklist:GetWidth())
+    OptionsSubChecklistHeader:SetHeight(OptionsSubPanelChecklist:GetHeight())
+    OptionsSubChecklistHeader:SetPoint("TOP", 0, -10)
+
+    local OptionsSubChecklistHeader = OptionsSubPanelChecklist:CreateFontString("OptionsSubChecklistHeader", "ARTWORK", "GameFontNormalHuge")
+    OptionsSubChecklistHeader:SetText("Checklist Options")
+    OptionsSubChecklistHeader:SetWidth(OptionsSubPanelChecklist:GetWidth())
+    OptionsSubChecklistHeader:SetHeight(OptionsSubPanelChecklist:GetHeight() - 10)
+    OptionsSubChecklistHeader:SetPoint("TOP", 0, -40)
 end
 
 function addonMain:initConfigSection()
     addonMain:createTreeGroupList();
 end
-
-
 
 function addonMain:initializeConfig()
     if AIUCheckedData == nil then
@@ -142,226 +184,268 @@ end
 
 function addonMain:OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
-        InstanceUtilityAddonFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-        addonMain:initializeConfig()
+    elseif event == "PLAYER_LOGIN" then 
     elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
-
+    elseif event == "ADDON_LOADED" then
+        if addonLoaded == false then
+            addonMain:DelayedExecution(5, function() addonMain:initializeConfig() end)
+            addonLoaded = true
+        end
+    elseif event == "GET_ITEM_INFO_RECEIVED" then
+        if waitingOnItemData[1] ~= nil then
+            runFunction(waitingOnItemData[1][1], waitingOnItemData[1][2])
+            table.remove(waitingOnItemData, 1)
+        end
     end
+end
+
+function cacheItem(itemID, data1)
+    itemName = getItemInfo(itemID)
+    if itemName == nil then
+        table.insert(waitingOnItemData, {itemID, data1})
+    else
+        runFunction(itemID, data1)
+    end
+end
+
+function addonMain:DelayedExecution(delayTime, delayedFunction)
+	local frame = CreateFrame("Frame")
+	frame.start_time = GetServerTime()
+	frame:SetScript("OnUpdate", 
+		function(self)
+			if GetServerTime() - self.start_time > delayTime then
+				delayedFunction()
+				self:SetScript("OnUpdate", nil)
+				self:Hide()
+			end
+		end
+	)
+	frame:Show()
 end
 
 function addonMain:checkListButtonClicked()
-    addonMain:getItemsCheckListFrame(flaskItemData)
-end
-
-function addonMain:createParentFrames(dataSet)
-    for i,v in ipairs(dataSet) do
-        for j,itemID in ipairs(v) do
-            local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
-            local parentFrame = CreateFrame("Frame", "frameFrame")
-            parentFrame:SetSize(300,20)
-
-            local itemIconLabel = CreateFrame("Frame", "checkIcon", parentFrame)
-            itemIconLabel:SetSize(15, 15)
-            itemIconLabel:SetPoint("TOPLEFT", 5, 0)
-            itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
-            itemIconLabel.texture:SetPoint("LEFT", 0, 0)
-            itemIconLabel.texture:SetTexture(itemIcon)
-            itemIconLabel.texture:SetSize(15, 15)
-
-            local itemNameLabel = CreateFrame("Frame", "itemNameLabel", parentFrame)
-            itemNameLabel:SetSize(175, 10)
-            itemNameLabel:SetPoint("TOPLEFT", 25, -2)
-            itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-            itemNameLabel.contentText:SetPoint("LEFT", 0, 0)
-            itemNameLabel.contentText:SetText(itemName)
-
-            itemIconLabel:SetScript("OnEnter", function()
-                GameTooltip:SetOwner(itemIconLabel)
-                GameTooltip:SetItemByID(itemID)
-                GameTooltip:SetSize(200, 200)
-                GameTooltip:Show()
-            end)
-            itemIconLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
-
-            itemNameLabel:SetScript("OnEnter", function()
-                GameTooltip:SetOwner(itemNameLabel)
-                GameTooltip:SetItemByID(itemID)
-                GameTooltip:SetSize(200, 200)
-                GameTooltip:Show()
-            end)
-            itemNameLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
-        end
-    end
+    addonMain:getItemsCheckListFrame()
 end
 
 function addonMain:createTreeGroupList()
-    -- local treeGroupList = createFrame("Frame", "treeGroupList", OptionsPanel);
-    -- treeGroupList:SetPoint("TOPLEFT", 5, 5)
-    -- treeGroupList:SetSize(OptionsPanel::);
-    local scrollFrame = CreateFrame("ScrollFrame", "scrollFrame", OptionsPanel, "UIPanelScrollFrameTemplate");
-    --scrollFrame:SetSize(OptionsPanel:GetWidth(), OptionsPanel:GetHeight())
-    scrollFrame:SetSize(500, 450)
-    scrollFrame:SetPoint("TOPLEFT", 0, -100)
-    scrollFrame:SetBackdropColor(0, 1, 1, 0.5);
-    -- local itemFlaskData = itemData["Flasks"]
-    local itemFlaskData = itemData["Flasks"]
-    
-    local flaskFrame = CreateFrame("Frame", "flaskFrame", scrollFrame);
-    flaskFrame:SetPoint("TOPLEFT", scrollFrame, "TOPLEFT");
-    flaskFrame:SetSize(500, 100)
-        local lastFrame = nil
-        for j,itemSection in ipairs(itemFlaskData) do
+    local scrollFrame = CreateFrame("ScrollFrame", "scrollFrame", OptionsSubPanelChecklist, "UIPanelScrollFrameTemplate");
+    scrollFrame:SetSize(600, 500)
+    scrollFrame:SetPoint("TOPLEFT", -2, -60)
+    local scrollPanel = CreateFrame("Frame", "scrollPanel")
+    scrollPanel:SetSize(500, 1000)
+    scrollPanel:SetPoint("TOP")
+    scrollFrame:SetScrollChild(scrollPanel)
+    local lastFrame = nil
 
-            local sectionFrame = CreateFrame("Frame", "sectionFrame", flaskFrame)
-            if lastFrame == nil then
-                sectionFrame:SetPoint("TOPLEFT", 0, 0)
+    for _, itemSections in pairs(itemData) do    --loop through item types (flask / food / pot)
+        --local totItems = 0
+        local sectionHeaderFrame = CreateFrame("Frame", "sectionHeaderFrame", scrollPanel)
+        sectionHeaderFrame.contentText = sectionHeaderFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        sectionHeaderFrame.contentText:SetPoint("TOPLEFT", 10, 0)
+        sectionHeaderFrame.contentText:SetText(itemSections[1])
+        sectionHeaderFrame:SetSize(400, 20)
+
+        if lastFrame == nil then
+            sectionHeaderFrame:SetPoint("TOPLEFT", 0, 0)
+        else
+            sectionHeaderFrame:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", -25, 0)
+        end
+
+        lastFrame = sectionHeaderFrame
+
+        for j,itemSection in ipairs(itemSections[2]) do    --loop through stats-types (int / agi / mast / haste)
+            
+            local sectionFrame = CreateFrame("Frame", "sectionFrame", scrollPanel)
+            if lastFrame:GetName() == "sectionHeaderFrame" then
+                sectionFrame:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 25, 0)
             else
                 sectionFrame:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
             end
-            sectionFrame:SetSize(400, 100)
+            sectionFrame:SetSize(400, 30 + 20 * #itemSection[2])
             lastFrame = sectionFrame
             sectionFrame.contentText = sectionFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-            sectionFrame.contentText:SetPoint("TOPLEFT", 10, 5)
+            sectionFrame.contentText:SetPoint("TOPLEFT", 10, 0)
             sectionFrame.contentText:SetText(itemSection[1])
-             
-        for i,itemID in ipairs(itemSection[2]) do
             
-            local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
-            local parentFrame = CreateFrame("Frame", "parentFrame", sectionFrame)
-            parentFrame:SetSize(300,20)
-            parentFrame:SetPoint("TOPLEFT", 25, -10 + i * -15)
-
-            local itemCheckBox = CreateFrame("CheckButton", "itemCheckBox", parentFrame, "ChatConfigCheckButtonTemplate")
-            itemCheckBox:SetSize(20, 20)
-            itemCheckBox:SetPoint("LEFT", 5, 0)
-            itemCheckBox:SetChecked(AIUCheckedData["checkItemIDs"][itemID])
-            itemCheckBox:SetScript("OnClick", function()
-                if itemCheckBox:GetChecked() == true then
-                    AIUCheckedData["checkItemIDs"][itemID] = true
-                elseif itemCheckBox:GetChecked() == false then
-                    AIUCheckedData["checkItemIDs"][itemID] = nil
-                end
-            end)
-
-            local itemIconLabel = CreateFrame("Frame", "checkIcon", parentFrame)
-            itemIconLabel:SetSize(15, 15)
-            itemIconLabel:SetPoint("TOPLEFT", 35, 0)
-            itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
-            itemIconLabel.texture:SetPoint("LEFT", 0, 0)
-            itemIconLabel.texture:SetTexture(itemIcon)
-            itemIconLabel.texture:SetSize(15, 15)
-
-            local itemNameLabel = CreateFrame("Frame", "itemNameLabel", parentFrame)
-            itemNameLabel:SetSize(175, 10)
-            itemNameLabel:SetPoint("TOPLEFT", 55, -2)
-            itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-            itemNameLabel.contentText:SetPoint("LEFT", 0, 0)
-            itemNameLabel.contentText:SetText(itemName)
-
-            itemIconLabel:SetScript("OnEnter", function()
-                GameTooltip:SetOwner(itemIconLabel)
-                GameTooltip:SetItemByID(itemID)
-                GameTooltip:SetSize(200, 200)
-                GameTooltip:Show()
-            end)
-            itemIconLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
-
-            itemNameLabel:SetScript("OnEnter", function()
-                GameTooltip:SetOwner(itemNameLabel)
-                GameTooltip:SetItemByID(itemID)
-                GameTooltip:SetSize(200, 200)
-                GameTooltip:Show()
-            end)
-            itemNameLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
-            -- local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
-            -- local itemCheckBox = CreateFrame("CheckButton", "itemCheckBox", OptionsPanel, "ChatConfigCheckButtonTemplate")
-            -- itemCheckBox:SetPoint("TOPLEFT", 150 * j - 150, -25 * (i + iOffset) - 50)
-            -- itemCheckBox:SetChecked(AIUCheckedData["checkItemIDs"][itemID])
-            -- itemCheckBox:SetScript("OnClick", function()
-            --     if itemCheckBox:GetChecked() == true then
-            --         AIUCheckedData["checkItemIDs"][itemID] = true
-            --     elseif itemCheckBox:GetChecked() == false then
-            --         AIUCheckedData["checkItemIDs"][itemID] = nil
-            --     end
-            -- end)
-
-            -- local itemIconLabel = CreateFrame("Frame", "itemIconLabel", OptionsPanel)
-            -- itemIconLabel:SetSize(15,15)
-            -- itemIconLabel:SetPoint("TOPLEFT", 150 * j - 125, -25 * (i + iOffset) - 55)
-            -- itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
-            -- itemIconLabel.texture:SetPoint("CENTER")
-            -- itemIconLabel.texture:SetTexture(itemIcon)
-            -- itemIconLabel.texture:SetSize(15,15)
-
-            -- local itemNameLabel = CreateFrame("Frame", "itemNameLabel", OptionsPanel)
-            -- itemNameLabel:SetSize(104, 10)
-            -- itemNameLabel:SetPoint("TOPLEFT", 150 * j - 125, -25 * (i + iOffset) - 55)
-            -- itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-            -- itemNameLabel.contentText:SetPoint("LEFT")
-            -- itemNameLabel.contentText:SetText(itemName)
-            -- itemNameLabel.contentText:SetSize(104, 10)
-
-            -- itemCheckBox:SetScript("OnEnter", function()
-            --     GameTooltip:SetOwner(itemCheckBox)
-            --     GameTooltip:SetItemByID(itemID)
-            --     GameTooltip:Show()
-            -- end)
-            -- itemCheckBox:SetScript("OnLeave", function() GameTooltip:Hide() end)
-        end
-    end
-end
-
-function addonMain:getItemsCheckListFrame(dataSet)
-    for i,v in ipairs(dataSet) do
-        for j,itemID in ipairs(v) do
-            if AIUCheckedData["checkItemIDs"][itemID] == true then
-                local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
-                local frameFrame = CreateFrame("Frame", "frameFrame", InstanceUtilityAddonFrame)
-                frameFrame:SetSize(300,20)
-                frameFrame:SetPoint("TOPLEFT", (325 * (j - 1)), -25 * i - 55)
-
-                local itemIconLabel = CreateFrame("Frame", "checkIcon", frameFrame)
-                itemIconLabel:SetSize(15, 15)
-                itemIconLabel:SetPoint("TOPLEFT", 5, 0)
-                itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
-                itemIconLabel.texture:SetPoint("LEFT", 0, 0)
-                itemIconLabel.texture:SetTexture(itemIcon)
-                itemIconLabel.texture:SetSize(15, 15)
-
-                local itemNameLabel = CreateFrame("Frame", "itemNameLabel", frameFrame)
-                itemNameLabel:SetSize(175, 10)
-                itemNameLabel:SetPoint("TOPLEFT", 25, -2)
-                itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-                itemNameLabel.contentText:SetPoint("LEFT", 0, 0)
-                itemNameLabel.contentText:SetText(itemName)
-
-                itemIconLabel:SetScript("OnEnter", function()
-                    GameTooltip:SetOwner(itemIconLabel)
-                    GameTooltip:SetItemByID(itemID)
-                    GameTooltip:SetSize(200, 200)
-                    GameTooltip:Show()
-                end)
-                itemIconLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
-
-                itemNameLabel:SetScript("OnEnter", function()
-                    GameTooltip:SetOwner(itemNameLabel)
-                    GameTooltip:SetItemByID(itemID)
-                    GameTooltip:SetSize(200, 200)
-                    GameTooltip:Show()
-                end)
-                itemNameLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
-
-                local itemCountLabel = CreateFrame("Frame", "itemCountLabel", frameFrame)
-                itemCountLabel:SetSize(50, 10)
-                itemCountLabel:SetPoint("TOPRIGHT", -50, -3)
-                itemCountLabel.contentText = itemCountLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-                itemCountLabel.contentText:SetPoint("LEFT")
-                itemCountLabel.contentText:SetText(GetItemCount(itemID))
-
+            for i,itemID in ipairs(itemSection[2]) do   -- loop through versions of items (small int, big int)
+                
+                
+                local parentFrame = CreateFrame("Frame", "parentFrame", sectionFrame)
+                --local parentFrame = CreateFrame("Frame", "parentFrame", scrollPanel)
+                parentFrame:SetSize(300,20)
+                parentFrame:SetPoint("TOPLEFT", 25, i * -20 + 5)
+                --parentFrame:SetPoint("TOPLEFT", 25, -10 + i * -15 -totItems*20)
+                addonMain:tryGetItemID(itemID, parentFrame)
+                -- addonMain:drawCheckboxItem(parentFrame, itemName, itemIcon)
             end
         end
     end
 end
 
+function addonMain:tryGetItemID(itemID, parentFrame)
+    local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
+    if itemName == nil then
+        addonMain:DelayedExecution(5, (function() 
+            local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
+            if itemName == nil then
+                addonMain:tryGetItemID(itemID, parentFrame)
+            else
+                addonMain:drawCheckboxItem(parentFrame, itemName, itemIcon)
+            end
+            end))
+    else
+        addonMain:drawCheckboxItem(parentFrame, itemName, itemIcon)
+    end
+end
+
+function addonMain:drawCheckboxItem(parentFrame, itemName, itemIcon)
+    local itemCheckBox = CreateFrame("CheckButton", "itemCheckBox", parentFrame, "ChatConfigCheckButtonTemplate")
+    itemCheckBox:SetSize(20, 20)
+    itemCheckBox:SetPoint("LEFT", 5, 0)
+    itemCheckBox:SetChecked(AIUCheckedData["checkItemIDs"][itemID])
+    itemCheckBox:SetScript("OnClick", function()
+        if itemCheckBox:GetChecked() == true then
+            AIUCheckedData["checkItemIDs"][itemID] = true
+        elseif itemCheckBox:GetChecked() == false then
+            AIUCheckedData["checkItemIDs"][itemID] = nil
+        end
+    end)
+
+    local itemIconLabel = CreateFrame("Frame", "checkIcon", parentFrame)
+    itemIconLabel:SetSize(15, 15)
+    itemIconLabel:SetPoint("TOPLEFT", 35, 0)
+    itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
+    itemIconLabel.texture:SetPoint("LEFT", 0, 0)
+    itemIconLabel.texture:SetTexture(itemIcon)
+    itemIconLabel.texture:SetSize(15, 15)
+
+    local itemNameLabel = CreateFrame("Frame", "itemNameLabel", parentFrame)
+    itemNameLabel:SetSize(175, 10)
+    itemNameLabel:SetPoint("TOPLEFT", 55, -2)
+    itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    itemNameLabel.contentText:SetPoint("LEFT", 0, 0)
+    itemNameLabel.contentText:SetText(itemName)
+
+    itemIconLabel:SetScript("OnEnter", function()
+        GameTooltip:SetOwner(itemIconLabel)
+        GameTooltip:SetItemByID(itemID)
+        GameTooltip:SetSize(200, 200)
+        GameTooltip:Show()
+    end)
+    itemIconLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+    itemNameLabel:SetScript("OnEnter", function()
+        GameTooltip:SetOwner(itemNameLabel)
+        GameTooltip:SetItemByID(itemID)
+        GameTooltip:SetSize(200, 200)
+        GameTooltip:Show()
+    end)
+    itemNameLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
+end
+
+function addonMain:getItemsCheckListFrame()
+    local i = 0
+    if itemCheckListFrame ~= nil then
+        itemCheckListFrame:Hide()
+        itemCheckListFrame:SetParent(nil)
+    end
+    itemCheckListFrame = CreateFrame("Frame", "itemCheckListFrame", InstanceUtilityAddonFrame)
+    itemCheckListFrame:SetSize(400, 300)
+    itemCheckListFrame:SetPoint("TOPLEFT")
+    for itemID,_ in pairs(AIUCheckedData["checkItemIDs"]) do  
+        i = i + 1
+        local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
+        local parentFrame = CreateFrame("Frame", "parentFrame", itemCheckListFrame)
+        parentFrame:SetSize(300,20)
+        parentFrame:SetPoint("TOPLEFT", 10, -20 * i)
+
+        local itemCountLabel = CreateFrame("Frame", "itemCountLabel", parentFrame)
+        itemCountLabel:SetSize(20, 15)
+        itemCountLabel:SetPoint("LEFT")
+        itemCountLabel.contentText = itemCountLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        itemCountLabel.contentText:SetPoint("CENTER")
+        itemCountLabel.contentText:SetText(GetItemCount(itemID))
+
+        local itemIconLabel = CreateFrame("Frame", "checkIcon", parentFrame)
+        itemIconLabel:SetSize(15, 15)
+        itemIconLabel:SetPoint("LEFT", 25, 0)
+        itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
+        itemIconLabel.texture:SetPoint("LEFT", 0, 0)
+        itemIconLabel.texture:SetTexture(itemIcon)
+        itemIconLabel.texture:SetSize(15, 15)
+
+        local itemNameLabel = CreateFrame("Frame", "itemNameLabel", parentFrame)
+        itemNameLabel:SetSize(175, 15)
+        itemNameLabel:SetPoint("LEFT", 45, 0)
+        itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        itemNameLabel.contentText:SetPoint("LEFT", 0, 0)
+        itemNameLabel.contentText:SetText(itemName)
+
+        itemIconLabel:SetScript("OnEnter", function()
+            GameTooltip:SetOwner(itemIconLabel)
+            GameTooltip:SetItemByID(itemID)
+            GameTooltip:SetSize(200, 200)
+            GameTooltip:Show()
+        end)
+        itemIconLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+        itemNameLabel:SetScript("OnEnter", function()
+            GameTooltip:SetOwner(itemNameLabel)
+            GameTooltip:SetItemByID(itemID)
+            GameTooltip:SetSize(200, 200)
+            GameTooltip:Show()
+        end)
+        itemNameLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    end
+    -- for i,v in ipairs(dataSet) do
+    --     for j,itemID in ipairs(v) do
+    --         if AIUCheckedData["checkItemIDs"][itemID] == true then
+    --             local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
+    --             local frameFrame = CreateFrame("Frame", "frameFrame", InstanceUtilityAddonFrame)
+    --             frameFrame:SetSize(300,20)
+    --             frameFrame:SetPoint("TOPLEFT", (325 * (j - 1)), -25 * i - 55)
+
+    --             local itemIconLabel = CreateFrame("Frame", "checkIcon", frameFrame)
+    --             itemIconLabel:SetSize(15, 15)
+    --             itemIconLabel:SetPoint("TOPLEFT", 5, 0)
+    --             itemIconLabel.texture = itemIconLabel:CreateTexture(nil, "BACKGROUND")
+    --             itemIconLabel.texture:SetPoint("LEFT", 0, 0)
+    --             itemIconLabel.texture:SetTexture(itemIcon)
+    --             itemIconLabel.texture:SetSize(15, 15)
+
+    --             local itemNameLabel = CreateFrame("Frame", "itemNameLabel", frameFrame)
+    --             itemNameLabel:SetSize(175, 10)
+    --             itemNameLabel:SetPoint("TOPLEFT", 25, -2)
+    --             itemNameLabel.contentText = itemNameLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    --             itemNameLabel.contentText:SetPoint("LEFT", 0, 0)
+    --             itemNameLabel.contentText:SetText(itemName)
+
+    --             itemIconLabel:SetScript("OnEnter", function()
+    --                 GameTooltip:SetOwner(itemIconLabel)
+    --                 GameTooltip:SetItemByID(itemID)
+    --                 GameTooltip:SetSize(200, 200)
+    --                 GameTooltip:Show()
+    --             end)
+    --             itemIconLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+    --             itemNameLabel:SetScript("OnEnter", function()
+    --                 GameTooltip:SetOwner(itemNameLabel)
+    --                 GameTooltip:SetItemByID(itemID)
+    --                 GameTooltip:SetSize(200, 200)
+    --                 GameTooltip:Show()
+    --             end)
+    --             itemNameLabel:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+    --             local itemCountLabel = CreateFrame("Frame", "itemCountLabel", frameFrame)
+    --             itemCountLabel:SetSize(50, 10)
+    --             itemCountLabel:SetPoint("TOPRIGHT", -50, -3)
+    --             itemCountLabel.contentText = itemCountLabel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    --             itemCountLabel.contentText:SetPoint("LEFT")
+    --             itemCountLabel.contentText:SetText(GetItemCount(itemID))
+
+    --         end
+    --     end
+    -- end
+end
 
 addonMain:OnLoad()
