@@ -7,8 +7,8 @@ AIU.initialConfig =
 
 AIU.itemData =
 {
-    { 
-        "Flasks", 
+    {
+        "Flasks",
         {
             {"Cauldron", {168656, 162519}},
             {"Intellect", {168652, 152639}},
@@ -47,7 +47,7 @@ AIU.itemData =
     {
         "Runes",
         {
-            {"Rune", {174906, 160053}},
+            {"Augment", {174906, 160053}},
             {"Vantus", {171203}}
         }
     }
