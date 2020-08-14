@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Title: AzerPUG Instance Utility
+## Title: AzerPUG Instance Utility Core
 ## Author: Tex#2935, Ravencrest-EU (Leader of AzerPUG)
 ## Notes: Utility for Instances (Raids and Dungeons)!
 ## Version: BFA 8.3.7 (For actual addon version, check main.lua)
