@@ -1,0 +1,12 @@
+## Interface: 80300
+## Title: |cFF00FFFFAzerPUG|r |cFFFF00FFInstance Utility|r |cFFFFFF00Core|r |cFFFF0000(REQUIRED!)|r
+## Author: Tex & AzerPUG Gaming Community (www.azerpug.com/discord)
+## Notes: Utility for Instances (Raids and Dungeons)!
+## Version: BFA 8.3.7 (For actual addon version, check main.lua)
+## SavedVariablesPerCharacter: AIUCheckedData
+
+embeds.xml
+
+dataTables.lua
+helperFunctions.lua
+main.lua

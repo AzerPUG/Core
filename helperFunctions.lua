@@ -1,9 +1,38 @@
 local GlobalAddonName, AIU = ...
 
---  IsInRaid()  true in raid-group. false if solo or party group
---  IsInGroup([groupType]) false if solo, grouptype == type of group like party or raid.
---  members = GetNumGroupMembers(); Returns the total number of people in your raid or party group.
+AZPAddonHelper = AIU
 
+function AZPAddonHelper:DelayedExecution(delayTime, delayedFunction)
+	local frame = CreateFrame("Frame")
+	frame.start_time = GetServerTime()
+	frame:SetScript("OnUpdate", 
+		function(self)
+			if GetServerTime() - self.start_time > delayTime then
+				delayedFunction()
+				self:SetScript("OnUpdate", nil)
+				self:Hide()
+			end
+		end
+	)
+	frame:Show()
+end
 
+function AZPAddonHelper:GetItemName(itemID)
+    local itemName = GetItemInfo(itemID)
+    return itemName
+end
 
-local _GetRaiders = GetRaiders
+function AZPAddonHelper:GetItemLink(itemID)
+    local _, itemLink = GetItemInfo(itemID)
+    return itemLink
+end
+
+function AZPAddonHelper:GetItemIcon(itemID)
+    local _, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
+    return itemIcon
+end
+
+function AZPAddonHelper:GetItemNameAndIcon(itemID)
+    local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
+    return itemName, itemIcon
+end
