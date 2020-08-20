@@ -58,7 +58,15 @@ function addonMain:OnLoad(self)
     OptionsCoreText:SetPoint("TOP", 0, -50)
     OptionsCoreText.contentText = OptionsCoreText:CreateFontString("OptionsCoreText", "ARTWORK", "GameFontNormalLarge")
     OptionsCoreText.contentText:SetText(
-        ""      --SET SOME TEXT!
+        "AzerPUG Instance Utility Modules:\n" ..
+        "Core: The main module, keeping everything together. Required for all modules.\n" ..
+        "CheckList: A dynamic checklist that, based on your own preferences, checks if you have properly prepared for raids/dungeons.\n" ..
+        "ReadyCheck: A module that changes the readycheck window to include visuals for if you have Flask/Food/Rune/Int/Stam/Atk buffs and their duration.\n" ..
+        "\n" ..
+        "\n" ..
+        "Website: www.azerpug.com" ..
+        "Discord: www.azerpug.com/discord\n" ..
+        "Twitch: www.twitch.tv/azerpug\n"
     )
     OptionsCoreText.contentText:SetPoint("TOPLEFT")
 end

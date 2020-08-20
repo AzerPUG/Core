@@ -1,5 +1,5 @@
 local GlobalAddonName, AIU = ...
-
+_G[GlobalAddonName] = AIU
 AIU.addonVersions =
 {
     {"AZPIUCoreVersion", "v0.2"},
