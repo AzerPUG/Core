@@ -8,6 +8,7 @@ local addonLoaded = false
 local itemData = AIU.itemData
 local initialConfig = AIU.initialConfig
 local addonVersions = AIU.addonVersions
+local addonOutOfDateMessage = true
 
 local AZPIUCoreVersion = 0.3
 local dash = " - "
@@ -111,7 +112,6 @@ function addonMain:OnLoad(self)
     VersionControlFrame:SetScript("OnEvent", function(...) addonMain:OnEvent(...) end)
     VersionControlFrame:SetPoint("TOP")
     VersionControlFrame:SetSize(200, 100)
-    --add button to close window
 
     VersionControlFrame.texture = VersionControlFrame:CreateTexture()
     VersionControlFrame.texture:SetAllPoints(true)
@@ -144,23 +144,25 @@ function addonMain:OnLoad(self)
 end
 
 function addonMain:CoreVersionControl()
-    local tempText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r\n"
-    if VersionControl:CheckList() > addonVersions["AZPIUCheckListVersion"] or
-       VersionControl:ReadyCheck() > addonVersions["AZPIUReadyCheckVersion"]
-    then
-        tempText = tempText .. "\n\124cFFFF0000Core\124r"
-        VersionControlFrame:Show()
+    if addonOutOfDateMessage == true then
+        local tempText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r\n"
+        if VersionControl:CheckList() > addonVersions["AZPIUCheckListVersion"] or
+        VersionControl:ReadyCheck() > addonVersions["AZPIUReadyCheckVersion"]
+        then
+            tempText = tempText .. "\n\124cFFFF0000Core\124r"
+            VersionControlFrame:Show()
+        end
+        if VersionControl:CheckList() < addonVersions["AZPIUCheckListVersion"] then
+            tempText = tempText .. "\n\124cFFFF0000CheckList\124r"
+            VersionControlFrame:Show()
+        end
+        if VersionControl:ReadyCheck() < addonVersions["AZPIUReadyCheckVersion"] then
+            tempText = tempText .. "\n\124cFFFF0000ReadyCheck\124r"
+            VersionControlFrame:Show()
+        end
+        addonOutOfDateMessage = false
+        VersionControlFrameText.contentText:SetText(tempText)
     end
-    if VersionControl:CheckList() < addonVersions["AZPIUCheckListVersion"] then
-        tempText = tempText .. "\n\124cFFFF0000CheckList\124r"
-        VersionControlFrame:Show()
-    end
-    if VersionControl:ReadyCheck() < addonVersions["AZPIUReadyCheckVersion"] then
-        tempText = tempText .. "\n\124cFFFF0000ReadyCheck\124r"
-        VersionControlFrame:Show()
-    end
-
-    VersionControlFrameText.contentText:SetText(tempText)
 end
 
 function addonMain:CreateMainFrame()
