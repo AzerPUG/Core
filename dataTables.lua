@@ -1,10 +1,11 @@
 local GlobalAddonName, AIU = ...
 _G[GlobalAddonName] = AIU
+
 AIU.addonVersions =
 {
-    {"AZPIUCoreVersion", "v0.2"},
-    {"AZPIUCheckListVersion", "v0.2"},
-    {"AZPIUReadyCheckVersion", "v0.2"},
+    ["AZPIUCoreVersion"] = 0.3,
+    ["AZPIUCheckListVersion"] = 0.3,
+    ["AZPIUReadyCheckVersion"] = 0.3,
 }
 
 AIU.initialConfig =
