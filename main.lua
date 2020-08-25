@@ -10,7 +10,7 @@ local initialConfig = AIU.initialConfig
 local addonVersions = AIU.addonVersions
 local addonOutOfDateMessage = true
 
-local AZPIUCoreVersion = 0.3
+local AZPIUCoreVersion = 0.4
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = ("AzerPUG " .. name)
