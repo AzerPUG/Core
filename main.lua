@@ -10,7 +10,7 @@ local initialConfig = AIU.initialConfig
 local addonVersions = AIU.addonVersions
 local addonOutOfDateMessage = true
 
-local AZPIUCoreVersion = 0.4
+local AZPIUCoreVersion = 0.5
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = ("AzerPUG " .. name)
@@ -79,33 +79,47 @@ function addonMain:OnLoad(self)
     OptionsCoreText.contentText:SetPoint("TOPLEFT")
     OptionsCoreText.contentText:SetJustifyH("LEFT")
 
-    local OptionsSubPanelChecklist = CreateFrame("FRAME", "OptionsSubPanelChecklist")
-    OptionsSubPanelChecklist.name = "Checklist"
-    OptionsSubPanelChecklist.parent = OptionsSubPanelChecklist
-    InterfaceOptions_AddCategory(OptionsSubPanelChecklist);
+    local CheckListSubPanel = CreateFrame("FRAME", "CheckListSubPanel")
+    CheckListSubPanel.name = "CheckList"
+    CheckListSubPanel.parent = CheckListSubPanel
+    InterfaceOptions_AddCategory(CheckListSubPanel);
 
-    local OptionsSubPanelChecklistPlaceholderText = CreateFrame("Frame", "OptionsSubPanelChecklistPlaceholderText", OptionsSubPanelChecklist)
-    OptionsSubPanelChecklistPlaceholderText:SetSize(500, 500)
-    OptionsSubPanelChecklistPlaceholderText:SetPoint("TOP", 0, -50)
-    OptionsSubPanelChecklistPlaceholderText.contentText = OptionsSubPanelChecklistPlaceholderText:CreateFontString("OptionsSubPanelChecklistPlaceholderText", "ARTWORK", "GameFontNormalLarge")
-    OptionsSubPanelChecklistPlaceholderText.contentText:SetText(
+    local CheckListSubPanelPHText = CreateFrame("Frame", "CheckListSubPanelPHText", CheckListSubPanel)
+    CheckListSubPanelPHText:SetSize(500, 500)
+    CheckListSubPanelPHText:SetPoint("TOP", 0, -50)
+    CheckListSubPanelPHText.contentText = CheckListSubPanelPHText:CreateFontString("CheckListSubPanelPHText", "ARTWORK", "GameFontNormalLarge")
+    CheckListSubPanelPHText.contentText:SetText(
         "ÉÉn regel random shit"
     )
-    OptionsSubPanelChecklistPlaceholderText.contentText:SetPoint("TOPLEFT")
+    CheckListSubPanelPHText.contentText:SetPoint("TOPLEFT")
 
-    local OptionsSubPanelReadyCheck = CreateFrame("FRAME", "OptionsSubPanelReadyCheck")
-    OptionsSubPanelReadyCheck.name = "ReadyCheck"
-    OptionsSubPanelReadyCheck.parent = OptionsSubPanelReadyCheck
-    InterfaceOptions_AddCategory(OptionsSubPanelReadyCheck);
+    local ReadyCheckSubPanel = CreateFrame("FRAME", "ReadyCheckSubPanel")
+    ReadyCheckSubPanel.name = "ReadyCheck"
+    ReadyCheckSubPanel.parent = ReadyCheckSubPanel
+    InterfaceOptions_AddCategory(ReadyCheckSubPanel);
 
-    local OptionsSubPanelReadyCheckPlaceholderText = CreateFrame("Frame", "OptionsSubPanelReadyCheckPlaceholderText", OptionsSubPanelReadyCheck)
-    OptionsSubPanelReadyCheckPlaceholderText:SetSize(500, 500)
-    OptionsSubPanelReadyCheckPlaceholderText:SetPoint("TOP", 0, -50)
-    OptionsSubPanelReadyCheckPlaceholderText.contentText = OptionsSubPanelReadyCheckPlaceholderText:CreateFontString("OptionsSubPanelReadyCheckPlaceholderText", "ARTWORK", "GameFontNormalLarge")
-    OptionsSubPanelReadyCheckPlaceholderText.contentText:SetText(
+    local ReadyCheckSubPanelPHText = CreateFrame("Frame", "ReadyCheckSubPanelPHText", ReadyCheckSubPanel)
+    ReadyCheckSubPanelPHText:SetSize(500, 500)
+    ReadyCheckSubPanelPHText:SetPoint("TOP", 0, -50)
+    ReadyCheckSubPanelPHText.contentText = ReadyCheckSubPanelPHText:CreateFontString("ReadyCheckSubPanelPHText", "ARTWORK", "GameFontNormalLarge")
+    ReadyCheckSubPanelPHText.contentText:SetText(
         "Twee regels random shit\njadfygeiqfg..."
     )
-    OptionsSubPanelReadyCheckPlaceholderText.contentText:SetPoint("TOPLEFT")
+    ReadyCheckSubPanelPHText.contentText:SetPoint("TOPLEFT")
+
+    local InstanceLeadingSubPanel = CreateFrame("FRAME", "InstanceLeadingSubPanel")
+    InstanceLeadingSubPanel.name = "InstanceLeading"
+    InstanceLeadingSubPanel.parent = InstanceLeadingSubPanel
+    InterfaceOptions_AddCategory(InstanceLeadingSubPanel);
+
+    local InstanceLeadingSubPanelPHText = CreateFrame("Frame", "InstanceLeadingSubPanelPHText", InstanceLeadingSubPanel)
+    InstanceLeadingSubPanelPHText:SetSize(500, 500)
+    InstanceLeadingSubPanelPHText:SetPoint("TOP", 0, -50)
+    InstanceLeadingSubPanelPHText.contentText = InstanceLeadingSubPanelPHText:CreateFontString("InstanceLeadingSubPanelPHText", "ARTWORK", "GameFontNormalLarge")
+    InstanceLeadingSubPanelPHText.contentText:SetText(
+        "3rd thingy"
+    )
+    InstanceLeadingSubPanelPHText.contentText:SetPoint("TOPLEFT")
 
     local VersionControlFrame = CreateFrame("FRAME", "VersionControlFrame", UIParent)
     VersionControlFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -147,7 +161,8 @@ function addonMain:CoreVersionControl()
     if addonOutOfDateMessage == true then
         local tempText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r\n"
         if VersionControl:CheckList() > addonVersions["AZPIUCheckListVersion"] or
-        VersionControl:ReadyCheck() > addonVersions["AZPIUReadyCheckVersion"]
+        VersionControl:ReadyCheck() > addonVersions["AZPIUReadyCheckVersion"] or
+        VersionControl:InstanceLeading() > addonVersions["AZPIUInstanceLeadingVersion"]
         then
             tempText = tempText .. "\n\124cFFFF0000Core\124r"
             VersionControlFrame:Show()
@@ -158,6 +173,10 @@ function addonMain:CoreVersionControl()
         end
         if VersionControl:ReadyCheck() < addonVersions["AZPIUReadyCheckVersion"] then
             tempText = tempText .. "\n\124cFFFF0000ReadyCheck\124r"
+            VersionControlFrame:Show()
+        end
+        if VersionControl:InstanceLeading() < addonVersions["AZPIUInstanceLeadingVersion"] then
+            tempText = tempText .. "\n\124cFFFF0000InstanceLeading\124r"
             VersionControlFrame:Show()
         end
         addonOutOfDateMessage = false
