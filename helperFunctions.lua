@@ -5,11 +5,11 @@ AZPAddonHelper = AIU
 function AZPAddonHelper:DelayedExecution(delayTime, delayedFunction)
 	local frame = CreateFrame("Frame")
 	frame.start_time = GetServerTime()
-	frame:SetScript("OnUpdate", 
+	frame:SetScript("OnUpdate",
 		function(self)
 			if GetServerTime() - self.start_time > delayTime then
-				delayedFunction()
 				self:SetScript("OnUpdate", nil)
+				delayedFunction()
 				self:Hide()
 			end
 		end
