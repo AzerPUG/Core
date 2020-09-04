@@ -1,13 +1,22 @@
 local GlobalAddonName, AIU = ...
-VersionControl = AIU
-OnLoad = AIU
-OnEvent = AIU
 
-local AZPIUCoreVersion = 0.6
+if AZP == nil then AZP = {} end
+AZP.IU = AIU
+
+AZP.IU.VersionControl = {}
+AZP.IU.OnLoad = {}
+AZP.IU.OnEvent = {}
+
+local VersionControl = AZP.IU.VersionControl
+local OnLoad = AZP.IU.OnLoad
+local OnEvent = AZP.IU.OnEvent
+
+local AZPIUCoreVersion = 0.7
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
-local nameFull = ("AzerPUG " .. name)
-local promo = (nameFull .. dash ..  AZPIUCoreVersion)
+local nameFull = "AzerPUG " .. name
+local nameShort = "AZP-IU v" .. AZPIUCoreVersion
+local promo = nameFull .. dash ..  "v" .. AZPIUCoreVersion
 local addonMain = LibStub("AceAddon-3.0"):NewAddon("InstanceUtility", "AceConsole-3.0")
 
 local OptionsCorePanel
@@ -193,11 +202,11 @@ function addonMain:CoreVersionControl()
         local tempText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r\n"
         local CheckListVersion
         local ReadyCheckVersion
-        -- local InstanceLeadingVersion
+        local InstanceLeadingVersion
         local coreVersionUpdated = true
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
-            CheckListVersion = VersionControl:CheckListVC()
+            CheckListVersion = VersionControl:CheckList()
             if CheckListVersion < addonVersions["AZPIUCheckListVersion"] then
                 tempText = tempText .. "\n\124cFFFF0000CheckList\124r"
                 VersionControlFrame:Show()
@@ -207,7 +216,7 @@ function addonMain:CoreVersionControl()
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-ReadyCheck") then
-            ReadyCheckVersion = VersionControl:ReadyCheckVC()
+            ReadyCheckVersion = VersionControl:ReadyCheck()
             if ReadyCheckVersion < addonVersions["AZPIUReadyCheckVersion"] then
                 tempText = tempText .. "\n\124cFFFF0000ReadyCheck\124r"
                 VersionControlFrame:Show()
@@ -217,7 +226,7 @@ function addonMain:CoreVersionControl()
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-InstanceLeading") then
-            InstanceLeadingVersion = VersionControl:InstanceLeadingVC()
+            InstanceLeadingVersion = VersionControl:InstanceLeading()
             if InstanceLeadingVersion < addonVersions["AZPIUInstanceLeadingVersion"] then
                 tempText = tempText .. "\n\124cFFFF0000InstanceLeading\124r"
                 VersionControlFrame:Show()
@@ -251,13 +260,13 @@ function addonMain:CreateMainFrame()
     InstanceUtilityAddonFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     InstanceUtilityAddonFrame:RegisterEvent("PLAYER_LOGIN")
     InstanceUtilityAddonFrame:RegisterEvent("ADDON_LOADED")
-    InstanceUtilityAddonFrame:SetSize(400, 300)
+    InstanceUtilityAddonFrame:SetSize(355, 250)
     InstanceUtilityAddonFrame.texture:SetColorTexture(0.5, 0.5, 0.5, 0.5)
 
     local MainFrameTitle = InstanceUtilityAddonFrame:CreateFontString("MainFrameTitle", "ARTWORK", "GameFontNormalLarge")
-    MainFrameTitle:SetText(nameFull)
+    MainFrameTitle:SetText(promo)
     MainFrameTitle:SetHeight("10")
-    MainFrameTitle:SetPoint("TOP", "InstanceUtilityAddonFrame", -100, -5)
+    MainFrameTitle:SetPoint("TOP", "InstanceUtilityAddonFrame", 0, -5)
 
     IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
     IUAddonFrameCloseButton.contentText = IUAddonFrameCloseButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -277,7 +286,7 @@ function addonMain:CreateMainFrame()
     ReloadButton:SetHeight("25")
     ReloadButton.contentText:SetWidth("100")
     ReloadButton.contentText:SetHeight("15")
-    ReloadButton:SetPoint("TOP", 125, -50)
+    ReloadButton:SetPoint("TOPLEFT", 5, -50)
     ReloadButton.contentText:SetPoint("CENTER", 0, -1)
     ReloadButton:SetScript("OnClick", function() ReloadUI(); end )
     --  Add checkbox in core options if people want this button. If so, show, otherwise hide.
@@ -289,7 +298,7 @@ function addonMain:CreateMainFrame()
     OpenSettingsButton:SetHeight("25")
     OpenSettingsButton.contentText:SetWidth("100")
     OpenSettingsButton.contentText:SetHeight("15")
-    OpenSettingsButton:SetPoint("TOP", 125, -25)
+    OpenSettingsButton:SetPoint("TOPLEFT", 5, -25)
     OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
     OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
     --  Add checkbox in core options if people want this button. If so, show, otherwise hide.
@@ -302,22 +311,22 @@ function addonMain:OnEvent(self, event, ...)
     elseif event == "ADDON_LOADED" then
         local addonName = ...
         if addonName == "AzerPUG-InstanceUtility-CheckList" then
-            OnLoad:CheckListOL()
+            OnLoad:CheckList()
         elseif addonName == "AzerPUG-InstanceUtility-ReadyCheck" then
-            OnLoad:ReadyCheckOL()
+            OnLoad:ReadyCheck()
         elseif addonName == "AzerPUG-InstanceUtility-InstanceLeading" then
-            OnLoad:InstanceLeadingOL()
+            OnLoad:InstanceLeading()
         end
     end
     if event ~= "ADDON_LOADED" then
         if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
-            OnEvent:CheckListOE(event, ...)
+            OnEvent:CheckList(event, ...)
         end
         if IsAddOnLoaded("AzerPUG-InstanceUtility-ReadyCheck") then
-            OnEvent:ReadyCheckOE(event, ...)
+            OnEvent:ReadyCheck(event, ...)
         end
         if IsAddOnLoaded("AzerPUG-InstanceUtility-InstanceLeading") then
-            OnEvent:InstanceLeadingOE(event, ...)
+            OnEvent:InstanceLeading(event, ...)
         end
     end
 end

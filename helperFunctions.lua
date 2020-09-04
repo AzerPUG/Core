@@ -1,8 +1,8 @@
 local GlobalAddonName, AIU = ...
+AZP = AIU
+AZP.AddonHelper = {}
 
-AZPAddonHelper = AIU
-
-function AZPAddonHelper:DelayedExecution(delayTime, delayedFunction)
+function AZP.AddonHelper:DelayedExecution(delayTime, delayedFunction)
 	local frame = CreateFrame("Frame")
 	frame.start_time = GetServerTime()
 	frame:SetScript("OnUpdate",
@@ -17,22 +17,27 @@ function AZPAddonHelper:DelayedExecution(delayTime, delayedFunction)
 	frame:Show()
 end
 
-function AZPAddonHelper:GetItemName(itemID)
+function AZP.AddonHelper:GetItemName(itemID)
     local itemName = GetItemInfo(itemID)
     return itemName
 end
 
-function AZPAddonHelper:GetItemLink(itemID)
+function AZP.AddonHelper:GetItemLink(itemID)
     local _, itemLink = GetItemInfo(itemID)
     return itemLink
 end
 
-function AZPAddonHelper:GetItemIcon(itemID)
+function AZP.AddonHelper:GetItemIcon(itemID)
     local _, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
     return itemIcon
 end
 
-function AZPAddonHelper:GetItemNameAndIcon(itemID)
+function AZP.AddonHelper:GetItemNameAndIcon(itemID)
     local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(itemID)
     return itemName, itemIcon
+end
+
+function AZP.AddonHelper:GetBuffNameIconTimerID(i)
+	local name, icon, _, _, _, expirationTimer, _, _, _, spellID = UnitBuff("player", i);
+	return name, icon, expirationTimer, spellID
 end
