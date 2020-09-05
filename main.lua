@@ -11,7 +11,7 @@ local VersionControl = AZP.IU.VersionControl
 local OnLoad = AZP.IU.OnLoad
 local OnEvent = AZP.IU.OnEvent
 
-local AZPIUCoreVersion = 0.7
+local AZPIUCoreVersion = 0.9
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
