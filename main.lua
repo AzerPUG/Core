@@ -84,6 +84,7 @@ function addonMain:CreateOptionsPanels()
     )
 
     local CheckListSubPanel = CreateFrame("FRAME", "CheckListSubPanel")
+    CheckListSubPanel:Hide()
     CheckListSubPanel.name = "CheckList"
     CheckListSubPanel.parent = OptionsCorePanel
     InterfaceOptions_AddCategory(CheckListSubPanel);
