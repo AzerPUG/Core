@@ -11,7 +11,7 @@ local VersionControl = AZP.IU.VersionControl
 local OnLoad = AZP.IU.OnLoad
 local OnEvent = AZP.IU.OnEvent
 
-local AZPIUCoreVersion = 0.9
+local AZPIUCoreVersion = 0.11
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -221,7 +221,7 @@ function addonMain:CoreVersionControl()
             if ReadyCheckVersion < addonVersions["AZPIUReadyCheckVersion"] then
                 tempText = tempText .. "\n\124cFFFF0000ReadyCheck\124r"
                 VersionControlFrame:Show()
-            elseif ReadyCheckVersion > addonVersions["AZPIUCheckListVersion"] then
+            elseif ReadyCheckVersion > addonVersions["AZPIUReadyCheckVersion"] then
                 coreVersionUpdated = false
             end
         end
@@ -231,7 +231,7 @@ function addonMain:CoreVersionControl()
             if InstanceLeadingVersion < addonVersions["AZPIUInstanceLeadingVersion"] then
                 tempText = tempText .. "\n\124cFFFF0000InstanceLeading\124r"
                 VersionControlFrame:Show()
-            elseif InstanceLeadingVersion > addonVersions["AZPIUCheckListVersion"] then
+            elseif InstanceLeadingVersion > addonVersions["AZPIUInstanceLeadingVersion"] then
                 coreVersionUpdated = false
             end
         end
