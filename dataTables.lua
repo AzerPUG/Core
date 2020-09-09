@@ -4,8 +4,8 @@ _G[GlobalAddonName] = AIU
 AIU.addonVersions =
 {
     ["AZPIUCheckListVersion"] = 0.7,
-    ["AZPIUReadyCheckVersion"] = 0.6,
-    ["AZPIUInstanceLeadingVersion"] = 0.1,
+    ["AZPIUReadyCheckVersion"] = 0.8,
+    ["AZPIUInstanceLeadingVersion"] = 0.2,
 }
 
 AIU.initialConfig =
