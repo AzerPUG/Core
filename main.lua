@@ -26,6 +26,7 @@ local addonOutOfDateMessage = true
 local InstanceUtilityAddonFrame
 local CheckListTabButton
 local ReadyCheckTabButton
+local InstanceLeadingTabButton
 
 local InstanceUtilityLDB = LibStub("LibDataBroker-1.1"):NewDataObject("InstanceUtility", {
 	type = "data source",
@@ -314,13 +315,18 @@ function addonMain:CreateMainFrame()
     CheckListTabButton = CreateFrame("Button", "CheckListTabButton", InstanceUtilityAddonFrame)
     CheckListTabButton:SetSize(1, 1)
     CheckListTabButton:SetPoint("LEFT", CoreTabButton, "RIGHT", 0, 0);
-    ReadyCheckTabButton = CreateFrame("Button", "CheckListTabButton", InstanceUtilityAddonFrame)
+
+    ReadyCheckTabButton = CreateFrame("Button", "ReadyCheckTabButton", InstanceUtilityAddonFrame)
     ReadyCheckTabButton:SetSize(1, 1)
     ReadyCheckTabButton:SetPoint("LEFT", CheckListTabButton, "RIGHT", 0, 0);
 
+    InstanceLeadingTabButton = CreateFrame("Button", "InstanceLeadingTabButton", InstanceUtilityAddonFrame)
+    InstanceLeadingTabButton:SetSize(1, 1)
+    InstanceLeadingTabButton:SetPoint("LEFT", ReadyCheckTabButton, "RIGHT", 0, 0);
+
     IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", InstanceUtilityAddonFrame, "UIPanelCloseButton")
     IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 4)
-    IUAddonFrameCloseButton:SetHeight(MainTitleFrame:GetHeight() + 6)
+    IUAddonFrameCloseButton:SetHeight(MainTitleFrame:GetHeight() + 5)
     IUAddonFrameCloseButton:SetPoint("TOPRIGHT", MainTitleFrame, "TOPRIGHT", 2, 3)
     IUAddonFrameCloseButton:SetScript("OnClick", function() InstanceUtilityAddonFrame:Hide() end )
 
@@ -349,47 +355,60 @@ function addonMain:CreateMainFrame()
     -- --  Add checkbox in core options if people want this button. If so, show, otherwise hide.
 end
 
-function addonMain:AddMainFrameCLTabButton()
-    print("testCL")
-    CheckListTabButton.contentText = CheckListTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-    CheckListTabButton.contentText:SetText("CL")
-    CheckListTabButton.contentText:SetTextColor(CoreTabButton.contentText:GetTextColor())
-    CheckListTabButton:SetWidth("20")
-    CheckListTabButton:SetHeight("20")
-    CheckListTabButton.contentText:SetWidth(CheckListTabButton:GetWidth())
-    CheckListTabButton.contentText:SetHeight(CheckListTabButton:GetHeight())
-    CheckListTabButton.contentText:SetPoint("CENTER", 0, -1)
-    CheckListTabButton:SetBackdrop({
-        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-        edgeSize = 8,
-        insets = { left = 1, right = 1, top = 1, bottom = 1 },
-    })
-    CheckListTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
-    CheckListTabButton:SetScript("OnClick", function() print("CheckListTab Clicked") end )
-    print("CL: " .. CheckListTabButton:GetWidth())
-end
-
-function addonMain:AddMainFrameRCTabButton()
-    print("testRC")
-    ReadyCheckTabButton.contentText = ReadyCheckTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-    ReadyCheckTabButton.contentText:SetText("RC")
-    ReadyCheckTabButton.contentText:SetTextColor(CoreTabButton.contentText:GetTextColor())
-    ReadyCheckTabButton:SetWidth("20")
-    ReadyCheckTabButton:SetHeight("20")
-    ReadyCheckTabButton.contentText:SetWidth(ReadyCheckTabButton:GetWidth())
-    ReadyCheckTabButton.contentText:SetHeight(ReadyCheckTabButton:GetHeight())
-    ReadyCheckTabButton:SetPoint("LEFT", CheckListTabButton, "RIGHT", 0, 0);
-    ReadyCheckTabButton.contentText:SetPoint("CENTER", 0, -1)
-    ReadyCheckTabButton:SetBackdrop({
-        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-        edgeSize = 8,
-        insets = { left = 1, right = 1, top = 1, bottom = 1 },
-    })
-    ReadyCheckTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
-    ReadyCheckTabButton:SetScript("OnClick", function() print("CheckListTab Clicked") end )
-    print("RC: " .. ReadyCheckTabButton:GetWidth())
+function addonMain:AddMainFrameTabButton(tabName)
+    if tabName == "CL" then
+        
+        CheckListTabButton:SetWidth("20")
+        CheckListTabButton:SetHeight("20")
+        CheckListTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
+        CheckListTabButton.contentText = CheckListTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        CheckListTabButton.contentText:SetText("CL")
+        CheckListTabButton.contentText:SetTextColor(CoreTabButton.contentText:GetTextColor())
+        CheckListTabButton.contentText:SetWidth(CheckListTabButton:GetWidth())
+        CheckListTabButton.contentText:SetHeight(CheckListTabButton:GetHeight())
+        CheckListTabButton.contentText:SetPoint("CENTER", 0, -1)
+        CheckListTabButton:SetBackdrop({
+            bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 8,
+            insets = { left = 1, right = 1, top = 1, bottom = 1 },
+        })
+        CheckListTabButton:SetScript("OnClick", function() print("CheckListTab Clicked") end )
+    elseif tabName == "RC" then
+        ReadyCheckTabButton:SetWidth("20")
+        ReadyCheckTabButton:SetHeight("20")
+        ReadyCheckTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
+        ReadyCheckTabButton.contentText = ReadyCheckTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        ReadyCheckTabButton.contentText:SetText("RC")
+        ReadyCheckTabButton.contentText:SetTextColor(CoreTabButton.contentText:GetTextColor())
+        ReadyCheckTabButton.contentText:SetWidth(ReadyCheckTabButton:GetWidth())
+        ReadyCheckTabButton.contentText:SetHeight(ReadyCheckTabButton:GetHeight())
+        ReadyCheckTabButton.contentText:SetPoint("CENTER", 0, -1)
+        ReadyCheckTabButton:SetBackdrop({
+            bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 8,
+            insets = { left = 1, right = 1, top = 1, bottom = 1 },
+        })
+        ReadyCheckTabButton:SetScript("OnClick", function() print("ReadyCheckTab Clicked") end )
+    elseif tabName == "IL" then
+        InstanceLeadingTabButton:SetWidth("20")
+        InstanceLeadingTabButton:SetHeight("20")
+        InstanceLeadingTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
+        InstanceLeadingTabButton.contentText = InstanceLeadingTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        InstanceLeadingTabButton.contentText:SetText("IL")
+        InstanceLeadingTabButton.contentText:SetTextColor(CoreTabButton.contentText:GetTextColor())
+        InstanceLeadingTabButton.contentText:SetWidth(InstanceLeadingTabButton:GetWidth())
+        InstanceLeadingTabButton.contentText:SetHeight(InstanceLeadingTabButton:GetHeight())
+        InstanceLeadingTabButton.contentText:SetPoint("CENTER", 0, -1)
+        InstanceLeadingTabButton:SetBackdrop({
+            bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 8,
+            insets = { left = 1, right = 1, top = 1, bottom = 1 },
+        })
+        InstanceLeadingTabButton:SetScript("OnClick", function() print("InstanceLeadingTab Clicked") end )
+    end
 end
 
 function addonMain:OnEvent(self, event, ...)
@@ -399,12 +418,13 @@ function addonMain:OnEvent(self, event, ...)
     elseif event == "ADDON_LOADED" then
         local addonName = ...
         if addonName == "AzerPUG-InstanceUtility-CheckList" then
-            addonMain:AddMainFrameCLTabButton()
+            addonMain:AddMainFrameTabButton("CL")
             OnLoad:CheckList()
         elseif addonName == "AzerPUG-InstanceUtility-ReadyCheck" then
-            addonMain:AddMainFrameRCTabButton()
+            addonMain:AddMainFrameTabButton("RC")
             OnLoad:ReadyCheck()
         elseif addonName == "AzerPUG-InstanceUtility-InstanceLeading" then
+            addonMain:AddMainFrameTabButton("IL")
             OnLoad:InstanceLeading()
         end
     end
