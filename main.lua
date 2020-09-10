@@ -310,7 +310,7 @@ function addonMain:CreateMainFrame()
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
     CoreTabButton:SetBackdropColor(0.75, 0.75, 0.75, 1)
-    CoreTabButton:SetScript("OnClick", function() print("CoreTab Clicked") end )
+    --CoreTabButton:SetScript("OnClick", function() print("CoreTab Clicked") end )
 
     CheckListTabButton = CreateFrame("Button", "CheckListTabButton", InstanceUtilityAddonFrame)
     CheckListTabButton:SetSize(1, 1)
@@ -357,7 +357,6 @@ end
 
 function addonMain:AddMainFrameTabButton(tabName)
     if tabName == "CL" then
-        
         CheckListTabButton:SetWidth("20")
         CheckListTabButton:SetHeight("20")
         CheckListTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
@@ -373,7 +372,7 @@ function addonMain:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CheckListTabButton:SetScript("OnClick", function() print("CheckListTab Clicked") end )
+        --CheckListTabButton:SetScript("OnClick", function() print("CheckListTab Clicked") end )
     elseif tabName == "RC" then
         ReadyCheckTabButton:SetWidth("20")
         ReadyCheckTabButton:SetHeight("20")
@@ -390,7 +389,7 @@ function addonMain:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        ReadyCheckTabButton:SetScript("OnClick", function() print("ReadyCheckTab Clicked") end )
+        --ReadyCheckTabButton:SetScript("OnClick", function() print("ReadyCheckTab Clicked") end )
     elseif tabName == "IL" then
         InstanceLeadingTabButton:SetWidth("20")
         InstanceLeadingTabButton:SetHeight("20")
@@ -407,7 +406,7 @@ function addonMain:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        InstanceLeadingTabButton:SetScript("OnClick", function() print("InstanceLeadingTab Clicked") end )
+        --InstanceLeadingTabButton:SetScript("OnClick", function() print("InstanceLeadingTab Clicked") end )
     end
 end
 
