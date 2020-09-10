@@ -5,7 +5,7 @@ AIU.addonVersions =
 {
     ["AZPIUCheckListVersion"] = 0.8,
     ["AZPIUReadyCheckVersion"] = 0.8,
-    ["AZPIUInstanceLeadingVersion"] = 0.2,
+    ["AZPIUInstanceLeadingVersion"] = 0.3,
 }
 
 AIU.initialConfig =

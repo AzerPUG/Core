@@ -264,7 +264,7 @@ function addonMain:CreateMainFrame()
     InstanceUtilityAddonFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     InstanceUtilityAddonFrame:RegisterEvent("PLAYER_LOGIN")
     InstanceUtilityAddonFrame:RegisterEvent("ADDON_LOADED")
-    InstanceUtilityAddonFrame:SetSize(355, 250)
+    InstanceUtilityAddonFrame:SetSize(365, 255)
     InstanceUtilityAddonFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -342,16 +342,16 @@ function addonMain:CreateMainFrame()
     ReloadButton:SetScript("OnClick", function() ReloadUI(); end )
     --  Add checkbox in core options if people want this button. If so, show, otherwise hide.
 
-    -- OpenSettingsButton = CreateFrame("Button", "OpenSettingsButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
-    -- OpenSettingsButton.contentText = OpenSettingsButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-    -- OpenSettingsButton.contentText:SetText("Open Options!")
-    -- OpenSettingsButton:SetWidth("100")
-    -- OpenSettingsButton:SetHeight("25")
-    -- OpenSettingsButton.contentText:SetWidth("100")
-    -- OpenSettingsButton.contentText:SetHeight("15")
-    -- OpenSettingsButton:SetPoint("TOPLEFT", 5, -25)
-    -- OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
-    -- OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
+    OpenSettingsButton = CreateFrame("Button", "OpenSettingsButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
+    OpenSettingsButton.contentText = OpenSettingsButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+    OpenSettingsButton.contentText:SetText("Open Options!")
+    OpenSettingsButton:SetWidth("100")
+    OpenSettingsButton:SetHeight("25")
+    OpenSettingsButton.contentText:SetWidth("100")
+    OpenSettingsButton.contentText:SetHeight("15")
+    OpenSettingsButton:SetPoint("TOPLEFT", 5, -75)
+    OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
+    OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
     -- --  Add checkbox in core options if people want this button. If so, show, otherwise hide.
 end
 
