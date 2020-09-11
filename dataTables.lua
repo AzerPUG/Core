@@ -3,7 +3,7 @@ _G[GlobalAddonName] = AIU
 
 AIU.addonVersions =
 {
-    ["AZPIUCheckListVersion"] = 0.8,
+    ["AZPIUCheckListVersion"] = 0.9,
     ["AZPIUReadyCheckVersion"] = 0.8,
     ["AZPIUInstanceLeadingVersion"] = 0.3,
 }
