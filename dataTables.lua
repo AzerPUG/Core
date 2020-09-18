@@ -8,9 +8,10 @@ AIU.addonVersions =
     ["AZPIUInstanceLeadingVersion"] = 0.3,
 }
 
-AIU.initialConfig =
+AIU.initialConfig =     -- DO NOT DELETE, DYNAMIC USE!
 {
-    ["checkItemIDs"] = {}       -- DO NOT DELETE, DYNAMIC USE!
+    ["optionsChecked"] = {},
+    ["checkItemIDs"] = {}
 }
 
 AIU.itemData =
