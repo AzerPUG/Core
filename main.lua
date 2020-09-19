@@ -67,7 +67,6 @@ function addonMain:initializeConfig()
 end
 
 function addonMain:OnLoad(self)
-    AIUCheckedData = nil
     addonMain:initializeConfig()
     addonMain:CreateOptionsPanels()
     addonMain:CreateVersionControlFrame()
@@ -87,7 +86,7 @@ function addonMain:CreateOptionsPanels()
     local ReloadFrame = CreateFrame("Frame", "ReloadFrame", OptionsCorePanel)
     ReloadFrame:SetSize(500, 50)
     ReloadFrame:SetPoint("TOP", 0, -50)
-    ReloadFrame.text = ReloadFrame:CreateFontString("OptionsCoreText", "ARTWORK", "GameFontNormalLarge")
+    ReloadFrame.text = ReloadFrame:CreateFontString("ReloadFrameText", "ARTWORK", "GameFontNormalLarge")
     ReloadFrame.text:SetPoint("LEFT", 20, -1)
     ReloadFrame.text:SetJustifyH("LEFT")
     ReloadFrame.text:SetText("Show/Hide reload button.")
@@ -98,25 +97,31 @@ function addonMain:CreateOptionsPanels()
     ReloadCheckBox:SetHitRectInsets(0, 0, 0, 0)
     ReloadCheckBox:SetChecked(initialConfig["optionsChecked"]["ReloadCheckBox"])
     ReloadCheckBox:SetScript("OnClick",function()
+        if AIUCheckedData["optionsChecked"] == nil then AIUCheckedData["optionsChecked"] = {} end
         if ReloadCheckBox:GetChecked() == true then
-            AIUCheckedData["optionsChecked"][ReloadCheckBox] = true
-        elseif ReloadCheckBox:GetChecked() == false then
-           AIUCheckedData["optionsChecked"][ReloadCheckBox] = false
+            AIUCheckedData["optionsChecked"]["ReloadCheckBox"] = true
+        else
+           AIUCheckedData["optionsChecked"]["ReloadCheckBox"] = false
         end
     end)
 
     local OpenOptionsFrame = CreateFrame("Frame", "OpenOptionsFrame", OptionsCorePanel)
     OpenOptionsFrame:SetSize(500, 50)
     OpenOptionsFrame:SetPoint("TOP", 0, -75)
+    OpenOptionsFrame.text = OpenOptionsFrame:CreateFontString("OpenOptionsFrameText", "ARTWORK", "GameFontNormalLarge")
+    OpenOptionsFrame.text:SetPoint("LEFT", 20, -1)
+    OpenOptionsFrame.text:SetJustifyH("LEFT")
+    OpenOptionsFrame.text:SetText("Show/Hide options button.")
 
     local OpenOptionsCheckBox = CreateFrame("CheckButton", "OpenOptionsCheckBox", OpenOptionsFrame, "ChatConfigCheckButtonTemplate")
     OpenOptionsCheckBox:SetSize(20, 20)
-    OpenOptionsCheckBox:SetPoint("LEFT", 5, 0)
+    OpenOptionsCheckBox:SetPoint("LEFT", 0, 0)
     OpenOptionsCheckBox:SetHitRectInsets(0, 0, 0, 0)
     OpenOptionsCheckBox:SetChecked(initialConfig["optionsChecked"]["OpenOptionsCheckBox"])
     OpenOptionsCheckBox:SetScript("OnClick", function()
+        if AIUCheckedData["optionsChecked"] == nil then AIUCheckedData["optionsChecked"] = {} end
         if OpenOptionsCheckBox:GetChecked() == true then
-            AIUCheckedData["optionsChecked"]["ReloadCheckBox"] = true
+            AIUCheckedData["optionsChecked"]["OpenOptionsCheckBox"] = true
         elseif OpenOptionsCheckBox:GetChecked() == false then
             AIUCheckedData["optionsChecked"]["OpenOptionsCheckBox"] = false
         end
@@ -124,7 +129,7 @@ function addonMain:CreateOptionsPanels()
 
     local OptionsCoreText = CreateFrame("Frame", "OptionsCoreText", OptionsCorePanel)
     OptionsCoreText:SetSize(500, 500)
-    OptionsCoreText:SetPoint("TOP", 0, -100)
+    OptionsCoreText:SetPoint("TOP", 0, -125)
     OptionsCoreText.contentText = OptionsCoreText:CreateFontString("OptionsCoreText", "ARTWORK", "GameFontNormalLarge")
     OptionsCoreText.contentText:SetPoint("TOPLEFT")
     OptionsCoreText.contentText:SetJustifyH("LEFT")
@@ -382,31 +387,13 @@ function addonMain:CreateMainFrame()
     ReloadButton:SetPoint("TOPLEFT", 5, -50)
     ReloadButton:Hide()
 
-    if (initialConfig["optionsChecked"]["ReloadCheckBox"]) then
-        ReloadButton.contentText = ReloadButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        ReloadButton.contentText:SetText("Reload!")
-        ReloadButton:SetSize(100, 25)
-        ReloadButton.contentText:SetSize(ReloadButton:GetWidth(), 15)
-        ReloadButton.contentText:SetPoint("CENTER", 0, -1)
-        ReloadButton:Show()
-        ReloadButton:SetScript("OnClick", function() ReloadUI(); end )
-    end
+    
 
     local OpenSettingsButton = CreateFrame("Button", "OpenSettingsButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
     OpenSettingsButton:SetSize(1, 1)
     OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, -5);
     OpenSettingsButton:Hide()
 
-    if (initialConfig["optionsChecked"]["OpenOptionsCheckBox"]) then
-        OpenSettingsButton.contentText = OpenSettingsButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        OpenSettingsButton.contentText:SetText("Open Options!")
-        OpenSettingsButton:SetSize(100, 25)
-        OpenSettingsButton.contentText:SetSize(OpenSettingsButton:GetWidth(), 15)
-        --OpenSettingsButton:SetPoint("TOPLEFT", 5, -75)
-        OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
-        OpenSettingsButton:Show()
-        OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
-    end
 end
 
 function addonMain:AddMainFrameTabButton(tabName)
@@ -464,13 +451,46 @@ function addonMain:AddMainFrameTabButton(tabName)
     end
 end
 
+--- To be called from addon Loaded event when the core itself got loaded.
+function addonMain:OnLoadedSelf()
+    if AIUCheckedData["optionsChecked"] == nil then
+        AIUCheckedData["optionsChecked"] = {}
+    end
+    if AIUCheckedData["optionsChecked"]["ReloadCheckBox"] then
+        ReloadCheckBox:SetChecked(true)
+        ReloadButton.contentText = ReloadButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        ReloadButton.contentText:SetText("Reload!")
+        ReloadButton:SetSize(100, 25)
+        ReloadButton:SetPoint("TOPLEFT", 5, -50)
+        ReloadButton.contentText:SetSize(ReloadButton:GetWidth(), 15)
+        ReloadButton.contentText:SetPoint("CENTER", 0, -1)
+        ReloadButton:Show()
+        ReloadButton:SetScript("OnClick", function() ReloadUI(); end )
+    end
+
+    if (AIUCheckedData["optionsChecked"]["OpenOptionsCheckBox"]) then
+        OpenOptionsCheckBox:SetChecked(true)
+        OpenSettingsButton.contentText = OpenSettingsButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        OpenSettingsButton.contentText:SetText("Open Options!")
+        OpenSettingsButton:SetSize(100, 25)
+        OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, -5);
+        OpenSettingsButton.contentText:SetSize(OpenSettingsButton:GetWidth(), 15)
+        --OpenSettingsButton:SetPoint("TOPLEFT", 5, -75)
+        OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
+        OpenSettingsButton:Show()
+        OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
+    end
+end
+
 function addonMain:OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         addonMain:CoreVersionControl()
         if AIUFrameShown == false then InstanceUtilityAddonFrame:Hide() end
     elseif event == "ADDON_LOADED" then
         local addonName = ...
-        if addonName == "AzerPUG-InstanceUtility-CheckList" then
+        if addonName == "AzerPUG-InstanceUtility-Core" then
+            addonMain:OnLoadedSelf()
+        elseif addonName == "AzerPUG-InstanceUtility-CheckList" then
             addonMain:AddMainFrameTabButton("CL")
             OnLoad:CheckList()
         elseif addonName == "AzerPUG-InstanceUtility-ReadyCheck" then
@@ -482,6 +502,7 @@ function addonMain:OnEvent(self, event, ...)
         end
     end
     if event ~= "ADDON_LOADED" then
+        
         if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
             OnEvent:CheckList(event, ...)
         end
