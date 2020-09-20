@@ -58,7 +58,7 @@ function addonMain:OnInitialize()
 	})
 	icon:Register("InstanceUtility", InstanceUtilityLDB, self.db.profile.minimap)
 	self:RegisterChatCommand("InstanceUtility icon", "MiniMapIconToggle")
-end
+end 
 
 function addonMain:initializeConfig()
     if AIUCheckedData == nil then
