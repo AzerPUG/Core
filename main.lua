@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 0.15
+local AZPIUCoreVersion = 0.16
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -387,8 +387,6 @@ function addonMain:CreateMainFrame()
     ReloadButton:SetPoint("TOPLEFT", 5, -50)
     ReloadButton:Hide()
 
-    
-
     local OpenSettingsButton = CreateFrame("Button", "OpenSettingsButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
     OpenSettingsButton:SetSize(1, 1)
     OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, -5);
@@ -473,7 +471,7 @@ function addonMain:OnLoadedSelf()
         OpenSettingsButton.contentText = OpenSettingsButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         OpenSettingsButton.contentText:SetText("Open Options!")
         OpenSettingsButton:SetSize(100, 25)
-        OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, -5);
+        OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, 0);
         OpenSettingsButton.contentText:SetSize(OpenSettingsButton:GetWidth(), 15)
         --OpenSettingsButton:SetPoint("TOPLEFT", 5, -75)
         OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
