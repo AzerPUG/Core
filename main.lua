@@ -12,7 +12,7 @@ local OnLoad = AZP.IU.OnLoad
 local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
-
+ 
 local AZPIUCoreVersion = 0.16
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
