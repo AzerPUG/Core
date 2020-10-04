@@ -5,7 +5,7 @@ AIU.addonVersions =
 {
     ["AZPIUCheckListVersion"] = 0.10,
     ["AZPIUReadyCheckVersion"] = 0.9,
-    ["AZPIUInstanceLeadingVersion"] = 0.4,
+    ["AZPIUInstanceLeadingVersion"] = 0.5,
 }
 
 AIU.initialConfig =     -- DO NOT DELETE, DYNAMIC USE!
