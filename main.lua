@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
  
-local AZPIUCoreVersion = 0.18
+local AZPIUCoreVersion = 0.19
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -380,7 +380,7 @@ function addonMain:CreateMainFrame()
     IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 4)
     IUAddonFrameCloseButton:SetHeight(MainTitleFrame:GetHeight() + 5)
     IUAddonFrameCloseButton:SetPoint("TOPRIGHT", MainTitleFrame, "TOPRIGHT", 2, 3)
-    IUAddonFrameCloseButton:SetScript("OnClick", function() InstanceUtilityAddonFrame:Hide() end )
+    IUAddonFrameCloseButton:SetScript("OnClick", function() addonMain:ShowHideFrame() end )
 
     local ReloadButton = CreateFrame("Button", "ReloadButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
     ReloadButton:SetSize(1, 1)
