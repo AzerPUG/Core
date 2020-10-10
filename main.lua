@@ -12,8 +12,8 @@ local OnLoad = AZP.IU.OnLoad
 local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
- 
-local AZPIUCoreVersion = 0.19
+
+local AZPIUCoreVersion = 0.20
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -58,7 +58,7 @@ function addonMain:OnInitialize()
 	})
 	icon:Register("InstanceUtility", InstanceUtilityLDB, self.db.profile.minimap)
 	self:RegisterChatCommand("InstanceUtility icon", "MiniMapIconToggle")
-end 
+end
 
 function addonMain:initializeConfig()
     if AIUCheckedData == nil then
@@ -454,6 +454,7 @@ function addonMain:OnLoadedSelf()
     if AIUCheckedData["optionsChecked"] == nil then
         AIUCheckedData["optionsChecked"] = {}
     end
+
     if AIUCheckedData["optionsChecked"]["ReloadCheckBox"] then
         ReloadCheckBox:SetChecked(true)
         ReloadButton.contentText = ReloadButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
