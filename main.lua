@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 0.20
+local AZPIUCoreVersion = 21
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -22,13 +22,19 @@ local promo = nameFull .. dash ..  "v" .. AZPIUCoreVersion
 local addonMain = LibStub("AceAddon-3.0"):NewAddon("InstanceUtility", "AceConsole-3.0")
 
 local OptionsCorePanel
-local addonVersions = AIU.addonVersions
+local ModuleStats = AIU.ModuleStats
 local addonOutOfDateMessage = true
 
 local InstanceUtilityAddonFrame
-local CheckListTabButton
-local ReadyCheckTabButton
-local InstanceLeadingTabButton
+local MainTitleFrame
+local VersionControlFrame
+local CoreButtonsFrame
+
+local ReloadCheckBox
+local ReloadButton
+
+local OpenSettingsButton
+local OpenOptionsCheckBox
 
 local InstanceUtilityLDB = LibStub("LibDataBroker-1.1"):NewDataObject("InstanceUtility", {
 	type = "data source",
@@ -49,9 +55,12 @@ function addonMain:ShowHideFrame()
 end
 
 function addonMain:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("InstanceUtilityLDB", {
-		profile = {
-			minimap = {
+    self.db = LibStub("AceDB-3.0"):New("InstanceUtilityLDB",
+    {
+        profile =
+        {
+            minimap =
+            {
 				hide = false,
 			},
 		},
@@ -69,21 +78,21 @@ end
 function addonMain:OnLoad(self)
     addonMain:initializeConfig()
     addonMain:CreateOptionsPanels()
-    addonMain:CreateVersionControlFrame()
     addonMain:CreateMainFrame()
 end
 
 function addonMain:CreateOptionsPanels()
-    OptionsCorePanel = CreateFrame("FRAME", "AZP-IU-OptionsCorePanel")
+    OptionsCorePanel = CreateFrame("FRAME", nil)
     OptionsCorePanel.name = "AzerPUG InstanceUtility"
     InterfaceOptions_AddCategory(OptionsCorePanel)
 
     local OptionsCoreTitle = OptionsCorePanel:CreateFontString("OptionsCoreTitle", "ARTWORK", "GameFontNormalHuge")
     OptionsCoreTitle:SetText(promo)
-    OptionsCoreTitle:SetSize(OptionsCorePanel:GetWidth(), 30)
+    OptionsCoreHeader:SetWidth(OptionsCorePanel:GetWidth())
+    OptionsCoreHeader:SetHeight(OptionsCorePanel:GetHeight())
     OptionsCoreTitle:SetPoint("TOP", 0, -10)
 
-    local ReloadFrame = CreateFrame("Frame", "ReloadFrame", OptionsCorePanel)
+    local ReloadFrame = CreateFrame("Frame", nil, OptionsCorePanel)
     ReloadFrame:SetSize(500, 50)
     ReloadFrame:SetPoint("TOP", 0, -50)
     ReloadFrame.text = ReloadFrame:CreateFontString("ReloadFrameText", "ARTWORK", "GameFontNormalLarge")
@@ -91,7 +100,7 @@ function addonMain:CreateOptionsPanels()
     ReloadFrame.text:SetJustifyH("LEFT")
     ReloadFrame.text:SetText("Show/Hide reload button.")
 
-    local ReloadCheckBox = CreateFrame("CheckButton", "ReloadCheckBox", ReloadFrame, "ChatConfigCheckButtonTemplate")
+    ReloadCheckBox = CreateFrame("CheckButton", nil, ReloadFrame, "ChatConfigCheckButtonTemplate")
     ReloadCheckBox:SetSize(20, 20)
     ReloadCheckBox:SetPoint("LEFT", 0, 0)
     ReloadCheckBox:SetHitRectInsets(0, 0, 0, 0)
@@ -105,7 +114,7 @@ function addonMain:CreateOptionsPanels()
         end
     end)
 
-    local OpenOptionsFrame = CreateFrame("Frame", "OpenOptionsFrame", OptionsCorePanel)
+    local OpenOptionsFrame = CreateFrame("Frame", nil, OptionsCorePanel)
     OpenOptionsFrame:SetSize(500, 50)
     OpenOptionsFrame:SetPoint("TOP", 0, -75)
     OpenOptionsFrame.text = OpenOptionsFrame:CreateFontString("OpenOptionsFrameText", "ARTWORK", "GameFontNormalLarge")
@@ -113,7 +122,7 @@ function addonMain:CreateOptionsPanels()
     OpenOptionsFrame.text:SetJustifyH("LEFT")
     OpenOptionsFrame.text:SetText("Show/Hide options button.")
 
-    local OpenOptionsCheckBox = CreateFrame("CheckButton", "OpenOptionsCheckBox", OpenOptionsFrame, "ChatConfigCheckButtonTemplate")
+    OpenOptionsCheckBox = CreateFrame("CheckButton", nil, OpenOptionsFrame, "ChatConfigCheckButtonTemplate")
     OpenOptionsCheckBox:SetSize(20, 20)
     OpenOptionsCheckBox:SetPoint("LEFT", 0, 0)
     OpenOptionsCheckBox:SetHitRectInsets(0, 0, 0, 0)
@@ -141,9 +150,8 @@ function addonMain:CreateOptionsPanels()
     )
 
     local CheckListSubPanel = CreateFrame("FRAME", "CheckListSubPanel")
-    CheckListSubPanel:Hide()
     CheckListSubPanel.name = "CheckList"
-    CheckListSubPanel.parent = OptionsCorePanel
+    CheckListSubPanel.parent = OptionsCorePanel.name
     InterfaceOptions_AddCategory(CheckListSubPanel);
 
     local CheckListSubPanelPHTitle = CreateFrame("Frame", "CheckListSubPanelPHTitle", CheckListSubPanel)
@@ -169,7 +177,7 @@ function addonMain:CreateOptionsPanels()
 
     local ReadyCheckSubPanel = CreateFrame("FRAME", "ReadyCheckSubPanel")
     ReadyCheckSubPanel.name = "ReadyCheck"
-    ReadyCheckSubPanel.parent = ReadyCheckSubPanel
+    ReadyCheckSubPanel.parent = ReadyCheckSubPanel.name
     InterfaceOptions_AddCategory(ReadyCheckSubPanel);
 
     local ReadyCheckSubPanelPHTitle = CreateFrame("Frame", "ReadyCheckSubPanelPHTitle", ReadyCheckSubPanel)
@@ -194,7 +202,7 @@ function addonMain:CreateOptionsPanels()
     local InstanceLeadingSubPanel = CreateFrame("FRAME", "InstanceLeadingSubPanel")
     InstanceLeadingSubPanel:Hide()
     InstanceLeadingSubPanel.name = "InstanceLeading"
-    InstanceLeadingSubPanel.parent = InstanceLeadingSubPanel
+    InstanceLeadingSubPanel.parent = InstanceLeadingSubPanel.name
     InterfaceOptions_AddCategory(InstanceLeadingSubPanel);
 
     local InstanceLeadingSubPanelPHTitle = CreateFrame("Frame", "InstanceLeadingSubPanelPHTitle", InstanceLeadingSubPanel)
@@ -220,89 +228,6 @@ function addonMain:CreateOptionsPanels()
     )
 end
 
-function addonMain:CreateVersionControlFrame()
-    local VersionControlFrame = CreateFrame("FRAME", "VersionControlFrame", UIParent)
-    VersionControlFrame:SetPoint("TOP")
-    VersionControlFrame:SetSize(200, 100)
-
-    VersionControlFrame.texture = VersionControlFrame:CreateTexture()
-    VersionControlFrame.texture:SetAllPoints(true)
-    VersionControlFrame:EnableMouse(true)
-    VersionControlFrame:SetMovable(true)
-    VersionControlFrame.texture:SetColorTexture(0.5, 0.5, 0.5, 0.5)
-    VersionControlFrame:RegisterForDrag("LeftButton")
-    VersionControlFrame:SetScript("OnDragStart", VersionControlFrame.StartMoving)
-    VersionControlFrame:SetScript("OnDragStop", VersionControlFrame.StopMovingOrSizing)
-
-    VersionControlFrameCloseButton = CreateFrame("Button", "VersionControlFrameCloseButton", VersionControlFrame, "UIPanelButtonTemplate")
-    VersionControlFrameCloseButton.contentText = VersionControlFrameCloseButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-    VersionControlFrameCloseButton.contentText:SetText("X")
-    VersionControlFrameCloseButton:SetWidth("15")
-    VersionControlFrameCloseButton:SetHeight("15")
-    VersionControlFrameCloseButton.contentText:SetWidth("100")
-    VersionControlFrameCloseButton.contentText:SetHeight("15")
-    VersionControlFrameCloseButton:SetPoint("TOPRIGHT")
-    VersionControlFrameCloseButton.contentText:SetPoint("CENTER", 0, -1)
-    VersionControlFrameCloseButton:SetScript("OnClick", function() VersionControlFrame:Hide() end )
-
-    local VersionControlFrameText = CreateFrame("Frame", "VersionControlFrameText", VersionControlFrame)
-    VersionControlFrameText:SetSize(200, 100)
-    VersionControlFrameText:SetPoint("TOP", 0, -5)
-    VersionControlFrameText.contentText = VersionControlFrameText:CreateFontString("VersionControlFrameText", "ARTWORK", "GameFontNormalLarge")
-    VersionControlFrameText.contentText:SetText("")
-    VersionControlFrameText.contentText:SetPoint("TOP")
-
-    VersionControlFrame:Hide()
-end
-
-function addonMain:CoreVersionControl()
-    if addonOutOfDateMessage == true then
-        local tempText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r\n"
-        local CheckListVersion
-        local ReadyCheckVersion
-        local InstanceLeadingVersion
-        local coreVersionUpdated = true
-
-        if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
-            CheckListVersion = VersionControl:CheckList()
-            if CheckListVersion < addonVersions["AZPIUCheckListVersion"] then
-                tempText = tempText .. "\n\124cFFFF0000CheckList\124r"
-                VersionControlFrame:Show()
-            elseif CheckListVersion > addonVersions["AZPIUCheckListVersion"] then
-                coreVersionUpdated = false
-            end
-        end
-
-        if IsAddOnLoaded("AzerPUG-InstanceUtility-ReadyCheck") then
-            ReadyCheckVersion = VersionControl:ReadyCheck()
-            if ReadyCheckVersion < addonVersions["AZPIUReadyCheckVersion"] then
-                tempText = tempText .. "\n\124cFFFF0000ReadyCheck\124r"
-                VersionControlFrame:Show()
-            elseif ReadyCheckVersion > addonVersions["AZPIUReadyCheckVersion"] then
-                coreVersionUpdated = false
-            end
-        end
-
-        if IsAddOnLoaded("AzerPUG-InstanceUtility-InstanceLeading") then
-            InstanceLeadingVersion = VersionControl:InstanceLeading()
-            if InstanceLeadingVersion < addonVersions["AZPIUInstanceLeadingVersion"] then
-                tempText = tempText .. "\n\124cFFFF0000InstanceLeading\124r"
-                VersionControlFrame:Show()
-            elseif InstanceLeadingVersion > addonVersions["AZPIUInstanceLeadingVersion"] then
-                coreVersionUpdated = false
-            end
-        end
-
-        if coreVersionUpdated == false then
-            tempText = tempText .. "\n\124cFFFF0000Core\124r"
-            VersionControlFrame:Show()
-        end
-
-        addonOutOfDateMessage = false
-        VersionControlFrameText.contentText:SetText(tempText)
-    end
-end
-
 function addonMain:CreateMainFrame()
     InstanceUtilityAddonFrame = CreateFrame("FRAME", "InstanceUtilityAddonFrame", UIParent)
     InstanceUtilityAddonFrame:SetPoint("CENTER", 0, 0)
@@ -325,7 +250,7 @@ function addonMain:CreateMainFrame()
     })
     InstanceUtilityAddonFrame:SetBackdropColor(0.5, 0.5, 0.5, 0.75)
 
-    local MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", InstanceUtilityAddonFrame)
+    MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", InstanceUtilityAddonFrame)
     MainTitleFrame:SetHeight("20")
     MainTitleFrame:SetWidth(InstanceUtilityAddonFrame:GetWidth())
     MainTitleFrame:SetBackdrop({
@@ -342,114 +267,240 @@ function addonMain:CreateMainFrame()
     MainTitleFrame.contentText:SetPoint("CENTER", 0, -1)
     MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
 
-    -- UIPanelInfoButton    i icon for info.
-    -- MainHelpPlateButton  Big i icoc.
-
-    local CoreTabButton = CreateFrame("Button", "CoreTabButton", InstanceUtilityAddonFrame)
-    CoreTabButton.contentText = CoreTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    CoreTabButton.contentText:SetText("CORE")
-    CoreTabButton.contentText:SetTextColor(0.75, 0.75, 0.75, 1)
-    CoreTabButton:SetWidth("40")
-    CoreTabButton:SetHeight("20")
-    CoreTabButton.contentText:SetWidth(CoreTabButton:GetWidth())
-    CoreTabButton.contentText:SetHeight(CoreTabButton:GetHeight())
-    CoreTabButton:SetPoint("TOPLEFT", MainTitleFrame, "BOTTOMLEFT", 2, 2);
-    CoreTabButton.contentText:SetPoint("CENTER", 0, -1)
-    CoreTabButton:SetBackdrop({
+    ModuleStats["Tabs"]["Core"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Tabs"]["Core"].contentText = ModuleStats["Tabs"]["Core"]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    ModuleStats["Tabs"]["Core"].contentText:SetText("CORE")
+    ModuleStats["Tabs"]["Core"].contentText:SetTextColor(0.75, 0.75, 0.75, 1)
+    ModuleStats["Tabs"]["Core"]:SetWidth("40")
+    ModuleStats["Tabs"]["Core"]:SetHeight("20")
+    ModuleStats["Tabs"]["Core"].contentText:SetWidth(ModuleStats["Tabs"]["Core"]:GetWidth())
+    ModuleStats["Tabs"]["Core"].contentText:SetHeight(ModuleStats["Tabs"]["Core"]:GetHeight())
+    ModuleStats["Tabs"]["Core"]:SetPoint("TOPLEFT", MainTitleFrame, "BOTTOMLEFT", 2, 2);
+    ModuleStats["Tabs"]["Core"].contentText:SetPoint("CENTER", 0, -1)
+    ModuleStats["Tabs"]["Core"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 8,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    CoreTabButton:SetBackdropColor(0.75, 0.75, 0.75, 1)
-    --CoreTabButton:SetScript("OnClick", function() print("CoreTab Clicked") end )
+    ModuleStats["Tabs"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 1)
+    ModuleStats["Tabs"]["Core"]:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["Core"]) end )
 
-    CheckListTabButton = CreateFrame("Button", "CheckListTabButton", InstanceUtilityAddonFrame)
-    CheckListTabButton:SetSize(1, 1)
-    CheckListTabButton:SetPoint("LEFT", CoreTabButton, "RIGHT", 0, 0);
+    ModuleStats["Tabs"]["CheckList"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Tabs"]["CheckList"]:SetSize(1, 1)
+    ModuleStats["Tabs"]["CheckList"]:SetPoint("LEFT", ModuleStats["Tabs"]["Core"], "RIGHT", 0, 0);
 
-    ReadyCheckTabButton = CreateFrame("Button", "ReadyCheckTabButton", InstanceUtilityAddonFrame)
-    ReadyCheckTabButton:SetSize(1, 1)
-    ReadyCheckTabButton:SetPoint("LEFT", CheckListTabButton, "RIGHT", 0, 0);
+    ModuleStats["Tabs"]["ReadyCheck"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Tabs"]["ReadyCheck"]:SetSize(1, 1)
+    ModuleStats["Tabs"]["ReadyCheck"]:SetPoint("LEFT", ModuleStats["Tabs"]["CheckList"], "RIGHT", 0, 0);
 
-    InstanceLeadingTabButton = CreateFrame("Button", "InstanceLeadingTabButton", InstanceUtilityAddonFrame)
-    InstanceLeadingTabButton:SetSize(1, 1)
-    InstanceLeadingTabButton:SetPoint("LEFT", ReadyCheckTabButton, "RIGHT", 0, 0);
+    ModuleStats["Tabs"]["InstanceLeading"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Tabs"]["InstanceLeading"]:SetSize(1, 1)
+    ModuleStats["Tabs"]["InstanceLeading"]:SetPoint("LEFT", ModuleStats["Tabs"]["ReadyCheck"], "RIGHT", 0, 0);
 
     local IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", InstanceUtilityAddonFrame, "UIPanelCloseButton")
-    IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 4)
-    IUAddonFrameCloseButton:SetHeight(MainTitleFrame:GetHeight() + 5)
-    IUAddonFrameCloseButton:SetPoint("TOPRIGHT", MainTitleFrame, "TOPRIGHT", 2, 3)
+    IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 3)
+    IUAddonFrameCloseButton:SetHeight(MainTitleFrame:GetHeight() + 4)
+    IUAddonFrameCloseButton:SetPoint("TOPRIGHT", MainTitleFrame, "TOPRIGHT", 2, 2)
     IUAddonFrameCloseButton:SetScript("OnClick", function() addonMain:ShowHideFrame() end )
 
-    local ReloadButton = CreateFrame("Button", "ReloadButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
-    ReloadButton:SetSize(1, 1)
-    ReloadButton:SetPoint("TOPLEFT", 5, -50)
-    ReloadButton:Hide()
-
-    local OpenSettingsButton = CreateFrame("Button", "OpenSettingsButton", InstanceUtilityAddonFrame, "UIPanelButtonTemplate")
-    OpenSettingsButton:SetSize(1, 1)
-    OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, -5);
-    OpenSettingsButton:Hide()
-
+    addonMain:CreateSubFrames()
 end
 
 function addonMain:AddMainFrameTabButton(tabName)
+    local CurrentTab
     if tabName == "CL" then
-        CheckListTabButton:SetWidth("20")
-        CheckListTabButton:SetHeight("20")
-        CheckListTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
-        CheckListTabButton.contentText = CheckListTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        CheckListTabButton.contentText:SetText("CL")
-        CheckListTabButton.contentText:SetTextColor(CoreTabButton.contentText:GetTextColor())
-        CheckListTabButton.contentText:SetWidth(CheckListTabButton:GetWidth())
-        CheckListTabButton.contentText:SetHeight(CheckListTabButton:GetHeight())
-        CheckListTabButton.contentText:SetPoint("CENTER", 0, -1)
-        CheckListTabButton:SetBackdrop({
+        CurrentTab = ModuleStats["Tabs"]["CheckList"]
+        CurrentTab:SetWidth("20")
+        CurrentTab:SetHeight("20")
+        CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        CurrentTab.contentText:SetText("CL")
+        CurrentTab.contentText:SetWidth(CurrentTab:GetWidth())
+        CurrentTab.contentText:SetHeight(CurrentTab:GetHeight())
+        CurrentTab.contentText:SetPoint("CENTER", 0, -1)
+        CurrentTab:SetBackdrop({
             bgFile = "Interface/Tooltips/UI-Tooltip-Background",
             edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CheckListTabButton:SetScript("OnClick", function() print("CheckListTab Clicked") end )
+        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["CheckList"]) end )
+        if ModuleStats["Frames"]["CheckList"] ~= nil then
+            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        else
+            CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
+            CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
+        end
     elseif tabName == "RC" then
-        ReadyCheckTabButton:SetWidth("20")
-        ReadyCheckTabButton:SetHeight("20")
-        ReadyCheckTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
-        ReadyCheckTabButton.contentText = ReadyCheckTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        ReadyCheckTabButton.contentText:SetText("RC")
-        ReadyCheckTabButton.contentText:SetTextColor(CoreTabButton.contentText:GetTextColor())
-        ReadyCheckTabButton.contentText:SetWidth(ReadyCheckTabButton:GetWidth())
-        ReadyCheckTabButton.contentText:SetHeight(ReadyCheckTabButton:GetHeight())
-        ReadyCheckTabButton.contentText:SetPoint("CENTER", 0, -1)
-        ReadyCheckTabButton:SetBackdrop({
+        CurrentTab = ModuleStats["Tabs"]["ReadyCheck"]
+        CurrentTab:SetWidth("20")
+        CurrentTab:SetHeight("20")
+        CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        CurrentTab.contentText:SetText("RC")
+        CurrentTab.contentText:SetWidth(CurrentTab:GetWidth())
+        CurrentTab.contentText:SetHeight(CurrentTab:GetHeight())
+        CurrentTab.contentText:SetPoint("CENTER", 0, -1)
+        CurrentTab:SetBackdrop({
             bgFile = "Interface/Tooltips/UI-Tooltip-Background",
             edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --ReadyCheckTabButton:SetScript("OnClick", function() print("ReadyCheckTab Clicked") end )
+        --CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["ReadyCheck"]) end )
+        if ModuleStats["Frames"]["ReadyCheck"] ~= nil then
+            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        else
+            CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
+            CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
+        end
     elseif tabName == "IL" then
-        InstanceLeadingTabButton:SetWidth("20")
-        InstanceLeadingTabButton:SetHeight("20")
-        InstanceLeadingTabButton:SetBackdropColor(CoreTabButton:GetBackdropColor())
-        InstanceLeadingTabButton.contentText = InstanceLeadingTabButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        InstanceLeadingTabButton.contentText:SetText("IL")
-        InstanceLeadingTabButton.contentText:SetTextColor(CoreTabButton.contentText:GetTextColor())
-        InstanceLeadingTabButton.contentText:SetWidth(InstanceLeadingTabButton:GetWidth())
-        InstanceLeadingTabButton.contentText:SetHeight(InstanceLeadingTabButton:GetHeight())
-        InstanceLeadingTabButton.contentText:SetPoint("CENTER", 0, -1)
-        InstanceLeadingTabButton:SetBackdrop({
+        CurrentTab = ModuleStats["Tabs"]["InstanceLeading"]
+        CurrentTab:SetWidth("20")
+        CurrentTab:SetHeight("20")
+        CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        CurrentTab.contentText:SetText("IL")
+        CurrentTab.contentText:SetWidth(CurrentTab:GetWidth())
+        CurrentTab.contentText:SetHeight(CurrentTab:GetHeight())
+        CurrentTab.contentText:SetPoint("CENTER", 0, -1)
+        CurrentTab:SetBackdrop({
             bgFile = "Interface/Tooltips/UI-Tooltip-Background",
             edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --InstanceLeadingTabButton:SetScript("OnClick", function() print("InstanceLeadingTab Clicked") end )
+        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["InstanceLeading"]) end )
+        if ModuleStats["Frames"]["InstanceLeading"] ~= nil then
+            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        else
+            CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
+            CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
+        end
     end
 end
 
---- To be called from addon Loaded event when the core itself got loaded.
+function addonMain:CreateSubFrames()
+    ModuleStats["Frames"]["Core"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Frames"]["Core"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["Core"]:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    ModuleStats["Frames"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+
+    ModuleStats["Frames"]["CheckList"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Frames"]["CheckList"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["CheckList"]:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    ModuleStats["Frames"]["CheckList"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+
+    ModuleStats["Frames"]["InstanceLeading"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Frames"]["InstanceLeading"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["InstanceLeading"]:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    ModuleStats["Frames"]["InstanceLeading"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+
+    addonMain:CoreSubFrame()
+end
+
+function addonMain:CoreSubFrame()
+    CoreButtonsFrame = CreateFrame("FRAME", nil, ModuleStats["Frames"]["Core"])
+    CoreButtonsFrame:SetSize(100, 50)
+    CoreButtonsFrame:SetPoint("TOPLEFT")
+
+    ReloadButton = CreateFrame("Button", nil, CoreButtonsFrame, "UIPanelButtonTemplate")
+    ReloadButton:SetSize(1, 1)
+    ReloadButton:SetPoint("TOPLEFT", 5, -5)
+    ReloadButton:Hide()
+
+    OpenSettingsButton = CreateFrame("Button", nil, CoreButtonsFrame, "UIPanelButtonTemplate")
+    OpenSettingsButton:SetSize(1, 1)
+    OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, 0);
+    OpenSettingsButton:Hide()
+
+    VersionControlFrame = CreateFrame("FRAME", nil, ModuleStats["Frames"]["Core"])
+    VersionControlFrame.contentText = VersionControlFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+    VersionControlFrame:SetSize(200, 100)
+    VersionControlFrame:SetPoint("TOPRIGHT")
+    VersionControlFrame.contentText:SetText("\124cFFFFFF00All Modules Updated!\124r") -- ToDo: Add Green Color
+    VersionControlFrame.contentText:SetPoint("TOP")
+
+    ModuleStats["Frames"]["Core"]:SetWidth(CoreButtonsFrame:GetWidth() + 10 + VersionControlFrame:GetWidth())
+    ModuleStats["Frames"]["Core"]:SetHeight(math.max(CoreButtonsFrame:GetWidth(), VersionControlFrame:GetHeight()))
+end
+
+function addonMain:ShowHideSubFrames(ShowFrame)
+    ModuleStats["Frames"]["Core"]:Hide()
+    ModuleStats["Frames"]["CheckList"]:Hide()
+    ModuleStats["Frames"]["InstanceLeading"]:Hide()
+
+    ShowFrame:Show()
+    InstanceUtilityAddonFrame:SetSize(ShowFrame:GetWidth(), ShowFrame:GetHeight() + 36)
+    MainTitleFrame:SetWidth(InstanceUtilityAddonFrame:GetWidth())
+
+    if ShowFrame == ModuleStats["Frames"]["InstanceLeading"] then
+        MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. nameShort .. "\124r")
+    else
+        MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
+    end
+end
+
+function addonMain:CoreVersionControl()
+    if addonOutOfDateMessage == true then
+        local tempText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r\n"
+        local CheckListVersion
+        local ReadyCheckVersion
+        local InstanceLeadingVersion
+        local coreVersionUpdated = true
+
+        if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
+            CheckListVersion = VersionControl:CheckList()
+            if CheckListVersion < ModuleStats["Versions"]["CheckList"] then
+                tempText = tempText .. "\n\124cFFFF0000CheckList\124r"
+            elseif CheckListVersion > ModuleStats["Versions"]["CheckList"] then
+                coreVersionUpdated = false
+            end
+        end
+
+        if IsAddOnLoaded("AzerPUG-InstanceUtility-ReadyCheck") then
+            ReadyCheckVersion = VersionControl:ReadyCheck()
+            if ReadyCheckVersion < ModuleStats["Versions"]["ReadyCheck"] then
+                tempText = tempText .. "\n\124cFFFF0000ReadyCheck\124r"
+            elseif ReadyCheckVersion > ModuleStats["Versions"]["ReadyCheck"] then
+                coreVersionUpdated = false
+            end
+        end
+
+        if IsAddOnLoaded("AzerPUG-InstanceUtility-InstanceLeading") then
+            InstanceLeadingVersion = VersionControl:InstanceLeading()
+            if InstanceLeadingVersion < ModuleStats["Versions"]["InstanceLeading"] then
+                tempText = tempText .. "\n\124cFFFF0000InstanceLeading\124r"
+            elseif InstanceLeadingVersion > ModuleStats["Versions"]["InstanceLeading"] then
+                coreVersionUpdated = false
+            end
+        end
+
+        if coreVersionUpdated == false then
+            tempText = tempText .. "\n\124cFFFF0000Core\124r"
+        end
+
+        addonOutOfDateMessage = false
+        VersionControlFrame.contentText:SetText(tempText)
+    end
+end
+
 function addonMain:OnLoadedSelf()
     if AIUCheckedData["optionsChecked"] == nil then
         AIUCheckedData["optionsChecked"] = {}
@@ -460,7 +511,7 @@ function addonMain:OnLoadedSelf()
         ReloadButton.contentText = ReloadButton:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         ReloadButton.contentText:SetText("Reload!")
         ReloadButton:SetSize(100, 25)
-        ReloadButton:SetPoint("TOPLEFT", 5, -50)
+        ReloadButton:SetPoint("TOPLEFT", 5, -5)
         ReloadButton.contentText:SetSize(ReloadButton:GetWidth(), 15)
         ReloadButton.contentText:SetPoint("CENTER", 0, -1)
         ReloadButton:Show()
@@ -474,7 +525,6 @@ function addonMain:OnLoadedSelf()
         OpenSettingsButton:SetSize(100, 25)
         OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, 0);
         OpenSettingsButton.contentText:SetSize(OpenSettingsButton:GetWidth(), 15)
-        --OpenSettingsButton:SetPoint("TOPLEFT", 5, -75)
         OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
         OpenSettingsButton:Show()
         OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
@@ -484,6 +534,7 @@ end
 function addonMain:OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         addonMain:CoreVersionControl()
+        addonMain:ShowHideSubFrames(ModuleStats["Frames"]["Core"])
         if AIUFrameShown == false then InstanceUtilityAddonFrame:Hide() end
     elseif event == "ADDON_LOADED" then
         local addonName = ...

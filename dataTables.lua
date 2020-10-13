@@ -1,11 +1,28 @@
 local GlobalAddonName, AIU = ...
 _G[GlobalAddonName] = AIU
 
-AIU.addonVersions =
+AIU.ModuleStats =
 {
-    ["AZPIUCheckListVersion"] = 0.11,
-    ["AZPIUReadyCheckVersion"] = 0.9,
-    ["AZPIUInstanceLeadingVersion"] = 0.5,
+    ["Versions"] =
+    {
+        ["CheckList"] = 12,
+        ["ReadyCheck"] = 10,
+        ["InstanceLeading"] = 6,
+    },
+    ["Tabs"] =
+    {
+        ["Core"] = nil,
+        ["CheckList"] = nil,
+        ["ReadyCheck"] = nil,
+        ["InstanceLeading"] = nil,
+    },
+    ["Frames"] =
+    {
+        ["Core"] = nil,
+        ["CheckList"] = nil,
+        ["ReadyCheck"] = nil,
+        ["InstanceLeading"] = nil,
+    },
 }
 
 AIU.initialConfig =     -- DO NOT DELETE, DYNAMIC USE!
