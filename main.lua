@@ -177,7 +177,7 @@ function addonMain:CreateOptionsPanels()
 
     local ReadyCheckSubPanel = CreateFrame("FRAME", "ReadyCheckSubPanel")
     ReadyCheckSubPanel.name = "ReadyCheck"
-    ReadyCheckSubPanel.parent = ReadyCheckSubPanel.name
+    ReadyCheckSubPanel.parent = OptionsCorePanel.name
     InterfaceOptions_AddCategory(ReadyCheckSubPanel);
 
     local ReadyCheckSubPanelPHTitle = CreateFrame("Frame", "ReadyCheckSubPanelPHTitle", ReadyCheckSubPanel)
@@ -202,7 +202,7 @@ function addonMain:CreateOptionsPanels()
     local InstanceLeadingSubPanel = CreateFrame("FRAME", "InstanceLeadingSubPanel")
     InstanceLeadingSubPanel:Hide()
     InstanceLeadingSubPanel.name = "InstanceLeading"
-    InstanceLeadingSubPanel.parent = InstanceLeadingSubPanel.name
+    InstanceLeadingSubPanel.parent = OptionsCorePanel.name
     InterfaceOptions_AddCategory(InstanceLeadingSubPanel);
 
     local InstanceLeadingSubPanelPHTitle = CreateFrame("Frame", "InstanceLeadingSubPanelPHTitle", InstanceLeadingSubPanel)
