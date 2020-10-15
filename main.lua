@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 21
+local AZPIUCoreVersion = 22
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -86,10 +86,10 @@ function addonMain:CreateOptionsPanels()
     OptionsCorePanel.name = "AzerPUG InstanceUtility"
     InterfaceOptions_AddCategory(OptionsCorePanel)
 
-    local OptionsCoreTitle = OptionsCorePanel:CreateFontString("OptionsCoreTitle", "ARTWORK", "GameFontNormalHuge")
+    local OptionsCoreTitle = OptionsCorePanel:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
     OptionsCoreTitle:SetText(promo)
-    OptionsCoreHeader:SetWidth(OptionsCorePanel:GetWidth())
-    OptionsCoreHeader:SetHeight(OptionsCorePanel:GetHeight())
+    OptionsCoreTitle:SetWidth(OptionsCorePanel:GetWidth())
+    OptionsCoreTitle:SetHeight(OptionsCorePanel:GetHeight())
     OptionsCoreTitle:SetPoint("TOP", 0, -10)
 
     local ReloadFrame = CreateFrame("Frame", nil, OptionsCorePanel)
@@ -229,7 +229,7 @@ function addonMain:CreateOptionsPanels()
 end
 
 function addonMain:CreateMainFrame()
-    InstanceUtilityAddonFrame = CreateFrame("FRAME", "InstanceUtilityAddonFrame", UIParent)
+    InstanceUtilityAddonFrame = CreateFrame("FRAME", "InstanceUtilityAddonFrame", UIParent, "BackdropTemplate")
     InstanceUtilityAddonFrame:SetPoint("CENTER", 0, 0)
     InstanceUtilityAddonFrame:EnableMouse(true)
     InstanceUtilityAddonFrame:SetMovable(true)
@@ -250,7 +250,7 @@ function addonMain:CreateMainFrame()
     })
     InstanceUtilityAddonFrame:SetBackdropColor(0.5, 0.5, 0.5, 0.75)
 
-    MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", InstanceUtilityAddonFrame)
+    MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", InstanceUtilityAddonFrame, "BackdropTemplate")
     MainTitleFrame:SetHeight("20")
     MainTitleFrame:SetWidth(InstanceUtilityAddonFrame:GetWidth())
     MainTitleFrame:SetBackdrop({
@@ -267,7 +267,7 @@ function addonMain:CreateMainFrame()
     MainTitleFrame.contentText:SetPoint("CENTER", 0, -1)
     MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
 
-    ModuleStats["Tabs"]["Core"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Tabs"]["Core"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Tabs"]["Core"].contentText = ModuleStats["Tabs"]["Core"]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     ModuleStats["Tabs"]["Core"].contentText:SetText("CORE")
     ModuleStats["Tabs"]["Core"].contentText:SetTextColor(0.75, 0.75, 0.75, 1)
@@ -286,15 +286,15 @@ function addonMain:CreateMainFrame()
     ModuleStats["Tabs"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 1)
     ModuleStats["Tabs"]["Core"]:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["Core"]) end )
 
-    ModuleStats["Tabs"]["CheckList"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Tabs"]["CheckList"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Tabs"]["CheckList"]:SetSize(1, 1)
     ModuleStats["Tabs"]["CheckList"]:SetPoint("LEFT", ModuleStats["Tabs"]["Core"], "RIGHT", 0, 0);
 
-    ModuleStats["Tabs"]["ReadyCheck"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Tabs"]["ReadyCheck"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Tabs"]["ReadyCheck"]:SetSize(1, 1)
     ModuleStats["Tabs"]["ReadyCheck"]:SetPoint("LEFT", ModuleStats["Tabs"]["CheckList"], "RIGHT", 0, 0);
 
-    ModuleStats["Tabs"]["InstanceLeading"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Tabs"]["InstanceLeading"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Tabs"]["InstanceLeading"]:SetSize(1, 1)
     ModuleStats["Tabs"]["InstanceLeading"]:SetPoint("LEFT", ModuleStats["Tabs"]["ReadyCheck"], "RIGHT", 0, 0);
 
@@ -382,7 +382,7 @@ function addonMain:AddMainFrameTabButton(tabName)
 end
 
 function addonMain:CreateSubFrames()
-    ModuleStats["Frames"]["Core"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Frames"]["Core"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Frames"]["Core"]:SetPoint("TOP", 0, -36)
     ModuleStats["Frames"]["Core"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
@@ -392,7 +392,7 @@ function addonMain:CreateSubFrames()
     })
     ModuleStats["Frames"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    ModuleStats["Frames"]["CheckList"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Frames"]["CheckList"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Frames"]["CheckList"]:SetPoint("TOP", 0, -36)
     ModuleStats["Frames"]["CheckList"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
@@ -402,7 +402,7 @@ function addonMain:CreateSubFrames()
     })
     ModuleStats["Frames"]["CheckList"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    ModuleStats["Frames"]["InstanceLeading"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame)
+    ModuleStats["Frames"]["InstanceLeading"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Frames"]["InstanceLeading"]:SetPoint("TOP", 0, -36)
     ModuleStats["Frames"]["InstanceLeading"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
@@ -420,7 +420,7 @@ function addonMain:CoreSubFrame()
     CoreButtonsFrame:SetSize(100, 50)
     CoreButtonsFrame:SetPoint("TOPLEFT")
 
-    ReloadButton = CreateFrame("Button", nil, CoreButtonsFrame, "UIPanelButtonTemplate")
+    ReloadButton = CreateFrame("Button", "ReloadButton", CoreButtonsFrame, "UIPanelButtonTemplate")
     ReloadButton:SetSize(1, 1)
     ReloadButton:SetPoint("TOPLEFT", 5, -5)
     ReloadButton:Hide()
@@ -552,7 +552,6 @@ function addonMain:OnEvent(self, event, ...)
         end
     end
     if event ~= "ADDON_LOADED" then
-        
         if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
             OnEvent:CheckList(event, ...)
         end
