@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 22
+local AZPIUCoreVersion = 23
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -435,7 +435,7 @@ function addonMain:CoreSubFrame()
     VersionControlFrame:SetSize(200, 100)
     VersionControlFrame:SetPoint("TOPRIGHT")
     VersionControlFrame.contentText:SetText("\124cFFFFFF00All Modules Updated!\124r") -- ToDo: Add Green Color
-    VersionControlFrame.contentText:SetPoint("TOP")
+    VersionControlFrame.contentText:SetPoint("TOP", 0, -5)
 
     ModuleStats["Frames"]["Core"]:SetWidth(CoreButtonsFrame:GetWidth() + 10 + VersionControlFrame:GetWidth())
     ModuleStats["Frames"]["Core"]:SetHeight(math.max(CoreButtonsFrame:GetWidth(), VersionControlFrame:GetHeight()))
@@ -459,7 +459,8 @@ end
 
 function addonMain:CoreVersionControl()
     if addonOutOfDateMessage == true then
-        local tempText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r\n"
+        local mainText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r"
+        local tempText = nil
         local CheckListVersion
         local ReadyCheckVersion
         local InstanceLeadingVersion
@@ -496,8 +497,12 @@ function addonMain:CoreVersionControl()
             tempText = tempText .. "\n\124cFFFF0000Core\124r"
         end
 
+        if tempText == nil then
+            tempText = "\n\124cFF00FF00None!\124r"
+        end
+
         addonOutOfDateMessage = false
-        VersionControlFrame.contentText:SetText(tempText)
+        VersionControlFrame.contentText:SetText(mainText .. "\n" .. tempText)
     end
 end
 
