@@ -5,7 +5,7 @@ AIU.ModuleStats =
 {
     ["Versions"] =
     {
-        ["CheckList"] = 16,
+        ["CheckList"] = 17,
         ["ReadyCheck"] = 14,
         ["InstanceLeading"] = 12,
     },
