@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 33
+local AZPIUCoreVersion = 34
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -226,6 +226,30 @@ function addonMain:CreateOptionsPanels()
         "The module can also add a button for combat logging and/or start automatic logging.\n" ..
         "Automatic combat logging can be put on/off for different raids/dungeons."
     )
+
+    local GreatVaultSubPanel = CreateFrame("FRAME", "GreatVaultSubPanel")
+    GreatVaultSubPanel:Hide()
+    GreatVaultSubPanel.name = "GreatVault"
+    GreatVaultSubPanel.parent = OptionsCorePanel.name
+    InterfaceOptions_AddCategory(GreatVaultSubPanel);
+
+    local GreatVaultSubPanelPHTitle = CreateFrame("Frame", "GreatVaultSubPanelPHTitle", GreatVaultSubPanel)
+    GreatVaultSubPanelPHTitle:SetSize(500, 500)
+    GreatVaultSubPanelPHTitle:SetPoint("TOP", 0, -10)
+    GreatVaultSubPanelPHTitle.contentText = GreatVaultSubPanelPHTitle:CreateFontString("GreatVaultSubPanelPHTitle", "ARTWORK", "GameFontNormalHuge")
+    GreatVaultSubPanelPHTitle.contentText:SetPoint("TOP")
+    GreatVaultSubPanelPHTitle.contentText:SetText("\124cFFFF0000GreatVault Module not found!\124r\n")
+
+    local GreatVaultSubPanelPHText = CreateFrame("Frame", "GreatVaultSubPanelPHText", GreatVaultSubPanel)
+    GreatVaultSubPanelPHText:SetSize(500, 500)
+    GreatVaultSubPanelPHText:SetPoint("TOP", 0, -50)
+    GreatVaultSubPanelPHText.contentText = GreatVaultSubPanelPHText:CreateFontString("GreatVaultSubPanelPHText", "ARTWORK", "GameFontNormalLarge")
+    GreatVaultSubPanelPHText.contentText:SetPoint("TOPLEFT")
+    GreatVaultSubPanelPHText.contentText:SetJustifyH("LEFT")
+    GreatVaultSubPanelPHText.contentText:SetText(
+        "GreatVault Module shows the user the current Great Vault reward-choices.\n" ..
+        "Eventually, it should also show what to do to upgrade/unlock the choices."
+    )
 end
 
 function addonMain:CreateMainFrame()
@@ -297,6 +321,10 @@ function addonMain:CreateMainFrame()
     ModuleStats["Tabs"]["InstanceLeading"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Tabs"]["InstanceLeading"]:SetSize(1, 1)
     ModuleStats["Tabs"]["InstanceLeading"]:SetPoint("LEFT", ModuleStats["Tabs"]["ReadyCheck"], "RIGHT", 0, 0);
+
+    ModuleStats["Tabs"]["GreatVault"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    ModuleStats["Tabs"]["GreatVault"]:SetSize(1, 1)
+    ModuleStats["Tabs"]["GreatVault"]:SetPoint("LEFT", ModuleStats["Tabs"]["InstanceLeading"], "RIGHT", 0, 0);
 
     local IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", InstanceUtilityAddonFrame, "UIPanelCloseButton")
     IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 3)
@@ -378,6 +406,29 @@ function addonMain:AddMainFrameTabButton(tabName)
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
+    elseif tabName == "GV" then
+        CurrentTab = ModuleStats["Tabs"]["GreatVault"]
+        CurrentTab:SetWidth("20")
+        CurrentTab:SetHeight("20")
+        CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        CurrentTab.contentText:SetText("GV")
+        CurrentTab.contentText:SetWidth(CurrentTab:GetWidth())
+        CurrentTab.contentText:SetHeight(CurrentTab:GetHeight())
+        CurrentTab.contentText:SetPoint("CENTER", 0, -1)
+        CurrentTab:SetBackdrop({
+            bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 8,
+            insets = { left = 1, right = 1, top = 1, bottom = 1 },
+        })
+        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["GreatVault"]) end )
+        if ModuleStats["Frames"]["GreatVault"] ~= nil then
+            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        else
+            CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
+            CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
+        end
     end
 end
 
@@ -412,6 +463,16 @@ function addonMain:CreateSubFrames()
     })
     ModuleStats["Frames"]["InstanceLeading"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
+    ModuleStats["Frames"]["GreatVault"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    ModuleStats["Frames"]["GreatVault"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["GreatVault"]:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    ModuleStats["Frames"]["GreatVault"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+
     addonMain:CoreSubFrame()
 end
 
@@ -445,6 +506,7 @@ function addonMain:ShowHideSubFrames(ShowFrame)
     ModuleStats["Frames"]["Core"]:Hide()
     ModuleStats["Frames"]["CheckList"]:Hide()
     ModuleStats["Frames"]["InstanceLeading"]:Hide()
+    ModuleStats["Frames"]["GreatVault"]:Hide()
 
     ShowFrame:Show()
     InstanceUtilityAddonFrame:SetSize(ShowFrame:GetWidth(), ShowFrame:GetHeight() + 36)
@@ -464,6 +526,7 @@ function addonMain:CoreVersionControl()
         local CheckListVersion
         local ReadyCheckVersion
         local InstanceLeadingVersion
+        local GreatVaultVersion
         local coreVersionUpdated = true
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
@@ -492,6 +555,15 @@ function addonMain:CoreVersionControl()
                 coreVersionUpdated = false
             end
         end
+
+        -- if IsAddOnLoaded("AzerPUG-InstanceUtility-GreatVault") then
+        --     GreatVaultVersion = VersionControl:GreatVault()
+        --     if GreatVaultVersion < ModuleStats["Versions"]["GreatVault"] then
+        --         tempText = tempText .. "\n\124cFFFF0000GreatVault\124r"
+        --     elseif GreatVaultVersion > ModuleStats["Versions"]["GreatVault"] then
+        --         coreVersionUpdated = false
+        --     end
+        -- end
 
         if coreVersionUpdated == false then
             tempText = tempText .. "\n\124cFFFF0000Core\124r"
@@ -554,6 +626,9 @@ function addonMain:OnEvent(self, event, ...)
         elseif addonName == "AzerPUG-InstanceUtility-InstanceLeading" then
             addonMain:AddMainFrameTabButton("IL")
             OnLoad:InstanceLeading()
+        elseif addonName == "AzerPUG-InstanceUtility-GreatVault" then
+            addonMain:AddMainFrameTabButton("GV")
+            OnLoad:GreatVault()
         end
     end
     if event ~= "ADDON_LOADED" then
@@ -565,6 +640,9 @@ function addonMain:OnEvent(self, event, ...)
         end
         if IsAddOnLoaded("AzerPUG-InstanceUtility-InstanceLeading") then
             OnEvent:InstanceLeading(event, ...)
+        end
+        if IsAddOnLoaded("AzerPUG-InstanceUtility-GreatVault") then
+            OnEvent:GreatVault(event, ...)
         end
     end
 end
