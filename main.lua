@@ -522,7 +522,7 @@ end
 function addonMain:CoreVersionControl()
     if addonOutOfDateMessage == true then
         local mainText = "\124cFF00FFFFAzerPUG-InstanceUtility\nOut of date modules:\124r"
-        local tempText = nil
+        local tempText = ""
         local CheckListVersion
         local ReadyCheckVersion
         local InstanceLeadingVersion
@@ -569,7 +569,7 @@ function addonMain:CoreVersionControl()
             tempText = tempText .. "\n\124cFFFF0000Core\124r"
         end
 
-        if tempText == nil then
+        if #tempText == 0 then
             tempText = "\n\124cFF00FF00None!\124r"
         end
 
