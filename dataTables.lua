@@ -6,7 +6,7 @@ AIU.ModuleStats =
     ["Versions"] =
     {
         ["CheckList"] = 19,
-        ["ReadyCheck"] = 16,
+        ["ReadyCheck"] = 17,
         ["InstanceLeading"] = 14,
         ["GreatVault"] = 1,
     },
@@ -39,14 +39,14 @@ AIU.itemData =
     {
         "Flasks",
         {
-            {"Power", {307158}},
+            {"Power", {171276}},
             {"Stamina", {171278}},
         },
     },
     {
         "Food",
         {
-            {"Feast", {168315, 166240, 156526, 156525}},
+            {"Feast", {172043, 172042}},
             {"Main Stat", {166804}},
             {"Versatility", {168314, 154886, 154885}},
             {"Haste", {168313, 154884, 154883}},
