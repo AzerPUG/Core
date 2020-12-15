@@ -512,7 +512,7 @@ function addonMain:ShowHideSubFrames(ShowFrame)
     InstanceUtilityAddonFrame:SetSize(ShowFrame:GetWidth(), ShowFrame:GetHeight() + 36)
     MainTitleFrame:SetWidth(InstanceUtilityAddonFrame:GetWidth())
 
-    if ShowFrame == ModuleStats["Frames"]["InstanceLeading"] then
+    if ShowFrame == ModuleStats["Frames"]["InstanceLeading"] or ShowFrame == ModuleStats["Frames"]["GreatVault"] then
         MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. nameShort .. "\124r")
     else
         MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
