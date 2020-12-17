@@ -5,7 +5,7 @@ AIU.ModuleStats =
 {
     ["Versions"] =
     {
-        ["CheckList"] = 19,
+        ["CheckList"] = 20,
         ["ReadyCheck"] = 18,
         ["InstanceLeading"] = 14,
         ["GreatVault"] = 1,
@@ -47,13 +47,15 @@ AIU.itemData =
         "Food",
         {
             {"Feast", {172043, 172042}},
-            {"Main Stat", {166804}},
-            {"Versatility", {168314, 154886, 154885}},
-            {"Haste", {168313, 154884, 154883}},
-            {"Mastery", {168311, 154888, 154887}},
-            {"Critical Strike", {168310, 154882, 154881}},
-            {"Stamina", {168312, 166344, 166343}},
-            {"Mana", {113509, 154891, 154889}},
+            {"Versatility", {172051, 172050}},
+            {"Haste", {172045, 172044}},
+            {"Mastery", {172049, 172048}},
+            {"Critical Strike", {172041, 172040}},
+            {"Stamina", {172069, 172068}},
+            {"Mana", {172047, 172046}},
+            {"Speed", {172063}},
+            {"Heal OOC", {172061}},
+            {"Cone Dmg", {172062}},
         }
     },
     {
