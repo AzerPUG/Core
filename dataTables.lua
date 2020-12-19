@@ -9,6 +9,7 @@ AIU.ModuleStats =
         ["ReadyCheck"] = 18,
         ["InstanceLeading"] = 14,
         ["GreatVault"] = 1,
+        ["ManaGement"] = 1,
     },
     ["Tabs"] =
     {
@@ -17,6 +18,7 @@ AIU.ModuleStats =
         ["ReadyCheck"] = nil,
         ["InstanceLeading"] = nil,
         ["GreatVault"] = nil,
+        ["ManaGement"] = nil,
     },
     ["Frames"] =
     {
@@ -25,6 +27,7 @@ AIU.ModuleStats =
         ["ReadyCheck"] = nil,
         ["InstanceLeading"] = nil,
         ["GreatVault"] = nil,
+        ["ManaGement"] = nil,
     },
 }
 
