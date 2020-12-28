@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 40
+local AZPIUCoreVersion = 41
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
