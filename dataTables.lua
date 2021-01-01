@@ -6,7 +6,7 @@ AIU.ModuleStats =
     ["Versions"] =
     {
         ["CheckList"] = 21,
-        ["ReadyCheck"] = 18,
+        ["ReadyCheck"] = 19,
         ["InstanceLeading"] = 15,
         ["GreatVault"] = 2,
         ["ManaGement"] = 2,
