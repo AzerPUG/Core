@@ -271,7 +271,8 @@ function addonMain:CreateOptionsPanels()
     ManaGementSubPanelPHText.contentText:SetPoint("TOPLEFT")
     ManaGementSubPanelPHText.contentText:SetJustifyH("LEFT")
     ManaGementSubPanelPHText.contentText:SetText(
-        "ManaGement"
+        "ManaGement show a list of all healers with a mana bar to help you track your allies mana.\n" ..
+        "Additionally, it orders the mana bars based on mana % to make things easier to track."
     )
 end
 
