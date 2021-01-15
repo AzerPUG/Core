@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 46
+local AZPIUCoreVersion = 47
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -627,7 +627,7 @@ function addonMain:CoreVersionControl()
                 coreVersionUpdated = false
             end
         end
-
+        
         if IsAddOnLoaded("AzerPUG-InstanceUtility-ManaGement") then
             ManaGementVersion = VersionControl:ManaGement()
             if ManaGementVersion < ModuleStats["Versions"]["ManaGement"] then
