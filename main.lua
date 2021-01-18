@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 47
+local AZPIUCoreVersion = 48
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -278,10 +278,13 @@ end
 
 function addonMain:CreateMainFrame()
     InstanceUtilityAddonFrame = CreateFrame("FRAME", "InstanceUtilityAddonFrame", UIParent, "BackdropTemplate")
-    InstanceUtilityAddonFrame:SetPoint("CENTER", 0, 0)
+    InstanceUtilityAddonFrame:SetPoint("TOPLEFT", 0, 0)
     InstanceUtilityAddonFrame:EnableMouse(true)
     InstanceUtilityAddonFrame:SetMovable(true)
+    InstanceUtilityAddonFrame:SetResizable(true)
     InstanceUtilityAddonFrame:RegisterForDrag("LeftButton")
+    InstanceUtilityAddonFrame:SetSize(300, 220)
+    InstanceUtilityAddonFrame:SetMinResize(300, 220)
     InstanceUtilityAddonFrame:SetScript("OnDragStart", InstanceUtilityAddonFrame.StartMoving)
     InstanceUtilityAddonFrame:SetScript("OnDragStop", InstanceUtilityAddonFrame.StopMovingOrSizing)
     InstanceUtilityAddonFrame:SetScript("OnEvent", function(...) addonMain:OnEvent(...) end)
@@ -289,7 +292,6 @@ function addonMain:CreateMainFrame()
     InstanceUtilityAddonFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     InstanceUtilityAddonFrame:RegisterEvent("PLAYER_LOGIN")
     InstanceUtilityAddonFrame:RegisterEvent("ADDON_LOADED")
-    InstanceUtilityAddonFrame:SetSize(365, 255)
     InstanceUtilityAddonFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -308,12 +310,14 @@ function addonMain:CreateMainFrame()
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
     MainTitleFrame:SetBackdropColor(0.3, 0.3, 0.3, 1)
-    MainTitleFrame:SetPoint("TOP", "InstanceUtilityAddonFrame", 0, 0)
+    MainTitleFrame:SetPoint("TOPLEFT", "InstanceUtilityAddonFrame", 0, 0)
+    MainTitleFrame:SetPoint("TOPRIGHT", "InstanceUtilityAddonFrame", 0, 0)
     MainTitleFrame.contentText = MainTitleFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     MainTitleFrame.contentText:SetWidth(MainTitleFrame:GetWidth())
     MainTitleFrame.contentText:SetHeight(MainTitleFrame:GetHeight())
     MainTitleFrame.contentText:SetPoint("CENTER", 0, -1)
     MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
+
 
     ModuleStats["Tabs"]["Core"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     ModuleStats["Tabs"]["Core"].contentText = ModuleStats["Tabs"]["Core"]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -359,6 +363,26 @@ function addonMain:CreateMainFrame()
     IUAddonFrameCloseButton:SetHeight(MainTitleFrame:GetHeight() + 4)
     IUAddonFrameCloseButton:SetPoint("TOPRIGHT", MainTitleFrame, "TOPRIGHT", 2, 2)
     IUAddonFrameCloseButton:SetScript("OnClick", function() addonMain:ShowHideFrame() end )
+
+    local IUAddonFrameResizeButton = CreateFrame("Frame", "IUAddonFrameResizeButton", InstanceUtilityAddonFrame, "BackdropTemplate")
+    IUAddonFrameResizeButton:SetWidth(20)
+    IUAddonFrameResizeButton:SetHeight(20)
+    IUAddonFrameResizeButton:SetPoint("BOTTOMRIGHT")
+    IUAddonFrameResizeButton:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 8,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    IUAddonFrameResizeButton:SetBackdropColor(0.75, 0.75, 0.75, 1)
+    IUAddonFrameResizeButton:SetScript("OnMouseDown", function() InstanceUtilityAddonFrame:StartSizing("BOTTOMRIGHT") end)
+    IUAddonFrameResizeButton:SetScript("OnMouseUp", function() InstanceUtilityAddonFrame:StopMovingOrSizing() end)
+    IUAddonFrameResizeButton:RegisterForDrag("LeftButton")
+    IUAddonFrameResizeButton:EnableMouse(true)
+
+    InstanceUtilityAddonFrame:SetScript("OnSizeChanged", function(self, width, height) 
+        --MainTitleFrame:SetWidth(width)
+    end)
 
     addonMain:CreateSubFrames()
 end
@@ -485,7 +509,8 @@ end
 
 function addonMain:CreateSubFrames()
     ModuleStats["Frames"]["Core"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    ModuleStats["Frames"]["Core"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["Core"]:SetPoint("TOPLEFT", 0, -36)
+    ModuleStats["Frames"]["Core"]:SetPoint("BOTTOMRIGHT")
     ModuleStats["Frames"]["Core"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -495,7 +520,8 @@ function addonMain:CreateSubFrames()
     ModuleStats["Frames"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
     ModuleStats["Frames"]["CheckList"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    ModuleStats["Frames"]["CheckList"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["CheckList"]:SetPoint("TOPLEFT", 0, -36)
+    ModuleStats["Frames"]["CheckList"]:SetPoint("BOTTOMRIGHT")
     ModuleStats["Frames"]["CheckList"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -505,7 +531,8 @@ function addonMain:CreateSubFrames()
     ModuleStats["Frames"]["CheckList"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
     ModuleStats["Frames"]["InstanceLeading"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    ModuleStats["Frames"]["InstanceLeading"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["InstanceLeading"]:SetPoint("TOPLEFT", 0, -36)
+    ModuleStats["Frames"]["InstanceLeading"]:SetPoint("BOTTOMRIGHT")
     ModuleStats["Frames"]["InstanceLeading"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -515,7 +542,8 @@ function addonMain:CreateSubFrames()
     ModuleStats["Frames"]["InstanceLeading"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
     ModuleStats["Frames"]["GreatVault"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    ModuleStats["Frames"]["GreatVault"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["GreatVault"]:SetPoint("TOPLEFT", 0, -36)
+    ModuleStats["Frames"]["GreatVault"]:SetPoint("BOTTOMRIGHT")
     ModuleStats["Frames"]["GreatVault"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -525,7 +553,8 @@ function addonMain:CreateSubFrames()
     ModuleStats["Frames"]["GreatVault"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
     ModuleStats["Frames"]["ManaGement"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    ModuleStats["Frames"]["ManaGement"]:SetPoint("TOP", 0, -36)
+    ModuleStats["Frames"]["ManaGement"]:SetPoint("TOPLEFT", 0, -36)
+    ModuleStats["Frames"]["ManaGement"]:SetPoint("BOTTOMRIGHT")
     ModuleStats["Frames"]["ManaGement"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
