@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 48
+local AZPIUCoreVersion = 49
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -283,8 +283,8 @@ function addonMain:CreateMainFrame()
     InstanceUtilityAddonFrame:SetMovable(true)
     InstanceUtilityAddonFrame:SetResizable(true)
     InstanceUtilityAddonFrame:RegisterForDrag("LeftButton")
-    InstanceUtilityAddonFrame:SetSize(300, 220)
-    InstanceUtilityAddonFrame:SetMinResize(300, 220)
+    InstanceUtilityAddonFrame:SetSize(325, 220)
+    InstanceUtilityAddonFrame:SetMinResize(325, 220)
     InstanceUtilityAddonFrame:SetScript("OnDragStart", InstanceUtilityAddonFrame.StartMoving)
     InstanceUtilityAddonFrame:SetScript("OnDragStop", InstanceUtilityAddonFrame.StopMovingOrSizing)
     InstanceUtilityAddonFrame:SetScript("OnEvent", function(...) addonMain:OnEvent(...) end)
@@ -379,10 +379,6 @@ function addonMain:CreateMainFrame()
     IUAddonFrameResizeButton:SetScript("OnMouseUp", function() InstanceUtilityAddonFrame:StopMovingOrSizing() end)
     IUAddonFrameResizeButton:RegisterForDrag("LeftButton")
     IUAddonFrameResizeButton:EnableMouse(true)
-
-    InstanceUtilityAddonFrame:SetScript("OnSizeChanged", function(self, width, height) 
-        --MainTitleFrame:SetWidth(width)
-    end)
 
     addonMain:CreateSubFrames()
 end
