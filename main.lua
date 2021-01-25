@@ -79,6 +79,8 @@ function addonMain:OnLoad(self)
     addonMain:initializeConfig()
     addonMain:CreateOptionsPanels()
     addonMain:CreateMainFrame()
+
+    C_ChatInfo.RegisterAddonMessagePrefix("AZPREQUEST")
 end
 
 function addonMain:CreateOptionsPanels()
@@ -292,6 +294,7 @@ function addonMain:CreateMainFrame()
     InstanceUtilityAddonFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     InstanceUtilityAddonFrame:RegisterEvent("PLAYER_LOGIN")
     InstanceUtilityAddonFrame:RegisterEvent("ADDON_LOADED")
+    InstanceUtilityAddonFrame:RegisterEvent("CHAT_MSG_ADDON")
     InstanceUtilityAddonFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -704,6 +707,32 @@ function addonMain:OnLoadedSelf()
         OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
     end
 end
+function addonMain:VersionRequest(args)
+    local versString = "";
+
+    if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
+        versString = versString .. string.format("|CL:%d|", VersionControl:CheckList())
+    end
+
+    if IsAddOnLoaded("AzerPUG-InstanceUtility-ReadyCheck") then
+        versString = versString .. string.format("|RC:%d|", VersionControl:ReadyCheck())
+    end
+
+    if IsAddOnLoaded("AzerPUG-InstanceUtility-InstanceLeading") then
+        versString = versString .. string.format("|IL:%d|", VersionControl:InstanceLeading())
+    end
+
+    if IsAddOnLoaded("AzerPUG-InstanceUtility-GreatVault") then
+        versString = versString .. string.format("|GV:%d|", VersionControl:GreatVault())
+    end
+    
+    if IsAddOnLoaded("AzerPUG-InstanceUtility-ManaGement") then
+        versString = versString .. string.format("|MG:%d|", VersionControl:ManaGement())
+    end
+
+    success = C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
+
+end
 
 function addonMain:OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
@@ -746,6 +775,13 @@ function addonMain:OnEvent(self, event, ...)
         end
         if IsAddOnLoaded("AzerPUG-InstanceUtility-ManaGement") then
             OnEvent:ManaGement(event, ...)
+        end
+        if event == "CHAT_MSG_ADDON" then
+            local prefix, payload = ...
+
+            if prefix == "AZPREQUEST" then
+                addonMain:VersionRequest()
+            end
         end
     end
 end
