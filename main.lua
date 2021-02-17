@@ -13,7 +13,7 @@ local OnEvent = AZP.IU.OnEvent
 
 local initialConfig = AIU.initialConfig
 
-local AZPIUCoreVersion = 56
+local AZPIUCoreVersion = 57
 local dash = " - "
 local name = "InstanceUtility" .. dash .. "Core"
 local nameFull = "AzerPUG " .. name
@@ -749,7 +749,7 @@ function addonMain:OnEvent(self, event, ...)
             OnLoad:CheckList()
         elseif addonName == "AzerPUG-InstanceUtility-ReadyCheck" then
             addonMain:AddMainFrameTabButton("RC")
-            OnLoad:ReadyCheck()
+            AZP.AddonHelper:DelayedExecution(5, function() OnLoad:ReadyCheck() end)
         elseif addonName == "AzerPUG-InstanceUtility-InstanceLeading" then
             addonMain:AddMainFrameTabButton("IL")
             OnLoad:InstanceLeading()
