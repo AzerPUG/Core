@@ -1,8 +1,8 @@
-## Interface: 90002
+## Interface: 90005
 ## Title: |cFF00FFFFAZP|r |cFFFF00FFInstanceUtility|r |cFFFFFF00Core|r |cFFFF0000(REQUIRED!)|r
 ## Author: Tex & AzerPUG Gaming Community (www.azerpug.com/discord)
 ## Notes: Utility for Instances (Raids and Dungeons)!
-## Version: SL 9.0.2 (For actual addon version, check main.lua)
+## Version: SL 9.0.5 (For actual addon version, check main.lua)
 ## SavedVariables: InstanceUtilityLDB
 ## SavedVariablesPerCharacter: AIUFrameShown AIUCheckedData
 
