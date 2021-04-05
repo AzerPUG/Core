@@ -5,11 +5,17 @@ AIU.ModuleStats =
 {
     ["Versions"] =
     {
+        ["Core"] = 64,
         ["CheckList"] = 24,
         ["ReadyCheck"] = 29,
         ["InstanceLeading"] = 18,
         ["GreatVault"] = 5,
         ["ManaGement"] = 8,
+        ["RepBars"] = 13,
+        ["ChattyThings"] = 23,
+        ["QuestEfficiency"] = 9,
+        ["LevelStats"] = 9,
+        ["UnLockables"] = 5,
     },
     ["Tabs"] =
     {
@@ -19,15 +25,24 @@ AIU.ModuleStats =
         ["InstanceLeading"] = nil,
         ["GreatVault"] = nil,
         ["ManaGement"] = nil,
+        ["RepBars"] = nil,
+        ["ChattyThings"] = nil,
+        ["QuestEfficiency"] = nil,
+        ["LevelStats"] = nil,
+        ["UnLockables"] = nil,
     },
     ["Frames"] =
     {
-        ["Core"] = nil,
         ["CheckList"] = nil,
         ["ReadyCheck"] = nil,
         ["InstanceLeading"] = nil,
         ["GreatVault"] = nil,
         ["ManaGement"] = nil,
+        ["RepBars"] = nil,
+        ["ChattyThings"] = nil,
+        ["QuestEfficiency"] = nil,
+        ["LevelStats"] = nil,
+        ["UnLockables"] = nil,
     },
 }
 

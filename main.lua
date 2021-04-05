@@ -15,8 +15,8 @@ local initialConfig = AIU.initialConfig
 
 local AZPIUCoreVersion = 64
 local dash = " - "
-local name = "InstanceUtility" .. dash .. "Core"
-local nameFull = "AzerPUG " .. name
+local name = "Core"
+local nameFull = "AzerPUG's " .. name
 local nameShort = "AZP-IU v" .. AZPIUCoreVersion
 local promo = nameFull .. dash ..  "v" .. AZPIUCoreVersion
 local addonMain = LibStub("AceAddon-3.0"):NewAddon("InstanceUtility", "AceConsole-3.0")
