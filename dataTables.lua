@@ -9,7 +9,7 @@ AIU.ModuleStats =
         ["ReadyCheck"] = 29,
         ["InstanceLeading"] = 18,
         ["GreatVault"] = 5,
-        ["ManaGement"] = 8,
+        ["ManaGement"] = 10,
     },
     ["Tabs"] =
     {
