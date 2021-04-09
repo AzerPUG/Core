@@ -1,7 +1,7 @@
-local GlobalAddonName, AIU = ...
-_G[GlobalAddonName] = AIU
+local GlobalAddonName, AZP = ...
+--_G[GlobalAddonName] = AZP
 
-AIU.ModuleStats =
+AZP.ModuleStats =
 {
     ["Versions"] =
     {
@@ -44,15 +44,30 @@ AIU.ModuleStats =
         ["LevelStats"] = nil,
         ["UnLockables"] = nil,
     },
+    -- ["OptionPanels"] =
+    -- {
+    --     ["CheckList"] = nil,
+    --     ["ReadyCheck"] = nil,
+    --     ["InstanceLeading"] = nil,
+    --     ["GreatVault"] = nil,
+    --     ["ManaGement"] = nil,
+    --     ["RepBars"] = nil,
+    --     ["ChattyThings"] = nil,
+    --     ["QuestEfficiency"] = nil,
+    --     ["LevelStats"] = nil,
+    --     ["UnLockables"] = nil,
+    -- }
 }
 
-AIU.initialConfig =     -- DO NOT DELETE, DYNAMIC USE!
+AZP.RegisteredEvents = {} -- DO NOT DELETE, DYNAMIC USE!
+
+AZP.initialConfig =     -- DO NOT DELETE, DYNAMIC USE!
 {
     ["optionsChecked"] = {},
     ["checkItemIDs"] = {}
 }
 
-AIU.itemData =
+AZP.itemData =
 {
     {
         "Flasks",
