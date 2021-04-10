@@ -40,7 +40,7 @@ function AZP.Core:RegisterEvents(event, func)
         AZP.RegisteredEvents[event] = handlers
         InstanceUtilityAddonFrame:RegisterEvent(event)
     end
-    handlers[event] = func
+    handlers[#handlers + 1] = func
 end
 
 function AZP.Core:ShowHideFrame()
@@ -60,6 +60,7 @@ function AZP.Core:initializeConfig()
 end
 
 function AZP.Core:eventPlayerEnteringWorld()
+    print("TEST!")
     AZP.Core:VersionControl()
     AZP.Core:ShowHideSubFrames(AZP.ModuleStats["Frames"]["Core"])
     if AIUFrameShown == false then InstanceUtilityAddonFrame:Hide() end
@@ -117,8 +118,13 @@ function AZP.Core:eventAddonLoaded(...)
         end
 end
 
-function AZP.Core:eventChatMsgAddon()
+function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
+    if prefix == "AZPREQUEST" then
+        local versString = AZP.Core:VersionString()
+        C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
+    elseif prefix == "AZPVERSIONS" then
 
+    end
 end
 
 function AZP.Core:CreateMainFrame()
@@ -146,6 +152,8 @@ function AZP.Core:CreateMainFrame()
     AZP.Core:RegisterEvents("PLAYER_LOGIN", function(...) AZP.Core:eventPlayerLogin(...) end)
     AZP.Core:RegisterEvents("ADDON_LOADED", function(...) AZP.Core:eventAddonLoaded(...) end)
     AZP.Core:RegisterEvents("CHAT_MSG_ADDON", function(...) AZP.Core:eventChatMsgAddon(...) end)
+    AZP.Core:RegisterEvents("GROUP_ROSTER_UPDATE", AZP.Core.ShareVersions)
+    AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", AZP.Core.ShareVersions)
 
     -- GameUtilityAddonFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
     -- GameUtilityAddonFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
@@ -778,30 +786,47 @@ function AZP.Core:OnLoadedSelf()
     end
 end
 
-function AZP.Core:VersionRequest(args)
-    local versString = "";
+function AZP.Core:VersionString()
+    local VersionChunkFormat = "|%s:%d|"
+    local versString = VersionChunkFormat:format("CR", AZP.VersionControl.Core)
 
     if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
-        versString = versString .. string.format("|CL:%d|", AZP.VersionControl:CheckList())
+        versString = versString .. VersionChunkFormat:format("CL", AZP.VersionControl:CheckList())
     end
 
     if IsAddOnLoaded("AzerPUG-InstanceUtility-ReadyCheck") then
-        versString = versString .. string.format("|RC:%d|", AZP.VersionControl:ReadyCheck())
+        versString = versString .. VersionChunkFormat:format("RC", AZP.VersionControl:ReadyCheck())
     end
 
     if IsAddOnLoaded("AzerPUG-InstanceUtility-InstanceLeading") then
-        versString = versString .. string.format("|IL:%d|", AZP.VersionControl:InstanceLeading())
+        versString = versString .. VersionChunkFormat:format("IL", AZP.VersionControl:InstanceLeading())
     end
 
     if IsAddOnLoaded("AzerPUG-InstanceUtility-GreatVault") then
-        versString = versString .. string.format("|GV:%d|", AZP.VersionControl:GreatVault())
+        versString = versString .. VersionChunkFormat:format("GV", AZP.VersionControl:GreatVault())
     end
 
     if IsAddOnLoaded("AzerPUG-InstanceUtility-ManaGement") then
-        versString = versString .. string.format("|MG:%d|", AZP.VersionControl:ManaGement())
+        versString = versString .. VersionChunkFormat:format("MG", AZP.VersionControl:ManaGement())
     end
+    return versString
+end
 
-    C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
+function AZP.Core:ShareVersions()
+    local versionString = AZP.Core:VersionString()
+    print(versionString)
+    DelayedExecution(10, function() 
+        if IsInGroup() then
+            if IsInRaid() then
+                C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"RAID", 1)
+            else
+                C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"PARTY", 1)
+            end
+        end
+        if IsInGuild() then
+            C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"GUILD", 1)
+        end
+    end)
 end
 
 function AZP.OnEvent:Core(_, event, ...)
@@ -810,53 +835,56 @@ function AZP.OnEvent:Core(_, event, ...)
     end
 end
 
-AZP.Core:OnLoad()
+-- AZP.Core:OnLoad()
 
 -- function CreateVersionFrame()
--- C_ChatInfo.RegisterAddonMessagePrefix("AZPTT_VERSION")
+--     C_ChatInfo.RegisterAddonMessagePrefix("AZPTT_VERSION")
 
--- UpdateFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
--- UpdateFrame:SetPoint("CENTER", 0, 250)
--- UpdateFrame:SetSize(400, 200)
--- UpdateFrame:SetBackdrop({
---     bgFile = "Interface/Tooltips/UI-Tooltip-Background",
---     edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
---     edgeSize = 12,
---     insets = { left = 1, right = 1, top = 1, bottom = 1 },
--- })
--- UpdateFrame:SetBackdropColor(0.25, 0.25, 0.25, 0.80)
--- UpdateFrame.header = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalHuge")
--- UpdateFrame.header:SetPoint("TOP", 0, -10)
--- UpdateFrame.header:SetText("|cFFFF0000" .. nameFull .. " is out of date!|r")
+--     UpdateFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+--     UpdateFrame:SetPoint("CENTER", 0, 250)
+--     UpdateFrame:SetSize(400, 200)
+--     UpdateFrame:SetBackdrop({
+--         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+--         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+--         edgeSize = 12,
+--         insets = { left = 1, right = 1, top = 1, bottom = 1 },
+--     })
+--     UpdateFrame:SetBackdropColor(0.25, 0.25, 0.25, 0.80)
+--     UpdateFrame.header = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalHuge")
+--     UpdateFrame.header:SetPoint("TOP", 0, -10)
+--     UpdateFrame.header:SetText("|cFFFF0000" .. nameFull .. " is out of date!|r")
 
--- UpdateFrame.text = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
--- UpdateFrame.text:SetPoint("TOP", 0, -40)
--- UpdateFrame.text:SetText("Error!")
+--     UpdateFrame.text = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
+--     UpdateFrame.text:SetPoint("TOP", 0, -40)
+--     UpdateFrame.text:SetText("Error!")
 
--- UpdateFrame:Hide()
+--     UpdateFrame:Hide()
 
--- local UpdateFrameCloseButton = CreateFrame("Button", nil, UpdateFrame, "UIPanelCloseButton")
--- UpdateFrameCloseButton:SetWidth(25)
--- UpdateFrameCloseButton:SetHeight(25)
--- UpdateFrameCloseButton:SetPoint("TOPRIGHT", UpdateFrame, "TOPRIGHT", 2, 2)
--- UpdateFrameCloseButton:SetScript("OnClick", function() UpdateFrame:Hide() end )
+--     local UpdateFrameCloseButton = CreateFrame("Button", nil, UpdateFrame, "UIPanelCloseButton")
+--     UpdateFrameCloseButton:SetWidth(25)
+--     UpdateFrameCloseButton:SetHeight(25)
+--     UpdateFrameCloseButton:SetPoint("TOPRIGHT", UpdateFrame, "TOPRIGHT", 2, 2)
+--     UpdateFrameCloseButton:SetScript("OnClick", function() UpdateFrame:Hide() end )
 
--- AZPToolTips:ShareVersion()
+--     AZPToolTips:ShareVersion()
 -- end
 
 -- function AZPToolTips:ShareVersion()
 --     DelayedExecution(10, function() 
---         if IsInRaid() then
---             C_ChatInfo.SendAddonMessage("AZPTT_VERSION", ToolTipsVersion ,"RAID", 1)
---         end
 --         if IsInGroup() then
---             C_ChatInfo.SendAddonMessage("AZPTT_VERSION", ToolTipsVersion ,"PARTY", 1)
+--             if IsInRaid() then
+--                 C_ChatInfo.SendAddonMessage("AZPTT_VERSION", ToolTipsVersion ,"RAID", 1)
+--             else
+--                 C_ChatInfo.SendAddonMessage("AZPTT_VERSION", ToolTipsVersion ,"PARTY", 1)
+--             end
 --         end
 --         if IsInGuild() then
 --             C_ChatInfo.SendAddonMessage("AZPTT_VERSION", ToolTipsVersion ,"GUILD", 1)
 --         end
 --     end)
 -- end
+
+
 
 -- function AZPToolTips:ReceiveVersion(version)
 --     if version > ToolTipsVersion then
