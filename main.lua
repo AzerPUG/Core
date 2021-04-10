@@ -837,6 +837,11 @@ function AZP.Core:VersionString()
     if IsAddOnLoaded("AzerPUG-InstanceUtility-ManaGement") then
         versString = versString .. VersionChunkFormat:format("MG", AZP.VersionControl:ManaGement())
     end
+
+    if IsAddOnLoaded("AzerPUG's ToolTips") then
+        versString = versString .. VersionChunkFormat:format("TT", AZP.VersionControl.ToolTips)
+    end
+
     return versString
 end
 
