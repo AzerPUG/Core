@@ -120,11 +120,27 @@ function AZP.Core:eventAddonLoaded(...)
         end
 end
 
+function AZP.Core:ParseVersionString(versionString)
+        local versions = {}
+        local pattern = "|([A-Z]+):([0-9]+)|"
+        local index = 1
+            
+        while index < #versionString do
+            local _, endPos = string.find(versionString, pattern, index)
+            local addon, version = string.match(versionString, pattern, index)
+            index = endPos + 1
+            versions[addon] = tonumber(version)
+        end
+
+        return versions
+end
+
 function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
     if prefix == "AZPREQUEST" then
         local versString = AZP.Core:VersionString()
         C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
     elseif prefix == "AZPVERSIONS" then
+        local versions = AZP.Core:ParseVersionString()
         print("StuffWorkingYO!")
     end
 end
