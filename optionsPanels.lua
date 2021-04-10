@@ -1,9 +1,9 @@
-local GlobalAddonName, AIU = ...
-AZP = AIU
 AZP.OptionsPanels = {}
 
 function AZP.OptionsPanels:Generic(panelName, panelTitle, panelContent)
 	local optionFrame = CreateFrame("FRAME")
+	optionFrame:SetSize(500, 500)
+	-- optionFrame:SetPoint("CENTER", 0, 0)
     optionFrame.name = panelName
     optionFrame.parent = OptionsCorePanel.name
     InterfaceOptions_AddCategory(optionFrame)
@@ -13,16 +13,17 @@ function AZP.OptionsPanels:Generic(panelName, panelTitle, panelContent)
 	optionFrame.title:SetPoint("TOP")
 	optionFrame.title:SetText(panelTitle)
 
-	optionFrame.placeholder = optionFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-	optionFrame.placeholder:SetSize(optionFrame:GetWidth(), 500)
-	optionFrame.placeholder:SetPoint("TOP", 0, -50)
-	optionFrame.placeholder:SetJustifyH("LEFT")
-	optionFrame.placeholder:SetJustifyV("TOP")
-	optionFrame.placeholder:SetText(panelContent)
-
-	-- Change that palceholder panel content does not have to be a string.
-	-- Make it so that panel content is a string or a frame.
-	-- If string, do placeholder stuff. If frame, put in other frame // other frame is parent.
+	if type(panelContent) == "string" then
+		optionFrame.placeholder = optionFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+		optionFrame.placeholder:SetSize(optionFrame:GetWidth(), 500)
+		print(optionFrame:GetWidth())
+		optionFrame.placeholder:SetPoint("TOP", 0, -50)
+		optionFrame.placeholder:SetJustifyH("LEFT")
+		optionFrame.placeholder:SetJustifyV("TOP")
+		optionFrame.placeholder:SetText(panelContent)
+	elseif type(panelContent) == "function" then
+		panelContent(optionFrame)
+	end
 end
 
 function AZP.OptionsPanels:Core()

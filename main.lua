@@ -1,5 +1,3 @@
-local GlobalAddonName, AZP = ...
-
 AZP.OnLoad = {}
 AZP.OnEvent = {}
 AZP.VersionControl = {}
@@ -79,6 +77,8 @@ function AZP.Core:eventAddonLoaded(...)
     local addonName = ...
         if addonName == "AzerPUG-InstanceUtility-Core" then
             addonMain:OnLoadedSelf()
+        elseif addonName == "AzerPUG's ToolTips" then
+            AZP.ToolTips.OnLoadCore()
         elseif addonName == "AzerPUG-InstanceUtility-CheckList" then
             addonMain:AddMainFrameTabButton("CL")
             OnLoad:CheckList()
@@ -94,6 +94,26 @@ function AZP.Core:eventAddonLoaded(...)
         elseif addonName == "AzerPUG-InstanceUtility-ManaGement" then
             addonMain:AddMainFrameTabButton("MG")
             OnLoad:ManaGement()
+        elseif addonName == "AzerPUG-GameUtility-Core" then
+            addonMain:OnLoadedSelf()
+        elseif addonName == "AzerPUG-GameUtility-RepBars" then
+            addonMain:AddMainFrameTabButton("RB")
+            OnLoad:RepBars()
+        elseif addonName == "AzerPUG-GameUtility-ChattyThings" then
+            addonMain:AddMainFrameTabButton("CT")
+            OnLoad:ChattyThings()
+        elseif addonName == "AzerPUG-GameUtility-QuestEfficiency" then
+            addonMain:AddMainFrameTabButton("QE")
+            OnLoad:QuestEfficiency()
+        elseif addonName == "AzerPUG-GameUtility-LevelStats" then
+            addonMain:AddMainFrameTabButton("LS")
+            OnLoad:LevelStats()
+        elseif addonName == "AzerPUG-GameUtility-UnLockables" then
+            addonMain:AddMainFrameTabButton("UL")
+            OnLoad:UnLockables()
+        elseif addonName == "AzerPUG-GameUtility-VendorStuff" then
+            --addonMain:AddMainFrameTabButton("VS")
+            OnLoad:VendorStuff()
         end
 end
 
@@ -791,3 +811,73 @@ function AZP.OnEvent:Core(_, event, ...)
 end
 
 AZP.Core:OnLoad()
+
+-- function CreateVersionFrame()
+-- C_ChatInfo.RegisterAddonMessagePrefix("AZPTT_VERSION")
+
+-- UpdateFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+-- UpdateFrame:SetPoint("CENTER", 0, 250)
+-- UpdateFrame:SetSize(400, 200)
+-- UpdateFrame:SetBackdrop({
+--     bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+--     edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+--     edgeSize = 12,
+--     insets = { left = 1, right = 1, top = 1, bottom = 1 },
+-- })
+-- UpdateFrame:SetBackdropColor(0.25, 0.25, 0.25, 0.80)
+-- UpdateFrame.header = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalHuge")
+-- UpdateFrame.header:SetPoint("TOP", 0, -10)
+-- UpdateFrame.header:SetText("|cFFFF0000" .. nameFull .. " is out of date!|r")
+
+-- UpdateFrame.text = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
+-- UpdateFrame.text:SetPoint("TOP", 0, -40)
+-- UpdateFrame.text:SetText("Error!")
+
+-- UpdateFrame:Hide()
+
+-- local UpdateFrameCloseButton = CreateFrame("Button", nil, UpdateFrame, "UIPanelCloseButton")
+-- UpdateFrameCloseButton:SetWidth(25)
+-- UpdateFrameCloseButton:SetHeight(25)
+-- UpdateFrameCloseButton:SetPoint("TOPRIGHT", UpdateFrame, "TOPRIGHT", 2, 2)
+-- UpdateFrameCloseButton:SetScript("OnClick", function() UpdateFrame:Hide() end )
+
+-- AZPToolTips:ShareVersion()
+-- end
+
+-- function AZPToolTips:ShareVersion()
+--     DelayedExecution(10, function() 
+--         if IsInRaid() then
+--             C_ChatInfo.SendAddonMessage("AZPTT_VERSION", ToolTipsVersion ,"RAID", 1)
+--         end
+--         if IsInGroup() then
+--             C_ChatInfo.SendAddonMessage("AZPTT_VERSION", ToolTipsVersion ,"PARTY", 1)
+--         end
+--         if IsInGuild() then
+--             C_ChatInfo.SendAddonMessage("AZPTT_VERSION", ToolTipsVersion ,"GUILD", 1)
+--         end
+--     end)
+-- end
+
+-- function AZPToolTips:ReceiveVersion(version)
+--     if version > ToolTipsVersion then
+--         if (not HaveShowedUpdateNotification) then
+--             HaveShowedUpdateNotification = true
+--             UpdateFrame:Show()
+--             UpdateFrame.text:SetText(
+--                 "Please download the new version through the CurseForge app.\n" ..
+--                 "Or use the CurseForge website to download it manually!\n\n" ..
+--                 "Newer Version: v" .. version .. "\n" ..
+--                 "Your version: v" .. ToolTipsVersion
+--             )
+--         end
+--     end
+-- end
+
+-- if event == "CHAT_MSG_ADDON" then
+--     local prefix, payload, _, sender = ...
+--     if prefix == "AZPTT_VERSION" then
+--         AZPToolTips:ReceiveVersion(tonumber(payload))
+--     end
+-- elseif event == "GROUP_ROSTER_UPDATE" then
+--     AZPToolTips:ShareVersion()
+-- end

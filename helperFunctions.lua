@@ -1,5 +1,3 @@
-local GlobalAddonName, AIU = ...
-AZP = AIU
 AZP.AddonHelper = {}
 
 function AZP.AddonHelper:DelayedExecution(delayTime, delayedFunction)

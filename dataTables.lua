@@ -1,6 +1,4 @@
-local GlobalAddonName, AZP = ...
---_G[GlobalAddonName] = AZP
-
+AZP = {}
 AZP.ModuleStats =
 {
     ["Versions"] =
