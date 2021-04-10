@@ -20,6 +20,7 @@ local InstanceUtilityAddonFrame
 local MainTitleFrame
 local VersionControlFrame
 local CoreButtonsFrame
+local UpdateFrame
 
 local ReloadCheckBox
 local ReloadButton
@@ -62,9 +63,8 @@ function AZP.Core:initializeConfig()
 end
 
 function AZP.Core:eventPlayerEnteringWorld()
-    print("TEST!")
     AZP.Core:VersionControl()
-    AZP.Core:ShowHideSubFrames(AZP.ModuleStats["Frames"]["Core"])
+    AZP.Core:ShowHideSubFrames(AZP.Core.ModuleStats["Frames"]["Core"])
     if AIUFrameShown == false then InstanceUtilityAddonFrame:Hide() end
 end
 
@@ -125,7 +125,7 @@ function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
         local versString = AZP.Core:VersionString()
         C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
     elseif prefix == "AZPVERSIONS" then
-
+        print("StuffWorkingYO!")
     end
 end
 
@@ -181,64 +181,64 @@ function AZP.Core:CreateMainFrame()
     MainTitleFrame.contentText:SetPoint("CENTER", 0, -1)
     MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
 
-    AZP.ModuleStats["Tabs"]["Core"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["Core"].contentText = AZP.ModuleStats["Tabs"]["Core"]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    AZP.ModuleStats["Tabs"]["Core"].contentText:SetText("CORE")
-    AZP.ModuleStats["Tabs"]["Core"].contentText:SetTextColor(0.75, 0.75, 0.75, 1)
-    AZP.ModuleStats["Tabs"]["Core"]:SetWidth("40")
-    AZP.ModuleStats["Tabs"]["Core"]:SetHeight("20")
-    AZP.ModuleStats["Tabs"]["Core"].contentText:SetWidth(AZP.ModuleStats["Tabs"]["Core"]:GetWidth())
-    AZP.ModuleStats["Tabs"]["Core"].contentText:SetHeight(AZP.ModuleStats["Tabs"]["Core"]:GetHeight())
-    AZP.ModuleStats["Tabs"]["Core"]:SetPoint("TOPLEFT", MainTitleFrame, "BOTTOMLEFT", 2, 2);
-    AZP.ModuleStats["Tabs"]["Core"].contentText:SetPoint("CENTER", 0, -1)
-    AZP.ModuleStats["Tabs"]["Core"]:SetBackdrop({
+    AZP.Core.ModuleStats["Tabs"]["Core"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["Core"].contentText = AZP.Core.ModuleStats["Tabs"]["Core"]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    AZP.Core.ModuleStats["Tabs"]["Core"].contentText:SetText("CORE")
+    AZP.Core.ModuleStats["Tabs"]["Core"].contentText:SetTextColor(0.75, 0.75, 0.75, 1)
+    AZP.Core.ModuleStats["Tabs"]["Core"]:SetWidth("40")
+    AZP.Core.ModuleStats["Tabs"]["Core"]:SetHeight("20")
+    AZP.Core.ModuleStats["Tabs"]["Core"].contentText:SetWidth(AZP.Core.ModuleStats["Tabs"]["Core"]:GetWidth())
+    AZP.Core.ModuleStats["Tabs"]["Core"].contentText:SetHeight(AZP.Core.ModuleStats["Tabs"]["Core"]:GetHeight())
+    AZP.Core.ModuleStats["Tabs"]["Core"]:SetPoint("TOPLEFT", MainTitleFrame, "BOTTOMLEFT", 2, 2);
+    AZP.Core.ModuleStats["Tabs"]["Core"].contentText:SetPoint("CENTER", 0, -1)
+    AZP.Core.ModuleStats["Tabs"]["Core"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 8,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Tabs"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 1)
-    AZP.ModuleStats["Tabs"]["Core"]:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.ModuleStats["Frames"]["Core"]) end )
+    AZP.Core.ModuleStats["Tabs"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 1)
+    AZP.Core.ModuleStats["Tabs"]["Core"]:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.ModuleStats["Frames"]["Core"]) end )
 
-    AZP.ModuleStats["Tabs"]["CheckList"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["CheckList"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["CheckList"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["Core"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["CheckList"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["CheckList"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["CheckList"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["Core"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["ReadyCheck"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["ReadyCheck"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["ReadyCheck"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["CheckList"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["ReadyCheck"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["ReadyCheck"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["ReadyCheck"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["CheckList"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["InstanceLeading"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["InstanceLeading"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["InstanceLeading"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["ReadyCheck"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["InstanceLeading"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["InstanceLeading"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["InstanceLeading"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["ReadyCheck"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["GreatVault"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["GreatVault"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["GreatVault"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["InstanceLeading"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["GreatVault"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["GreatVault"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["GreatVault"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["InstanceLeading"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["ManaGement"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["ManaGement"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["ManaGement"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["GreatVault"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["ManaGement"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["ManaGement"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["ManaGement"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["GreatVault"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["RepBars"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["RepBars"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["RepBars"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["ManaGement"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["RepBars"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["RepBars"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["RepBars"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["ManaGement"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["ChattyThings"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["ChattyThings"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["ChattyThings"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["RepBars"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["ChattyThings"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["ChattyThings"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["ChattyThings"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["RepBars"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["QuestEfficiency"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["QuestEfficiency"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["QuestEfficiency"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["ChattyThings"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["QuestEfficiency"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["QuestEfficiency"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["QuestEfficiency"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["ChattyThings"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["LevelStats"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["LevelStats"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["LevelStats"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["QuestEfficiency"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["LevelStats"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["LevelStats"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["LevelStats"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["QuestEfficiency"], "RIGHT", 0, 0);
 
-    AZP.ModuleStats["Tabs"]["UnLockables"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Tabs"]["UnLockables"]:SetSize(1, 1)
-    AZP.ModuleStats["Tabs"]["UnLockables"]:SetPoint("LEFT", AZP.ModuleStats["Tabs"]["LevelStats"], "RIGHT", 0, 0);
+    AZP.Core.ModuleStats["Tabs"]["UnLockables"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Tabs"]["UnLockables"]:SetSize(1, 1)
+    AZP.Core.ModuleStats["Tabs"]["UnLockables"]:SetPoint("LEFT", AZP.Core.ModuleStats["Tabs"]["LevelStats"], "RIGHT", 0, 0);
 
     local IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", InstanceUtilityAddonFrame, "UIPanelCloseButton")
     IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 3)
@@ -262,12 +262,38 @@ function AZP.Core:CreateMainFrame()
     IUAddonFrameResizeButton:RegisterForDrag("LeftButton")
     IUAddonFrameResizeButton:EnableMouse(true)
     AZP.Core:CreateSubFrames()
+
+    UpdateFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+    UpdateFrame:SetPoint("CENTER", 0, 250)
+    UpdateFrame:SetSize(400, 200)
+    UpdateFrame:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    UpdateFrame:SetBackdropColor(0.25, 0.25, 0.25, 0.80)
+    UpdateFrame.header = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalHuge")
+    UpdateFrame.header:SetPoint("TOP", 0, -10)
+    UpdateFrame.header:SetText("|cFFFF0000AzerPUG AddOns out of date!|r")
+
+    UpdateFrame.text = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
+    UpdateFrame.text:SetPoint("TOP", 0, -40)
+    UpdateFrame.text:SetText("Error!")
+
+    UpdateFrame:Hide()
+
+    local UpdateFrameCloseButton = CreateFrame("Button", nil, UpdateFrame, "UIPanelCloseButton")
+    UpdateFrameCloseButton:SetWidth(25)
+    UpdateFrameCloseButton:SetHeight(25)
+    UpdateFrameCloseButton:SetPoint("TOPRIGHT", UpdateFrame, "TOPRIGHT", 2, 2)
+    UpdateFrameCloseButton:SetScript("OnClick", function() UpdateFrame:Hide() end )
 end
 
 function AZP.Core:AddMainFrameTabButton(tabName)
     local CurrentTab
     if tabName == "CL" then
-        CurrentTab = AZP.ModuleStats["Tabs"]["CheckList"]
+        CurrentTab = AZP.Core.ModuleStats["Tabs"]["CheckList"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -281,16 +307,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.ModuleStats["Frames"]["CheckList"]) end )
-        if AZP.ModuleStats["Frames"]["CheckList"] ~= nil then
-            CurrentTab:SetBackdropColor(AZP.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(AZP.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.ModuleStats["Frames"]["CheckList"]) end )
+        if AZP.Core.ModuleStats["Frames"]["CheckList"] ~= nil then
+            CurrentTab:SetBackdropColor(AZP.Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(AZP.Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "RC" then
-        CurrentTab = AZP.ModuleStats["Tabs"]["ReadyCheck"]
+        CurrentTab = AZP.Core.ModuleStats["Tabs"]["ReadyCheck"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -304,16 +330,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.ModuleStats["Frames"]["ReadyCheck"]) end )
-        if AZP.ModuleStats["Frames"]["ReadyCheck"] ~= nil then
-            CurrentTab:SetBackdropColor(AZP.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(AZP.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        --CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.ModuleStats["Frames"]["ReadyCheck"]) end )
+        if AZP.Core.ModuleStats["Frames"]["ReadyCheck"] ~= nil then
+            CurrentTab:SetBackdropColor(AZP.Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(AZP.Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "IL" then
-        CurrentTab = AZP.ModuleStats["Tabs"]["InstanceLeading"]
+        CurrentTab = AZP.Core.ModuleStats["Tabs"]["InstanceLeading"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -327,16 +353,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.ModuleStats["Frames"]["InstanceLeading"]) end )
-        if AZP.ModuleStats["Frames"]["InstanceLeading"] ~= nil then
-            CurrentTab:SetBackdropColor(AZP.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(AZP.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.ModuleStats["Frames"]["InstanceLeading"]) end )
+        if AZP.Core.ModuleStats["Frames"]["InstanceLeading"] ~= nil then
+            CurrentTab:SetBackdropColor(AZP.Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(AZP.Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "GV" then
-        CurrentTab = AZP.ModuleStats["Tabs"]["GreatVault"]
+        CurrentTab = AZP.Core.ModuleStats["Tabs"]["GreatVault"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -350,16 +376,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.ModuleStats["Frames"]["GreatVault"]) end )
-        if AZP.ModuleStats["Frames"]["GreatVault"] ~= nil then
-            CurrentTab:SetBackdropColor(AZP.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(AZP.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.ModuleStats["Frames"]["GreatVault"]) end )
+        if AZP.Core.ModuleStats["Frames"]["GreatVault"] ~= nil then
+            CurrentTab:SetBackdropColor(AZP.Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(AZP.Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "MG" then
-        CurrentTab = AZP.ModuleStats["Tabs"]["ManaGement"]
+        CurrentTab = AZP.Core.ModuleStats["Tabs"]["ManaGement"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -373,16 +399,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.ModuleStats["Frames"]["ManaGement"]) end )
-        if AZP.ModuleStats["Frames"]["ManaGement"] ~= nil then
-            CurrentTab:SetBackdropColor(AZP.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(AZP.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.ModuleStats["Frames"]["ManaGement"]) end )
+        if AZP.Core.ModuleStats["Frames"]["ManaGement"] ~= nil then
+            CurrentTab:SetBackdropColor(AZP.Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(AZP.Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "RB" then
-        CurrentTab = ModuleStats["Tabs"]["RepBars"]
+        CurrentTab = Core.ModuleStats["Tabs"]["RepBars"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -396,16 +422,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["RepBars"]) end )
-        if ModuleStats["Frames"]["RepBars"] ~= nil then
-            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["RepBars"]) end )
+        if Core.ModuleStats["Frames"]["RepBars"] ~= nil then
+            CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "CT" then
-        CurrentTab = ModuleStats["Tabs"]["ChattyThings"]
+        CurrentTab = Core.ModuleStats["Tabs"]["ChattyThings"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -419,16 +445,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["ChattyThings"]) end )
-        if ModuleStats["Frames"]["ChattyThings"] ~= nil then
-            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        --CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["ChattyThings"]) end )
+        if Core.ModuleStats["Frames"]["ChattyThings"] ~= nil then
+            CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "QE" then
-        CurrentTab = ModuleStats["Tabs"]["QuestEfficiency"]
+        CurrentTab = Core.ModuleStats["Tabs"]["QuestEfficiency"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -442,16 +468,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["QuestEfficiency"]) end )
-        if ModuleStats["Frames"]["QuestEfficiency"] ~= nil then
-            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        --CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["QuestEfficiency"]) end )
+        if Core.ModuleStats["Frames"]["QuestEfficiency"] ~= nil then
+            CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "LS" then
-        CurrentTab = ModuleStats["Tabs"]["LevelStats"]
+        CurrentTab = Core.ModuleStats["Tabs"]["LevelStats"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -465,16 +491,16 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["LevelStats"]) end )
-        if ModuleStats["Frames"]["LevelStats"] ~= nil then
-            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["LevelStats"]) end )
+        if Core.ModuleStats["Frames"]["LevelStats"] ~= nil then
+            CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
     elseif tabName == "UL" then
-        CurrentTab = ModuleStats["Tabs"]["UnLockables"]
+        CurrentTab = Core.ModuleStats["Tabs"]["UnLockables"]
         CurrentTab:SetWidth("20")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -488,10 +514,10 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(ModuleStats["Frames"]["UnLockables"]) end )
-        if ModuleStats["Frames"]["UnLockables"] ~= nil then
-            CurrentTab:SetBackdropColor(ModuleStats["Tabs"]["Core"]:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
+        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["UnLockables"]) end )
+        if Core.ModuleStats["Frames"]["UnLockables"] ~= nil then
+            CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
         else
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
@@ -500,98 +526,98 @@ function AZP.Core:AddMainFrameTabButton(tabName)
 end
 
 function AZP.Core:CreateSubFrames()
-    AZP.ModuleStats["Frames"]["Core"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Frames"]["Core"]:SetPoint("TOPLEFT", 0, -36)
-    AZP.ModuleStats["Frames"]["Core"]:SetPoint("BOTTOMRIGHT")
-    AZP.ModuleStats["Frames"]["Core"]:SetBackdrop({
+    AZP.Core.ModuleStats["Frames"]["Core"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Frames"]["Core"]:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.ModuleStats["Frames"]["Core"]:SetPoint("BOTTOMRIGHT")
+    AZP.Core.ModuleStats["Frames"]["Core"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Frames"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+    AZP.Core.ModuleStats["Frames"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.ModuleStats["Frames"]["CheckList"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Frames"]["CheckList"]:SetPoint("TOPLEFT", 0, -36)
-    AZP.ModuleStats["Frames"]["CheckList"]:SetPoint("BOTTOMRIGHT")
-    AZP.ModuleStats["Frames"]["CheckList"]:SetBackdrop({
+    AZP.Core.ModuleStats["Frames"]["CheckList"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Frames"]["CheckList"]:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.ModuleStats["Frames"]["CheckList"]:SetPoint("BOTTOMRIGHT")
+    AZP.Core.ModuleStats["Frames"]["CheckList"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Frames"]["CheckList"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+    AZP.Core.ModuleStats["Frames"]["CheckList"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.ModuleStats["Frames"]["InstanceLeading"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Frames"]["InstanceLeading"]:SetPoint("TOPLEFT", 0, -36)
-    AZP.ModuleStats["Frames"]["InstanceLeading"]:SetPoint("BOTTOMRIGHT")
-    AZP.ModuleStats["Frames"]["InstanceLeading"]:SetBackdrop({
+    AZP.Core.ModuleStats["Frames"]["InstanceLeading"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Frames"]["InstanceLeading"]:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.ModuleStats["Frames"]["InstanceLeading"]:SetPoint("BOTTOMRIGHT")
+    AZP.Core.ModuleStats["Frames"]["InstanceLeading"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Frames"]["InstanceLeading"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+    AZP.Core.ModuleStats["Frames"]["InstanceLeading"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.ModuleStats["Frames"]["GreatVault"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Frames"]["GreatVault"]:SetPoint("TOPLEFT", 0, -36)
-    AZP.ModuleStats["Frames"]["GreatVault"]:SetPoint("BOTTOMRIGHT")
-    AZP.ModuleStats["Frames"]["GreatVault"]:SetBackdrop({
+    AZP.Core.ModuleStats["Frames"]["GreatVault"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Frames"]["GreatVault"]:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.ModuleStats["Frames"]["GreatVault"]:SetPoint("BOTTOMRIGHT")
+    AZP.Core.ModuleStats["Frames"]["GreatVault"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Frames"]["GreatVault"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+    AZP.Core.ModuleStats["Frames"]["GreatVault"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.ModuleStats["Frames"]["ManaGement"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Frames"]["ManaGement"]:SetPoint("TOPLEFT", 0, -36)
-    AZP.ModuleStats["Frames"]["ManaGement"]:SetPoint("BOTTOMRIGHT")
-    AZP.ModuleStats["Frames"]["ManaGement"]:SetBackdrop({
+    AZP.Core.ModuleStats["Frames"]["ManaGement"] = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Frames"]["ManaGement"]:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.ModuleStats["Frames"]["ManaGement"]:SetPoint("BOTTOMRIGHT")
+    AZP.Core.ModuleStats["Frames"]["ManaGement"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Frames"]["ManaGement"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+    AZP.Core.ModuleStats["Frames"]["ManaGement"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.ModuleStats["Frames"]["RepBars"] = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Frames"]["RepBars"]:SetPoint("TOPLEFT", 0, -36)
-    AZP.ModuleStats["Frames"]["RepBars"]:SetPoint("BOTTOMRIGHT")
-    AZP.ModuleStats["Frames"]["RepBars"]:SetBackdrop({
+    AZP.Core.ModuleStats["Frames"]["RepBars"] = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Frames"]["RepBars"]:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.ModuleStats["Frames"]["RepBars"]:SetPoint("BOTTOMRIGHT")
+    AZP.Core.ModuleStats["Frames"]["RepBars"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Frames"]["RepBars"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+    AZP.Core.ModuleStats["Frames"]["RepBars"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.ModuleStats["Frames"]["LevelStats"] = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Frames"]["LevelStats"]:SetPoint("TOPLEFT", 0, -36)
-    AZP.ModuleStats["Frames"]["LevelStats"]:SetPoint("BOTTOMRIGHT")
-    AZP.ModuleStats["Frames"]["LevelStats"]:SetBackdrop({
+    AZP.Core.ModuleStats["Frames"]["LevelStats"] = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Frames"]["LevelStats"]:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.ModuleStats["Frames"]["LevelStats"]:SetPoint("BOTTOMRIGHT")
+    AZP.Core.ModuleStats["Frames"]["LevelStats"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Frames"]["LevelStats"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+    AZP.Core.ModuleStats["Frames"]["LevelStats"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.ModuleStats["Frames"]["UnLockables"] = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
-    AZP.ModuleStats["Frames"]["UnLockables"]:SetPoint("TOPLEFT", 0, -36)
-    AZP.ModuleStats["Frames"]["UnLockables"]:SetPoint("BOTTOMRIGHT")
-    AZP.ModuleStats["Frames"]["UnLockables"]:SetBackdrop({
+    AZP.Core.ModuleStats["Frames"]["UnLockables"] = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.ModuleStats["Frames"]["UnLockables"]:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.ModuleStats["Frames"]["UnLockables"]:SetPoint("BOTTOMRIGHT")
+    AZP.Core.ModuleStats["Frames"]["UnLockables"]:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.ModuleStats["Frames"]["UnLockables"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+    AZP.Core.ModuleStats["Frames"]["UnLockables"]:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
     AZP.Core:CoreSubFrame()
 end
 
 function AZP.Core:CoreSubFrame()
-    CoreButtonsFrame = CreateFrame("FRAME", nil, AZP.ModuleStats["Frames"]["Core"])
+    CoreButtonsFrame = CreateFrame("FRAME", nil, AZP.Core.ModuleStats["Frames"]["Core"])
     CoreButtonsFrame:SetSize(100, 50)
     CoreButtonsFrame:SetPoint("TOPLEFT")
 
@@ -605,34 +631,34 @@ function AZP.Core:CoreSubFrame()
     OpenSettingsButton:SetPoint("TOPLEFT", ReloadButton, "BOTTOMLEFT", 0, 0);
     OpenSettingsButton:Hide()
 
-    VersionControlFrame = CreateFrame("FRAME", nil, AZP.ModuleStats["Frames"]["Core"])
+    VersionControlFrame = CreateFrame("FRAME", nil, AZP.Core.ModuleStats["Frames"]["Core"])
     VersionControlFrame.contentText = VersionControlFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     VersionControlFrame:SetSize(200, 100)
     VersionControlFrame:SetPoint("TOPRIGHT")
     VersionControlFrame.contentText:SetText("\124cFFFFFF00All Modules Updated!\124r")
     VersionControlFrame.contentText:SetPoint("TOP", 0, -5)
 
-    AZP.ModuleStats["Frames"]["Core"]:SetWidth(CoreButtonsFrame:GetWidth() + 10 + VersionControlFrame:GetWidth())
-    AZP.ModuleStats["Frames"]["Core"]:SetHeight(math.max(CoreButtonsFrame:GetWidth(), VersionControlFrame:GetHeight()))
+    AZP.Core.ModuleStats["Frames"]["Core"]:SetWidth(CoreButtonsFrame:GetWidth() + 10 + VersionControlFrame:GetWidth())
+    AZP.Core.ModuleStats["Frames"]["Core"]:SetHeight(math.max(CoreButtonsFrame:GetWidth(), VersionControlFrame:GetHeight()))
 end
 
 function AZP.Core:ShowHideSubFrames(ShowFrame)
-    AZP.ModuleStats["Frames"]["Core"]:Hide()
-    AZP.ModuleStats["Frames"]["CheckList"]:Hide()
-    AZP.ModuleStats["Frames"]["InstanceLeading"]:Hide()
-    AZP.ModuleStats["Frames"]["GreatVault"]:Hide()
-    AZP.ModuleStats["Frames"]["ManaGement"]:Hide()
-    AZP.ModuleStats["Frames"]["Core"]:Hide()
-    AZP.ModuleStats["Frames"]["RepBars"]:Hide()
-    --AZP.ModuleStats["Frames"]["QuestEfficiency"]:Hide()
-    AZP.ModuleStats["Frames"]["LevelStats"]:Hide()
-    AZP.ModuleStats["Frames"]["UnLockables"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["Core"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["CheckList"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["InstanceLeading"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["GreatVault"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["ManaGement"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["Core"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["RepBars"]:Hide()
+    --AZP.Core.ModuleStats["Frames"]["QuestEfficiency"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["LevelStats"]:Hide()
+    AZP.Core.ModuleStats["Frames"]["UnLockables"]:Hide()
 
     ShowFrame:Show()
     InstanceUtilityAddonFrame:SetSize(ShowFrame:GetWidth(), ShowFrame:GetHeight() + 36)
     MainTitleFrame:SetWidth(InstanceUtilityAddonFrame:GetWidth())
 
-    if ShowFrame == AZP.ModuleStats["Frames"]["InstanceLeading"] or ShowFrame == AZP.ModuleStats["Frames"]["GreatVault"] then
+    if ShowFrame == AZP.Core.ModuleStats["Frames"]["InstanceLeading"] or ShowFrame == AZP.Core.ModuleStats["Frames"]["GreatVault"] then
         MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. nameShort .. "\124r")
     else
         MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
@@ -657,90 +683,90 @@ function AZP.Core:VersionControl()
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-CheckList") then
             CheckListVersion = AZP.VersionControl:CheckList()
-            if CheckListVersion < AZP.ModuleStats["Versions"]["CheckList"] then
+            if CheckListVersion < AZP.Core.ModuleStats["Versions"]["CheckList"] then
                 tempText = tempText .. "\n\124cFFFF0000CheckList\124r"
-            elseif CheckListVersion > AZP.ModuleStats["Versions"]["CheckList"] then
+            elseif CheckListVersion > AZP.Core.ModuleStats["Versions"]["CheckList"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-ReadyCheck") then
             ReadyCheckVersion = AZP.VersionControl:ReadyCheck()
-            if ReadyCheckVersion < AZP.ModuleStats["Versions"]["ReadyCheck"] then
+            if ReadyCheckVersion < AZP.Core.ModuleStats["Versions"]["ReadyCheck"] then
                 tempText = tempText .. "\n\124cFFFF0000ReadyCheck\124r"
-            elseif ReadyCheckVersion > AZP.ModuleStats["Versions"]["ReadyCheck"] then
+            elseif ReadyCheckVersion > AZP.Core.ModuleStats["Versions"]["ReadyCheck"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-InstanceLeading") then
             InstanceLeadingVersion = AZP.VersionControl:InstanceLeading()
-            if InstanceLeadingVersion < AZP.ModuleStats["Versions"]["InstanceLeading"] then
+            if InstanceLeadingVersion < AZP.Core.ModuleStats["Versions"]["InstanceLeading"] then
                 tempText = tempText .. "\n\124cFFFF0000InstanceLeading\124r"
-            elseif InstanceLeadingVersion > AZP.ModuleStats["Versions"]["InstanceLeading"] then
+            elseif InstanceLeadingVersion > AZP.Core.ModuleStats["Versions"]["InstanceLeading"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-GreatVault") then
             GreatVaultVersion = AZP.VersionControl:GreatVault()
-            if GreatVaultVersion < AZP.ModuleStats["Versions"]["GreatVault"] then
+            if GreatVaultVersion < AZP.Core.ModuleStats["Versions"]["GreatVault"] then
                 tempText = tempText .. "\n\124cFFFF0000GreatVault\124r"
-            elseif GreatVaultVersion > AZP.ModuleStats["Versions"]["GreatVault"] then
+            elseif GreatVaultVersion > AZP.Core.ModuleStats["Versions"]["GreatVault"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-ManaGement") then
             ManaGementVersion = AZP.VersionControl:ManaGement()
-            if ManaGementVersion < AZP.ModuleStats["Versions"]["ManaGement"] then
+            if ManaGementVersion < AZP.Core.ModuleStats["Versions"]["ManaGement"] then
                 tempText = tempText .. "\n\124cFFFF0000ManaGement\124r"
-            elseif ManaGementVersion > AZP.ModuleStats["Versions"]["ManaGement"] then
+            elseif ManaGementVersion > AZP.Core.ModuleStats["Versions"]["ManaGement"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-RepBars") then
             RepBarsVersion = VersionControl:RepBars()
-            if RepBarsVersion < ModuleStats["Versions"]["RepBars"] then
+            if RepBarsVersion < Core.ModuleStats["Versions"]["RepBars"] then
                 tempText = tempText .. "\n\124cFFFF0000RepBars\124r"
-            elseif RepBarsVersion > ModuleStats["Versions"]["RepBars"] then
+            elseif RepBarsVersion > Core.ModuleStats["Versions"]["RepBars"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-ChattyThings") then
             ChattyThingsVersion = VersionControl:ChattyThings()
-            if ChattyThingsVersion < ModuleStats["Versions"]["ChattyThings"] then
+            if ChattyThingsVersion < Core.ModuleStats["Versions"]["ChattyThings"] then
                 tempText = tempText .. "\n\124cFFFF0000ChattyThings\124r"
-            elseif ChattyThingsVersion > ModuleStats["Versions"]["ChattyThings"] then
+            elseif ChattyThingsVersion > Core.ModuleStats["Versions"]["ChattyThings"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-QuestEfficiency") then
             QuestEfficiencyVersion = VersionControl:QuestEfficiency()
-            if QuestEfficiencyVersion < ModuleStats["Versions"]["QuestEfficiency"] then
+            if QuestEfficiencyVersion < Core.ModuleStats["Versions"]["QuestEfficiency"] then
                 tempText = tempText .. "\n\124cFFFF0000QuestEfficiency\124r"
-            elseif QuestEfficiencyVersion > ModuleStats["Versions"]["QuestEfficiency"] then
+            elseif QuestEfficiencyVersion > Core.ModuleStats["Versions"]["QuestEfficiency"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-LevelStats") then
             LevelStatsVersion = VersionControl:LevelStats()
-            if LevelStatsVersion < ModuleStats["Versions"]["LevelStats"] then
+            if LevelStatsVersion < Core.ModuleStats["Versions"]["LevelStats"] then
                 tempText = tempText .. "\n\124cFFFF0000LevelStats\124r"
-            elseif LevelStatsVersion > ModuleStats["Versions"]["LevelStats"] then
+            elseif LevelStatsVersion > Core.ModuleStats["Versions"]["LevelStats"] then
                 coreVersionUpdated = false
             end
         end
 
         if IsAddOnLoaded("AzerPUG-InstanceUtility-UnLockables") then
             UnLockablesVersion = VersionControl:UnLockables()
-            if UnLockablesVersion < ModuleStats["Versions"]["UnLockables"] then
+            if UnLockablesVersion < Core.ModuleStats["Versions"]["UnLockables"] then
                 tempText = tempText .. "\n\124cFFFF0000UnLockables\124r"
-            elseif UnLockablesVersion > ModuleStats["Versions"]["UnLockables"] then
+            elseif UnLockablesVersion > Core.ModuleStats["Versions"]["UnLockables"] then
                 coreVersionUpdated = false
             end
         end
@@ -816,7 +842,6 @@ end
 
 function AZP.Core:ShareVersions()
     local versionString = AZP.Core:VersionString()
-    print(versionString)
     DelayedExecution(10, function() 
         if IsInGroup() then
             if IsInRaid() then
@@ -837,7 +862,7 @@ function AZP.OnEvent:Core(_, event, ...)
     end
 end
 
--- AZP.Core:OnLoad()
+AZP.Core:OnLoad()
 
 -- function CreateVersionFrame()
 --     C_ChatInfo.RegisterAddonMessagePrefix("AZPVERSIONS")
