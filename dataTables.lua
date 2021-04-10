@@ -1,5 +1,7 @@
-AZP = {}
-AZP.ModuleStats =
+if AZP == nil then AZP = {} end
+if AZP.Core == nil then AZP.Core = {} end
+
+AZP.Core.ModuleStats =
 {
     ["Versions"] =
     {

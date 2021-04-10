@@ -1,9 +1,11 @@
-AZP.OnLoad = {}
-AZP.OnEvent = {}
-AZP.VersionControl = {}
-AZP.VersionControl.Core = 64
+if AZP == nil then AZP = {} end
+if AZP.VersionControl == nil then AZP.VersionControl = {} end
+if AZP.OnLoad == nil then AZP.OnLoad = {} end
+if AZP.OnEvent == nil then AZP.OnEvent = {} end
+if AZP.OnEvent == nil then AZP.OnEvent = {} end
 
-AZP.Core = {}
+AZP.VersionControl.Core = 64
+if AZP.Core == nil then AZP.Core = {} end
 
 local dash = " - "
 local name = "Core"
@@ -838,7 +840,7 @@ end
 -- AZP.Core:OnLoad()
 
 -- function CreateVersionFrame()
---     C_ChatInfo.RegisterAddonMessagePrefix("AZPTT_VERSION")
+--     C_ChatInfo.RegisterAddonMessagePrefix("AZPVERSIONS")
 
 --     UpdateFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 --     UpdateFrame:SetPoint("CENTER", 0, 250)
