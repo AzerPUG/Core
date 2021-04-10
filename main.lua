@@ -20,13 +20,12 @@ local InstanceUtilityAddonFrame
 local MainTitleFrame
 local VersionControlFrame
 local CoreButtonsFrame
-local UpdateFrame
+UpdateFrame = nil       -- Make Local after tests!
 
-local ReloadCheckBox
 local ReloadButton
-
 local OpenSettingsButton
-local OpenOptionsCheckBox
+
+InstalledAZPAddons = {}
 
 function AZP.Core:OnLoad()
     AZP.Core:initializeConfig()
@@ -78,45 +77,56 @@ end
 
 function AZP.Core:eventAddonLoaded(...)
     local addonName = ...
-        if addonName == "AzerPUG-InstanceUtility-Core" then
-            addonMain:OnLoadedSelf()
+        if addonName == "AzerPUG's Core" then
+            AZP.Core:OnLoadedSelf()
+            InstalledAZPAddons.Core = true
         elseif addonName == "AzerPUG's ToolTips" then
             AZP.ToolTips.OnLoadCore()
+            InstalledAZPAddons.ToolTips = true
         elseif addonName == "AzerPUG-InstanceUtility-CheckList" then
-            addonMain:AddMainFrameTabButton("CL")
+            AZP.Core:AddMainFrameTabButton("CL")
             OnLoad:CheckList()
+            InstalledAZPAddons.PreparationCheckList = true
         elseif addonName == "AzerPUG-InstanceUtility-ReadyCheck" then
-            addonMain:AddMainFrameTabButton("RC")
+            AZP.Core:AddMainFrameTabButton("RC")
             AZP.AddonHelper:DelayedExecution(5, function() OnLoad:ReadyCheck() end)
+            InstalledAZPAddons.ReadyCheckEnhanced = true
         elseif addonName == "AzerPUG-InstanceUtility-InstanceLeading" then
-            addonMain:AddMainFrameTabButton("IL")
+            AZP.Core:AddMainFrameTabButton("IL")
             OnLoad:InstanceLeading()
+            InstalledAZPAddons.InstanceLeadership = true
         elseif addonName == "AzerPUG-InstanceUtility-GreatVault" then
-            addonMain:AddMainFrameTabButton("GV")
+            AZP.Core:AddMainFrameTabButton("GV")
             OnLoad:GreatVault()
+            InstalledAZPAddons.EasierGreatVault = true
         elseif addonName == "AzerPUG-InstanceUtility-ManaGement" then
-            addonMain:AddMainFrameTabButton("MG")
+            AZP.Core:AddMainFrameTabButton("MG")
             OnLoad:ManaGement()
-        elseif addonName == "AzerPUG-GameUtility-Core" then
-            addonMain:OnLoadedSelf()
+            InstalledAZPAddons.ManaManagement = true
         elseif addonName == "AzerPUG-GameUtility-RepBars" then
-            addonMain:AddMainFrameTabButton("RB")
+            AZP.Core:AddMainFrameTabButton("RB")
             OnLoad:RepBars()
+            InstalledAZPAddons.MultipleReputationTracker = true
         elseif addonName == "AzerPUG-GameUtility-ChattyThings" then
-            addonMain:AddMainFrameTabButton("CT")
+            AZP.Core:AddMainFrameTabButton("CT")
             OnLoad:ChattyThings()
+            InstalledAZPAddons.ChatImprovements = true
         elseif addonName == "AzerPUG-GameUtility-QuestEfficiency" then
-            addonMain:AddMainFrameTabButton("QE")
+            AZP.Core:AddMainFrameTabButton("QE")
             OnLoad:QuestEfficiency()
+            InstalledAZPAddons.EfficientQuesting = true
         elseif addonName == "AzerPUG-GameUtility-LevelStats" then
-            addonMain:AddMainFrameTabButton("LS")
+            AZP.Core:AddMainFrameTabButton("LS")
             OnLoad:LevelStats()
+            InstalledAZPAddons.LevelingStatistics = true
         elseif addonName == "AzerPUG-GameUtility-UnLockables" then
-            addonMain:AddMainFrameTabButton("UL")
+            AZP.Core:AddMainFrameTabButton("UL")
             OnLoad:UnLockables()
+            InstalledAZPAddons.UnLockables = true
         elseif addonName == "AzerPUG-GameUtility-VendorStuff" then
-            --addonMain:AddMainFrameTabButton("VS")
+            --AZP.Core:AddMainFrameTabButton("VS")
             OnLoad:VendorStuff()
+            InstalledAZPAddons.EasyVendor = true
         end
 end
 
@@ -141,8 +151,61 @@ function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
         C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
     elseif prefix == "AZPVERSIONS" then
         local versions = AZP.Core:ParseVersionString()
-        print("StuffWorkingYO!")
+        AZP.Core:CreateVersionFrame()
+        --local derp = {}
+
+        print(#InstalledAZPAddons)
+
+        --UpdateFrame.text:SetText(derp)
+        --UpdateFrame:Show()
     end
+end
+
+function AZP.Core:CreateVersionFrame()
+    UpdateFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+    UpdateFrame:SetPoint("CENTER", 0, 250)
+    UpdateFrame:SetSize(400, 300)
+    UpdateFrame:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    UpdateFrame:SetBackdropColor(0.25, 0.25, 0.25, 0.80)
+    UpdateFrame.header = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalHuge")
+    UpdateFrame.header:SetPoint("TOP", 0, -10)
+    UpdateFrame.header:SetText("|cFFFF0000AzerPUG AddOns out of date!|r")
+
+    UpdateFrame.text = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
+    UpdateFrame.text:SetPoint("TOP", 0, -40)
+    UpdateFrame.text:SetText("Error!")
+
+    UpdateFrame.addonNames = {}
+    UpdateFrame.addonFoundVersions = {}
+    UpdateFrame.addonCurrentVersions = {}
+    local tempNumber = 20
+    for i = 1, tempNumber do
+        UpdateFrame.addonNames[i] = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
+        UpdateFrame.addonNames[i]:SetSize(100, 20)
+        UpdateFrame.addonNames[i]:SetPoint("TOP", -150, -20 * i - 40)
+        UpdateFrame.addonNames[i]:SetText("Name" .. i)
+        UpdateFrame.addonFoundVersions[i] = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
+        UpdateFrame.addonFoundVersions[i]:SetSize(50, 20)
+        UpdateFrame.addonFoundVersions[i]:SetPoint("TOP", -50, -20 * i - 40)
+        UpdateFrame.addonFoundVersions[i]:SetText("Found" .. i)
+        UpdateFrame.addonCurrentVersions[i] = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
+        UpdateFrame.addonCurrentVersions[i]:SetSize(50, 20)
+        UpdateFrame.addonCurrentVersions[i]:SetPoint("TOP", 50, -20 * i - 40)
+        UpdateFrame.addonCurrentVersions[i]:SetText("Current" .. i)
+    end
+
+    local UpdateFrameCloseButton = CreateFrame("Button", nil, UpdateFrame, "UIPanelCloseButton")
+    UpdateFrameCloseButton:SetWidth(25)
+    UpdateFrameCloseButton:SetHeight(25)
+    UpdateFrameCloseButton:SetPoint("TOPRIGHT", UpdateFrame, "TOPRIGHT", 2, 2)
+    UpdateFrameCloseButton:SetScript("OnClick", function() UpdateFrame:Hide() end )
+
+    UpdateFrame:Hide()
 end
 
 function AZP.Core:CreateMainFrame()
@@ -278,32 +341,6 @@ function AZP.Core:CreateMainFrame()
     IUAddonFrameResizeButton:RegisterForDrag("LeftButton")
     IUAddonFrameResizeButton:EnableMouse(true)
     AZP.Core:CreateSubFrames()
-
-    UpdateFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-    UpdateFrame:SetPoint("CENTER", 0, 250)
-    UpdateFrame:SetSize(400, 200)
-    UpdateFrame:SetBackdrop({
-        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-        edgeSize = 12,
-        insets = { left = 1, right = 1, top = 1, bottom = 1 },
-    })
-    UpdateFrame:SetBackdropColor(0.25, 0.25, 0.25, 0.80)
-    UpdateFrame.header = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalHuge")
-    UpdateFrame.header:SetPoint("TOP", 0, -10)
-    UpdateFrame.header:SetText("|cFFFF0000AzerPUG AddOns out of date!|r")
-
-    UpdateFrame.text = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
-    UpdateFrame.text:SetPoint("TOP", 0, -40)
-    UpdateFrame.text:SetText("Error!")
-
-    UpdateFrame:Hide()
-
-    local UpdateFrameCloseButton = CreateFrame("Button", nil, UpdateFrame, "UIPanelCloseButton")
-    UpdateFrameCloseButton:SetWidth(25)
-    UpdateFrameCloseButton:SetHeight(25)
-    UpdateFrameCloseButton:SetPoint("TOPRIGHT", UpdateFrame, "TOPRIGHT", 2, 2)
-    UpdateFrameCloseButton:SetScript("OnClick", function() UpdateFrame:Hide() end )
 end
 
 function AZP.Core:AddMainFrameTabButton(tabName)
@@ -438,7 +475,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["RepBars"]) end )
+        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(Core.ModuleStats["Frames"]["RepBars"]) end )
         if Core.ModuleStats["Frames"]["RepBars"] ~= nil then
             CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
@@ -461,7 +498,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["ChattyThings"]) end )
+        --CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(Core.ModuleStats["Frames"]["ChattyThings"]) end )
         if Core.ModuleStats["Frames"]["ChattyThings"] ~= nil then
             CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
@@ -484,7 +521,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["QuestEfficiency"]) end )
+        --CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(Core.ModuleStats["Frames"]["QuestEfficiency"]) end )
         if Core.ModuleStats["Frames"]["QuestEfficiency"] ~= nil then
             CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
@@ -507,7 +544,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["LevelStats"]) end )
+        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(Core.ModuleStats["Frames"]["LevelStats"]) end )
         if Core.ModuleStats["Frames"]["LevelStats"] ~= nil then
             CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
@@ -530,7 +567,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        CurrentTab:SetScript("OnClick", function() addonMain:ShowHideSubFrames(Core.ModuleStats["Frames"]["UnLockables"]) end )
+        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(Core.ModuleStats["Frames"]["UnLockables"]) end )
         if Core.ModuleStats["Frames"]["UnLockables"] ~= nil then
             CurrentTab:SetBackdropColor(Core.ModuleStats["Tabs"]["Core"]:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(Core.ModuleStats["Tabs"]["Core"].contentText:GetTextColor())
