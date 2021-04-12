@@ -44,6 +44,21 @@ AZP.Core.ModuleStats =
         ["LevelStats"] = nil,
         ["UnLockables"] = nil,
     },
+    ["Initials"] =
+    {
+        ["CR"] = {["Name"] = "Core", ["Loaded"] = false, ["Position"] = 2},
+        ["TT"] = {["Name"] = "ToolTips", ["Position"] = 3},
+        ["IL"] = {["Name"] = "Instance Leadership", ["Loaded"] = false, ["Position"] = 4},
+        ["RCE"] = {"Core"},
+        ["CheckList"] = {"Core"},
+        ["GreatVault"] = {"Core"},
+        ["ManaGement"] = {"Core"},
+        ["RepBars"] = {"Core"},
+        ["ChattyThings"] = {"Core"},
+        ["QuestEfficiency"] = {"Core"},
+        ["LevelStats"] = {"Core"},
+        ["UnLockables"] = {"Core"},
+    }
     -- ["OptionPanels"] =
     -- {
     --     ["CheckList"] = nil,

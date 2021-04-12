@@ -20,12 +20,10 @@ local InstanceUtilityAddonFrame
 local MainTitleFrame
 local VersionControlFrame
 local CoreButtonsFrame
-UpdateFrame = nil       -- Make Local after tests!
+local UpdateFrame = nil
 
 local ReloadButton
 local OpenSettingsButton
-
-InstalledAZPAddons = {}
 
 function AZP.Core:OnLoad()
     AZP.Core:initializeConfig()
@@ -33,6 +31,7 @@ function AZP.Core:OnLoad()
     AZP.Core:CreateMainFrame()
 
     C_ChatInfo.RegisterAddonMessagePrefix("AZPREQUEST")
+    C_ChatInfo.RegisterAddonMessagePrefix("AZPVERSIONS")
 end
 
 function AZP.Core:RegisterEvents(event, func)
@@ -79,54 +78,55 @@ function AZP.Core:eventAddonLoaded(...)
     local addonName = ...
         if addonName == "AzerPUG's Core" then
             AZP.Core:OnLoadedSelf()
-            InstalledAZPAddons.Core = true
+            AZP.Core.ModuleStats.Initials.CR.Loaded = true
         elseif addonName == "AzerPUG's ToolTips" then
             AZP.ToolTips.OnLoadCore()
-            InstalledAZPAddons.ToolTips = true
-        elseif addonName == "AzerPUG-InstanceUtility-CheckList" then
+            AZP.Core.ModuleStats.Initials.TT.Loaded = true
+        elseif addonName == "AzerPUG's Preparation CheckList" then
             AZP.Core:AddMainFrameTabButton("CL")
             OnLoad:CheckList()
-            InstalledAZPAddons.PreparationCheckList = true
-        elseif addonName == "AzerPUG-InstanceUtility-ReadyCheck" then
+            AZP.Core.ModuleStats.Initials.PCL.Loaded = true
+        elseif addonName == "AzerPUG's ReadyCheck Enhanced" then
             AZP.Core:AddMainFrameTabButton("RC")
-            AZP.AddonHelper:DelayedExecution(5, function() OnLoad:ReadyCheck() end)
-            InstalledAZPAddons.ReadyCheckEnhanced = true
-        elseif addonName == "AzerPUG-InstanceUtility-InstanceLeading" then
+            AZP.AddonHelper:DelayedExecution(5, function() AZP.ReadyCheckEnhanced:OnLoadCore() end)
+            AZP.Core.ModuleStats.Initials.RCE.Loaded = true
+        elseif addonName == "AzerPUG's Instance Leadership" then
             AZP.Core:AddMainFrameTabButton("IL")
-            OnLoad:InstanceLeading()
-            InstalledAZPAddons.InstanceLeadership = true
-        elseif addonName == "AzerPUG-InstanceUtility-GreatVault" then
+            AZP.InstanceLeadership.OnLoadCore()
+            --OnLoad:InstanceLeading()
+            AZP.Core.ModuleStats.Initials.IL.Loaded = true
+        elseif addonName == "AzerPUG's Easier GreatVault" then
             AZP.Core:AddMainFrameTabButton("GV")
             OnLoad:GreatVault()
-            InstalledAZPAddons.EasierGreatVault = true
-        elseif addonName == "AzerPUG-InstanceUtility-ManaGement" then
+            AZP.Core.ModuleStats.Initials.EGV.Loaded = true
+        elseif addonName == "AzerPUG's Mana Management" then
             AZP.Core:AddMainFrameTabButton("MG")
             OnLoad:ManaGement()
-            InstalledAZPAddons.ManaManagement = true
-        elseif addonName == "AzerPUG-GameUtility-RepBars" then
+            AZP.Core.ModuleStats.Initials.MM.Loaded = true
+        elseif addonName == "AzerPUG's Multiple Reputation Tracker" then
             AZP.Core:AddMainFrameTabButton("RB")
             OnLoad:RepBars()
-            InstalledAZPAddons.MultipleReputationTracker = true
-        elseif addonName == "AzerPUG-GameUtility-ChattyThings" then
+            AZP.Core.ModuleStats.Initials.MRT.Loaded = true
+        elseif addonName == "AzerPUG's Chat Improvements" then
             AZP.Core:AddMainFrameTabButton("CT")
             OnLoad:ChattyThings()
-            InstalledAZPAddons.ChatImprovements = true
-        elseif addonName == "AzerPUG-GameUtility-QuestEfficiency" then
+            AZP.Core.ModuleStats.Initials.CI.Loaded = true
+        elseif addonName == "AzerPUG's 'Efficient Questing" then
             AZP.Core:AddMainFrameTabButton("QE")
             OnLoad:QuestEfficiency()
-            InstalledAZPAddons.EfficientQuesting = true
-        elseif addonName == "AzerPUG-GameUtility-LevelStats" then
+            AZP.Core.ModuleStats.Initials.EQ.Loaded = true
+        elseif addonName == "AzerPUG's Leveling Statistics" then
             AZP.Core:AddMainFrameTabButton("LS")
             OnLoad:LevelStats()
-            InstalledAZPAddons.LevelingStatistics = true
-        elseif addonName == "AzerPUG-GameUtility-UnLockables" then
+            AZP.Core.ModuleStats.Initials.LS.Loaded = true
+        elseif addonName == "AzerPUG's UnLockables" then
             AZP.Core:AddMainFrameTabButton("UL")
             OnLoad:UnLockables()
-            InstalledAZPAddons.UnLockables = true
-        elseif addonName == "AzerPUG-GameUtility-VendorStuff" then
+            AZP.Core.ModuleStats.Initials.UL.Loaded = true
+        elseif addonName == "AzerPUG's Easy Vendor" then
             --AZP.Core:AddMainFrameTabButton("VS")
             OnLoad:VendorStuff()
-            InstalledAZPAddons.EasyVendor = true
+            AZP.Core.ModuleStats.Initials.EV.Loaded = true
         end
 end
 
@@ -134,7 +134,7 @@ function AZP.Core:ParseVersionString(versionString)
         local versions = {}
         local pattern = "|([A-Z]+):([0-9]+)|"
         local index = 1
-            
+
         while index < #versionString do
             local _, endPos = string.find(versionString, pattern, index)
             local addon, version = string.match(versionString, pattern, index)
@@ -146,25 +146,34 @@ function AZP.Core:ParseVersionString(versionString)
 end
 
 function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
-    if prefix == "AZPREQUEST" then
-        local versString = AZP.Core:VersionString()
-        C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
-    elseif prefix == "AZPVERSIONS" then
-        local versions = AZP.Core:ParseVersionString()
-        AZP.Core:CreateVersionFrame()
-        --local derp = {}
+    print(payload, sender)
+    local playerName = UnitName("player")
+    local playerServer = GetRealmName()
+    if sender ~= (playerName .. "-" .. playerServer) then
+        if prefix == "AZPREQUEST" then
+            local versString = AZP.Core:VersionString()
+            C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
+        elseif prefix == "AZPVERSIONS" then
+            local versions = AZP.Core:ParseVersionString(payload)
+            AZP.Core:CreateVersionFrame()
 
-        print(#InstalledAZPAddons)
+            for key, value in pairs(versions) do
+                if value ~= nil and AZP.Core.ModuleStats.Initials[key].Loaded then
+                    UpdateFrame.addonNames[AZP.Core.ModuleStats.Initials[key].Position]:SetText(AZP.Core.ModuleStats.Initials[key].Name)
+                    UpdateFrame.addonFoundVersions[AZP.Core.ModuleStats.Initials[key].Position]:SetText(versions[key])
+                    UpdateFrame.addonCurrentVersions[AZP.Core.ModuleStats.Initials[key].Position]:SetText(AZP.VersionControl[AZP.Core.ModuleStats.Initials[key].Name])
+                end
+            end
 
-        --UpdateFrame.text:SetText(derp)
-        --UpdateFrame:Show()
+            UpdateFrame:Show()
+        end
     end
 end
 
 function AZP.Core:CreateVersionFrame()
     UpdateFrame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
     UpdateFrame:SetPoint("CENTER", 0, 250)
-    UpdateFrame:SetSize(400, 300)
+    UpdateFrame:SetSize(250, 300)
     UpdateFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -176,10 +185,6 @@ function AZP.Core:CreateVersionFrame()
     UpdateFrame.header:SetPoint("TOP", 0, -10)
     UpdateFrame.header:SetText("|cFFFF0000AzerPUG AddOns out of date!|r")
 
-    UpdateFrame.text = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
-    UpdateFrame.text:SetPoint("TOP", 0, -40)
-    UpdateFrame.text:SetText("Error!")
-
     UpdateFrame.addonNames = {}
     UpdateFrame.addonFoundVersions = {}
     UpdateFrame.addonCurrentVersions = {}
@@ -187,17 +192,24 @@ function AZP.Core:CreateVersionFrame()
     for i = 1, tempNumber do
         UpdateFrame.addonNames[i] = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
         UpdateFrame.addonNames[i]:SetSize(100, 20)
-        UpdateFrame.addonNames[i]:SetPoint("TOP", -150, -20 * i - 40)
-        UpdateFrame.addonNames[i]:SetText("Name" .. i)
+        UpdateFrame.addonNames[i]:SetPoint("TOP", -85, -20 * i - 40)
+        UpdateFrame.addonNames[i]:SetJustifyH("RIGHT")
         UpdateFrame.addonFoundVersions[i] = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
         UpdateFrame.addonFoundVersions[i]:SetSize(50, 20)
-        UpdateFrame.addonFoundVersions[i]:SetPoint("TOP", -50, -20 * i - 40)
-        UpdateFrame.addonFoundVersions[i]:SetText("Found" .. i)
+        UpdateFrame.addonFoundVersions[i]:SetPoint("TOP", 0, -20 * i - 40)
         UpdateFrame.addonCurrentVersions[i] = UpdateFrame:CreateFontString("UpdateFrame", "ARTWORK", "GameFontNormalLarge")
         UpdateFrame.addonCurrentVersions[i]:SetSize(50, 20)
         UpdateFrame.addonCurrentVersions[i]:SetPoint("TOP", 50, -20 * i - 40)
-        UpdateFrame.addonCurrentVersions[i]:SetText("Current" .. i)
     end
+    UpdateFrame.addonNames[1]:SetText("Addon\nName")
+    UpdateFrame.addonNames[1]:SetSize(100, 40)
+    UpdateFrame.addonNames[1]:SetPoint("TOP", -85, -40)
+    UpdateFrame.addonFoundVersions[1]:SetText("Updated\nVersion")
+    UpdateFrame.addonFoundVersions[1]:SetSize(50, 40)
+    UpdateFrame.addonFoundVersions[1]:SetPoint("TOP", 0, -40)
+    UpdateFrame.addonCurrentVersions[1]:SetText("Your\nVersion")
+    UpdateFrame.addonCurrentVersions[1]:SetSize(50, 40)
+    UpdateFrame.addonCurrentVersions[1]:SetPoint("TOP", 50, -40)
 
     local UpdateFrameCloseButton = CreateFrame("Button", nil, UpdateFrame, "UIPanelCloseButton")
     UpdateFrameCloseButton:SetWidth(25)
@@ -236,10 +248,6 @@ function AZP.Core:CreateMainFrame()
     AZP.Core:RegisterEvents("GROUP_ROSTER_UPDATE", AZP.Core.ShareVersions)
     AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", AZP.Core.ShareVersions)
 
-    -- GameUtilityAddonFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-    -- GameUtilityAddonFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-    -- GameUtilityAddonFrame:RegisterEvent("PLAYER_LOGIN")
-    -- GameUtilityAddonFrame:RegisterEvent("ADDON_LOADED")
     -- GameUtilityAddonFrame:RegisterEvent("UPDATE_FACTION")
 
     MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", InstanceUtilityAddonFrame, "BackdropTemplate")
@@ -900,7 +908,7 @@ end
 
 function AZP.Core:ShareVersions()
     local versionString = AZP.Core:VersionString()
-    DelayedExecution(10, function() 
+    AZP.AddonHelper:DelayedExecution(10, function()
         if IsInGroup() then
             if IsInRaid() then
                 C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"RAID", 1)
