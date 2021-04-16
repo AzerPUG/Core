@@ -98,6 +98,16 @@ function AZP.OptionsPanels:ToolTips()
 	return panelName, panelTitle, panelContent
 end
 
+function AZP.OptionsPanels:InterruptHelper()
+	local panelName = "Interrupt Helper"
+	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
+	local panelContent =
+	"AzerPUG's Interrupt Helper creates an easy system to structure interrupts.\n" ..
+	"It is possible to put in people from your raid / party and share that list easily.\n" ..
+	"The AddOn automatically reorders the list after an interrupt for every one who has it installed.\n"
+	return panelName, panelTitle, panelContent
+end
+
 function AZP.OptionsPanels:CheckList()
 	local panelName = "CheckList"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
@@ -219,6 +229,7 @@ function AZP.OptionsPanels:CreatePanels()
 
     AZP.OptionsPanels:Core()
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ToolTips())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:InterruptHelper())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:CheckList())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ReadyCheck())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:InstanceLeading())

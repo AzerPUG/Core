@@ -1,3 +1,4 @@
+if AZP == nil then AZP = {} end
 AZP.AddonHelper = {}
 
 function AZP.AddonHelper:DelayedExecution(delayTime, delayedFunction)

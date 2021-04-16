@@ -16,6 +16,7 @@ AZP.Core.ModuleStats =
         ["QuestEfficiency"] = 9,
         ["LevelStats"] = 9,
         ["UnLockables"] = 5,
+        ["InterrupHelper"] = 3,
     },
     ["Tabs"] =
     {

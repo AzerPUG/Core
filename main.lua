@@ -90,10 +90,13 @@ function AZP.Core:eventAddonLoaded(...)
             AZP.Core:AddMainFrameTabButton("RC")
             AZP.AddonHelper:DelayedExecution(5, function() AZP.ReadyCheckEnhanced:OnLoadCore() end)
             AZP.Core.ModuleStats.Initials.RCE.Loaded = true
+        elseif addonName == "AzerPUG's Interrupt Helper" then
+            AZP.Core:AddMainFrameTabButton("IH")
+            AZP.InterruptHelper.OnLoadCore()
+            AZP.Core.ModuleStats.Initials.IL.Loaded = true
         elseif addonName == "AzerPUG's Instance Leadership" then
             AZP.Core:AddMainFrameTabButton("IL")
             AZP.InstanceLeadership.OnLoadCore()
-            --OnLoad:InstanceLeading()
             AZP.Core.ModuleStats.Initials.IL.Loaded = true
         elseif addonName == "AzerPUG's Easier GreatVault" then
             AZP.Core:AddMainFrameTabButton("GV")
@@ -146,7 +149,6 @@ function AZP.Core:ParseVersionString(versionString)
 end
 
 function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
-    print(payload, sender)
     local playerName = UnitName("player")
     local playerServer = GetRealmName()
     if sender ~= (playerName .. "-" .. playerServer) then
