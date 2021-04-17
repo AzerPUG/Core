@@ -98,9 +98,9 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.Core:AddMainFrameTabButton("IL")
         AZP.InstanceLeadership.OnLoadCore()
         AZP.Core.AddOns.IL.Loaded = true
-    elseif addonName == "AzerPUG's Easier GreatVault" then
-        AZP.Core:AddMainFrameTabButton("GV")
-        OnLoad:GreatVault()
+    elseif addonName =="AzerPUG's Easier GreatVault" then
+        AZP.Core:AddMainFrameTabButton("EGV")
+        AZP.EasierGreatVault:OnLoadCore()
         AZP.Core.AddOns.EGV.Loaded = true
     elseif addonName == "AzerPUG's Mana Management" then
         AZP.Core:AddMainFrameTabButton("MG")
@@ -301,13 +301,13 @@ function AZP.Core:CreateMainFrame()
     AZP.Core.AddOns["Tabs"]["InstanceLeading"]:SetSize(1, 1)
     AZP.Core.AddOns["Tabs"]["InstanceLeading"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["ReadyCheck"], "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["GreatVault"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["GreatVault"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["GreatVault"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["InstanceLeading"], "RIGHT", 0, 0);
+    AZP.Core.AddOns["Tabs"]["EasierGreatVault"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns["Tabs"]["EasierGreatVault"]:SetSize(1, 1)
+    AZP.Core.AddOns["Tabs"]["EasierGreatVault"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["InstanceLeading"], "RIGHT", 0, 0);
 
     AZP.Core.AddOns["Tabs"]["ManaGement"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     AZP.Core.AddOns["Tabs"]["ManaGement"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["ManaGement"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["GreatVault"], "RIGHT", 0, 0);
+    AZP.Core.AddOns["Tabs"]["ManaGement"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["EasierGreatVault"], "RIGHT", 0, 0);
 
     AZP.Core.AddOns["Tabs"]["RepBars"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
     AZP.Core.AddOns["Tabs"]["RepBars"]:SetSize(1, 1)
