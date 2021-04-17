@@ -16,7 +16,7 @@ local promo = nameFull .. dash ..  "v" .. AZP.VersionControl.Core
 local OptionsCorePanel
 local addonOutOfDateMessage = true
 
-local InstanceUtilityAddonFrame
+local AZPCoreCollectiveMainFrame
 local MainTitleFrame
 local VersionControlFrame
 local CoreButtonsFrame
@@ -39,17 +39,17 @@ function AZP.Core:RegisterEvents(event, func)
     if handlers == nil then
         handlers = {}
         AZP.RegisteredEvents[event] = handlers
-        InstanceUtilityAddonFrame:RegisterEvent(event)
+        AZPCoreCollectiveMainFrame:RegisterEvent(event)
     end
     handlers[#handlers + 1] = func
 end
 
 function AZP.Core:ShowHideFrame()
-    if InstanceUtilityAddonFrame:IsShown() then
-        InstanceUtilityAddonFrame:Hide()
+    if AZPCoreCollectiveMainFrame:IsShown() then
+        AZPCoreCollectiveMainFrame:Hide()
         AIUFrameShown = false
-    elseif not InstanceUtilityAddonFrame:IsShown() then
-        InstanceUtilityAddonFrame:Show()
+    elseif not AZPCoreCollectiveMainFrame:IsShown() then
+        AZPCoreCollectiveMainFrame:Show()
         AIUFrameShown = true
     end
 end
@@ -63,7 +63,7 @@ end
 function AZP.Core:eventPlayerEnteringWorld()
     AZP.Core:VersionControl()       -- Find more efficient place, maybe in the eventAddonLoaded?
     AZP.Core:ShowHideSubFrames(AZP.Core.AddOns.CR.MainFrame)
-    if AIUFrameShown == false then InstanceUtilityAddonFrame:Hide() end
+    if AIUFrameShown == false then AZPCoreCollectiveMainFrame:Hide() end
 end
 
 function AZP.Core:eventCombatLogEventUnfiltered()
@@ -127,7 +127,6 @@ function AZP.Core:eventAddonLoaded(...)
         OnLoad:UnLockables()
         AZP.Core.AddOns.UL.Loaded = true
     elseif addonName == "AzerPUG's Easy Vendor" then
-        --AZP.Core:AddMainFrameTabButton("EV")
         OnLoad:VendorStuff()
         AZP.Core.AddOns.EV.Loaded = true
     end
@@ -223,24 +222,24 @@ function AZP.Core:CreateVersionFrame()
 end
 
 function AZP.Core:CreateMainFrame()
-    InstanceUtilityAddonFrame = CreateFrame("FRAME", "InstanceUtilityAddonFrame", UIParent, "BackdropTemplate")
-    InstanceUtilityAddonFrame:SetPoint("TOPLEFT", 0, 0)
-    InstanceUtilityAddonFrame:EnableMouse(true)
-    InstanceUtilityAddonFrame:SetMovable(true)
-    InstanceUtilityAddonFrame:SetResizable(true)
-    InstanceUtilityAddonFrame:RegisterForDrag("LeftButton")
-    InstanceUtilityAddonFrame:SetSize(325, 220)
-    InstanceUtilityAddonFrame:SetMinResize(325, 220)
-    InstanceUtilityAddonFrame:SetScript("OnDragStart", InstanceUtilityAddonFrame.StartMoving)
-    InstanceUtilityAddonFrame:SetScript("OnDragStop", InstanceUtilityAddonFrame.StopMovingOrSizing)
-    InstanceUtilityAddonFrame:SetScript("OnEvent", function(...) AZP.OnEvent:Core(...) end)
-    InstanceUtilityAddonFrame:SetBackdrop({
+    AZPCoreCollectiveMainFrame = CreateFrame("FRAME", "AZPCoreCollectiveMainFrame", UIParent, "BackdropTemplate")
+    AZPCoreCollectiveMainFrame:SetPoint("TOPLEFT", 0, 0)
+    AZPCoreCollectiveMainFrame:EnableMouse(true)
+    AZPCoreCollectiveMainFrame:SetMovable(true)
+    AZPCoreCollectiveMainFrame:SetResizable(true)
+    AZPCoreCollectiveMainFrame:RegisterForDrag("LeftButton")
+    AZPCoreCollectiveMainFrame:SetSize(325, 220)
+    AZPCoreCollectiveMainFrame:SetMinResize(325, 220)
+    AZPCoreCollectiveMainFrame:SetScript("OnDragStart", AZPCoreCollectiveMainFrame.StartMoving)
+    AZPCoreCollectiveMainFrame:SetScript("OnDragStop", AZPCoreCollectiveMainFrame.StopMovingOrSizing)
+    AZPCoreCollectiveMainFrame:SetScript("OnEvent", function(...) AZP.OnEvent:Core(...) end)
+    AZPCoreCollectiveMainFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    InstanceUtilityAddonFrame:SetBackdropColor(0.5, 0.5, 0.5, 0.75)
+    AZPCoreCollectiveMainFrame:SetBackdropColor(0.5, 0.5, 0.5, 0.75)
 
     AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", function(...) AZP.Core:eventPlayerEnteringWorld(...) end)
     AZP.Core:RegisterEvents("COMBAT_LOG_EVENT_UNFILTERED", function(...) AZP.Core:eventCombatLogEventUnfiltered(...) end)
@@ -250,11 +249,9 @@ function AZP.Core:CreateMainFrame()
     AZP.Core:RegisterEvents("GROUP_ROSTER_UPDATE", AZP.Core.ShareVersions)
     AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", AZP.Core.ShareVersions)
 
-    -- GameUtilityAddonFrame:RegisterEvent("UPDATE_FACTION")
-
-    MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", InstanceUtilityAddonFrame, "BackdropTemplate")
+    MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", AZPCoreCollectiveMainFrame, "BackdropTemplate")
     MainTitleFrame:SetHeight("20")
-    MainTitleFrame:SetWidth(InstanceUtilityAddonFrame:GetWidth())
+    MainTitleFrame:SetWidth(AZPCoreCollectiveMainFrame:GetWidth())
     MainTitleFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -262,15 +259,15 @@ function AZP.Core:CreateMainFrame()
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
     MainTitleFrame:SetBackdropColor(0.3, 0.3, 0.3, 1)
-    MainTitleFrame:SetPoint("TOPLEFT", "InstanceUtilityAddonFrame", 0, 0)
-    MainTitleFrame:SetPoint("TOPRIGHT", "InstanceUtilityAddonFrame", 0, 0)
+    MainTitleFrame:SetPoint("TOPLEFT", "AZPCoreCollectiveMainFrame", 0, 0)
+    MainTitleFrame:SetPoint("TOPRIGHT", "AZPCoreCollectiveMainFrame", 0, 0)
     MainTitleFrame.contentText = MainTitleFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     MainTitleFrame.contentText:SetWidth(MainTitleFrame:GetWidth())
     MainTitleFrame.contentText:SetHeight(MainTitleFrame:GetHeight())
     MainTitleFrame.contentText:SetPoint("CENTER", 0, -1)
     MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
 
-    AZP.Core.AddOns.CR.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.CR.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.CR.Tab.contentText = AZP.Core.AddOns.CR.Tab:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     AZP.Core.AddOns.CR.Tab.contentText:SetText("CORE")
     AZP.Core.AddOns.CR.Tab.contentText:SetTextColor(0.75, 0.75, 0.75, 1)
@@ -289,53 +286,53 @@ function AZP.Core:CreateMainFrame()
     AZP.Core.AddOns.CR.Tab:SetBackdropColor(0.75, 0.75, 0.75, 1)
     AZP.Core.AddOns.CR.Tab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns["Frames"]["Core"]) end )
 
-    AZP.Core.AddOns.PCL.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.PCL.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.PCL.Tab:SetSize(1, 1)
     AZP.Core.AddOns.PCL.Tab:SetPoint("LEFT", AZP.Core.AddOns.CR.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.RCE.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.RCE.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.RCE.Tab:SetSize(1, 1)
     AZP.Core.AddOns.RCE.Tab:SetPoint("LEFT", AZP.Core.AddOns.PCL.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.IL.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.IL.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.IL.Tab:SetSize(1, 1)
     AZP.Core.AddOns.IL.Tab:SetPoint("LEFT", AZP.Core.AddOns.RCE.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.EGV.Teb = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.EGV.Teb = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.EGV.Teb:SetSize(1, 1)
     AZP.Core.AddOns.EGV.Teb:SetPoint("LEFT", AZP.Core.AddOns.IL.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.MM.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.MM.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.MM.Tab:SetSize(1, 1)
     AZP.Core.AddOns.MM.Tab:SetPoint("LEFT", AZP.Core.AddOns.EGV.Teb, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.MRP.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.MRP.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.MRP.Tab:SetSize(1, 1)
     AZP.Core.AddOns.MRP.Tab:SetPoint("LEFT", AZP.Core.AddOns.MM.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.CI.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.CI.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.CI.Tab:SetSize(1, 1)
     AZP.Core.AddOns.CI.Tab:SetPoint("LEFT", AZP.Core.AddOns.MRP.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.EQ.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.EQ.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.EQ.Tab:SetSize(1, 1)
     AZP.Core.AddOns.EQ.Tab:SetPoint("LEFT", AZP.Core.AddOns.CI.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.LS.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.LS.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.LS.Tab:SetSize(1, 1)
     AZP.Core.AddOns.LS.Tab:SetPoint("LEFT", AZP.Core.AddOns.EQ.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.UL.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.UL.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.UL.Tab:SetSize(1, 1)
     AZP.Core.AddOns.UL.Tab:SetPoint("LEFT", AZP.Core.AddOns.LS.Tab, "RIGHT", 0, 0);
 
-    local IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", InstanceUtilityAddonFrame, "UIPanelCloseButton")
+    local IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", AZPCoreCollectiveMainFrame, "UIPanelCloseButton")
     IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 3)
     IUAddonFrameCloseButton:SetHeight(MainTitleFrame:GetHeight() + 4)
     IUAddonFrameCloseButton:SetPoint("TOPRIGHT", MainTitleFrame, "TOPRIGHT", 2, 2)
     IUAddonFrameCloseButton:SetScript("OnClick", function() AZP.Core:ShowHideFrame() end )
 
-    local IUAddonFrameResizeButton = CreateFrame("Frame", "IUAddonFrameResizeButton", InstanceUtilityAddonFrame, "BackdropTemplate")
+    local IUAddonFrameResizeButton = CreateFrame("Frame", "IUAddonFrameResizeButton", AZPCoreCollectiveMainFrame, "BackdropTemplate")
     IUAddonFrameResizeButton:SetWidth(20)
     IUAddonFrameResizeButton:SetHeight(20)
     IUAddonFrameResizeButton:SetPoint("BOTTOMRIGHT")
@@ -346,8 +343,8 @@ function AZP.Core:CreateMainFrame()
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
     IUAddonFrameResizeButton:SetBackdropColor(0.75, 0.75, 0.75, 1)
-    IUAddonFrameResizeButton:SetScript("OnMouseDown", function() InstanceUtilityAddonFrame:StartSizing("BOTTOMRIGHT") end)
-    IUAddonFrameResizeButton:SetScript("OnMouseUp", function() InstanceUtilityAddonFrame:StopMovingOrSizing() end)
+    IUAddonFrameResizeButton:SetScript("OnMouseDown", function() AZPCoreCollectiveMainFrame:StartSizing("BOTTOMRIGHT") end)
+    IUAddonFrameResizeButton:SetScript("OnMouseUp", function() AZPCoreCollectiveMainFrame:StopMovingOrSizing() end)
     IUAddonFrameResizeButton:RegisterForDrag("LeftButton")
     IUAddonFrameResizeButton:EnableMouse(true)
     AZP.Core:CreateSubFrames()
@@ -393,7 +390,6 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns["Frames"]["ReadyCheck"]) end )
         if AZP.Core.AddOns.RCE.MainFrame ~= nil then
             CurrentTab:SetBackdropColor(AZP.Core.AddOns.CR.Tab:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(AZP.Core.AddOns.CR.Tab.contentText:GetTextColor())
@@ -508,7 +504,6 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(Core.AddOns["Frames"]["ChattyThings"]) end )
         if AZP.Core.AddOns.CI.MainFrame ~= nil then
             CurrentTab:SetBackdropColor(AZP.Core.AddOns.CR.Tab:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(AZP.Core.AddOns.CR.Tab.contentText:GetTextColor())
@@ -531,7 +526,6 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             edgeSize = 8,
             insets = { left = 1, right = 1, top = 1, bottom = 1 },
         })
-        --CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(Core.AddOns["Frames"]["QuestEfficiency"]) end )
         if AZP.Core.AddOns.EQ.MainFrame ~= nil then
             CurrentTab:SetBackdropColor(AZP.Core.AddOns.CR.Tab:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(AZP.Core.AddOns.CR.Tab.contentText:GetTextColor())
@@ -589,7 +583,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
 end
 
 function AZP.Core:CreateSubFrames() 
-    AZP.Core.AddOns.CR.MainFrame = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.CR.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.CR.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AZP.Core.AddOns.CR.MainFrame:SetPoint("BOTTOMRIGHT")
     AZP.Core.AddOns.CR.MainFrame:SetBackdrop({
@@ -600,7 +594,7 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.CR.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.Core.AddOns.PCL.MainFrame = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.PCL.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.PCL.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AZP.Core.AddOns.PCL.MainFrame:SetPoint("BOTTOMRIGHT")
     AZP.Core.AddOns.PCL.MainFrame:SetBackdrop({
@@ -611,7 +605,7 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.PCL.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AAZP.Core.AddOns.IL.MainFrame = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AAZP.Core.AddOns.IL.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AAZP.Core.AddOns.IL.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AAZP.Core.AddOns.IL.MainFrame:SetPoint("BOTTOMRIGHT")
     AAZP.Core.AddOns.IL.MainFrame:SetBackdrop({
@@ -622,7 +616,7 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.IL.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.Core.AddOns.EGV.MainFrame = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.EGV.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.EGV.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AZP.Core.AddOns.EGV.MainFrame:SetPoint("BOTTOMRIGHT")
     AZP.Core.AddOns.EGV.MainFrame:SetBackdrop({
@@ -633,7 +627,7 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.EGV.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.Core.AddOns.MM.MainFrame = CreateFrame("FRAME", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.MM.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.MM.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AZP.Core.AddOns.MM.MainFrame:SetPoint("BOTTOMRIGHT")
     AZP.Core.AddOns.MM.MainFrame:SetBackdrop({
@@ -712,13 +706,12 @@ function AZP.Core:ShowHideSubFrames(ShowFrame)
     AZP.Core.AddOns.EGV.MainFrame:Hide()
     AZP.Core.AddOns.MM.MainFrame:Hide()
     AZP.Core.AddOns.MRT.MainFrame:Hide()
-    --AZP.Core.AddOns["Frames"]["QuestEfficiency"]:Hide()
     AZP.Core.AddOns.LS.MainFrame:Hide()
     AZP.Core.AddOns.UL.MainFrame:Hide()
 
     ShowFrame:Show()
-    InstanceUtilityAddonFrame:SetSize(ShowFrame:GetWidth(), ShowFrame:GetHeight() + 36)
-    MainTitleFrame:SetWidth(InstanceUtilityAddonFrame:GetWidth())
+    AZPCoreCollectiveMainFrame:SetSize(ShowFrame:GetWidth(), ShowFrame:GetHeight() + 36)
+    MainTitleFrame:SetWidth(AZPCoreCollectiveMainFrame:GetWidth())
 
     if ShowFrame == AZP.Core.AddOns.IL.MainFrame or ShowFrame == AZP.Core.AddOns.EGV.MainFrame or ShowFrame == AZP.Core.AddOns.MRT.MainFrame then
         MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. nameShort .. "\124r")
