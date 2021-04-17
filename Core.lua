@@ -248,6 +248,7 @@ function AZP.Core:CreateMainFrame()
     AZP.Core:RegisterEvents("CHAT_MSG_ADDON", function(...) AZP.Core:eventChatMsgAddon(...) end)
     AZP.Core:RegisterEvents("GROUP_ROSTER_UPDATE", AZP.Core.ShareVersions)
     AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", AZP.Core.ShareVersions)
+    -- AZP.Core:RegisterEvents("UPDATE_FACTION", AZP.Core.ShareVersions)     Change to RepBars
 
     MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", AZPCoreCollectiveMainFrame, "BackdropTemplate")
     MainTitleFrame:SetHeight("20")
