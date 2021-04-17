@@ -1,80 +1,22 @@
 if AZP == nil then AZP = {} end
 if AZP.Core == nil then AZP.Core = {} end
 
-AZP.Core.ModuleStats =      -- rename to AZP.Core.AddOns {}
+AZP.Core.AddOns =
 {
-    ["Versions"] =
-    {
-        ["Core"] = 64,
-        ["PreparationCheckList"] = 24,
-        ["ReadyCheck"] = 29,
-        ["InstanceLeading"] = 18,
-        ["GreatVault"] = 5,
-        ["ManaGement"] = 8,
-        ["RepBars"] = 13,
-        ["ChattyThings"] = 23,
-        ["QuestEfficiency"] = 9,
-        ["LevelStats"] = 9,
-        ["UnLockables"] = 5,
-        ["InterrupHelper"] = 3,
-    },
-    ["Tabs"] =
-    {
-        ["Core"] = nil,
-        ["CheckList"] = nil,
-        ["ReadyCheck"] = nil,
-        ["InstanceLeading"] = nil,
-        ["GreatVault"] = nil,
-        ["ManaGement"] = nil,
-        ["RepBars"] = nil,
-        ["ChattyThings"] = nil,
-        ["QuestEfficiency"] = nil,
-        ["LevelStats"] = nil,
-        ["UnLockables"] = nil,
-    },
-    ["Frames"] =
-    {
-        ["CheckList"] = nil,
-        ["ReadyCheck"] = nil,
-        ["InstanceLeading"] = nil,
-        ["GreatVault"] = nil,
-        ["ManaGement"] = nil,
-        ["RepBars"] = nil,
-        ["ChattyThings"] = nil,
-        ["QuestEfficiency"] = nil,
-        ["LevelStats"] = nil,
-        ["UnLockables"] = nil,
-    },
-    ["AddOns"] =        -- remove this part, less indexing in the list.
-    {
-        ["CR"]  = {["Name"] = "Core",                        ["Version"] = 64, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["CI"]  = {["Name"] = "Chat Improvements",           ["Version"] = 23, ["Position"] =  3, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  5, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] =  9, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["IL"]  = {["Name"] = "Instance Leadership",         ["Version"] = 18, ["Position"] =  6, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  1, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["IH"]  = {["Name"] = "Interrupt Helper",            ["Version"] =  3, ["Position"] =  8, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] =  9, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["MM"]  = {["Name"] = "Mana Management",             ["Version"] =  8, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["MRT"] = {["Name"] = "Multiple Reputation Tracker", ["Version"] = 13, ["Position"] = 11, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] = 24, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] = 29, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] = 26, ["Position"] = 14, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-        ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =  5, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    }
-    -- ["OptionPanels"] =
-    -- {
-    --     ["CheckList"] = nil,
-    --     ["ReadyCheck"] = nil,
-    --     ["InstanceLeading"] = nil,
-    --     ["GreatVault"] = nil,
-    --     ["ManaGement"] = nil,
-    --     ["RepBars"] = nil,
-    --     ["ChattyThings"] = nil,
-    --     ["QuestEfficiency"] = nil,
-    --     ["LevelStats"] = nil,
-    --     ["UnLockables"] = nil,
-    -- }
+    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 64, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["CI"]  = {["Name"] = "Chat Improvements",           ["Version"] = 23, ["Position"] =  3, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  5, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] =  9, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["IL"]  = {["Name"] = "Instance Leadership",         ["Version"] = 18, ["Position"] =  6, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  1, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["IH"]  = {["Name"] = "Interrupt Helper",            ["Version"] =  3, ["Position"] =  8, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] =  9, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["MM"]  = {["Name"] = "Mana Management",             ["Version"] =  8, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["MRT"] = {["Name"] = "Multiple Reputation Tracker", ["Version"] = 13, ["Position"] = 11, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] = 24, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] = 29, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] = 26, ["Position"] = 14, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =  5, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
 }
 
 AZP.RegisteredEvents = {} -- DO NOT DELETE, DYNAMIC USE!
