@@ -108,11 +108,11 @@ function AZP.OptionsPanels:InterruptHelper()
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:CheckList()
-	local panelName = "CheckList"
+function AZP.OptionsPanels:PreparationCheckList()
+	local panelName = "Preparation CheckList"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"CheckList Module helps the player prepare for Instances.\n" ..
+	"AzerPUG's Preparation CheckList helps the player prepare for Instances.\n" ..
 	"Within the options panel, you can select what to check for.\n" ..
 	"Flask, Food, Runes, Vantus and Scrolls are already implemented.\n" ..
 	"\n" ..
@@ -120,21 +120,21 @@ function AZP.OptionsPanels:CheckList()
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:ReadyCheck()
-	local panelName = "ReadyCheck"
+function AZP.OptionsPanels:ReadyCheckEnhanced()
+	local panelName = "ReadyCheck Enhanced"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"ReadyCheck Module helps the player see if they are actually ready.\n" ..
-	"ReadyCheck frame will show Flask, Food, Rune, Int, Stam and Atk buffs.\n" ..
+	"AzerPUG's ReadyCheck Enhanced helps the player see if they are actually ready.\n" ..
+	"The RCE frame will show Flask, Food, Rune, Int, Stam and Atk buffs.\n" ..
 	"Green/Red color for text will indicate presence of buff, including time left.\n"
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:InstanceLeading()
-	local panelName = "InstanceLeading"
+function AZP.OptionsPanels:InstanceLeadership()
+	local panelName = "Instance Leadership"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"InstanceLeading Module helps instance leaders in various ways.\n" ..
+	"AzerPUG's Instance Leadership helps instance leaders in various ways.\n" ..
 	"Based on settings, the module adds buttons to the main addon's window.\n" ..
 	"Button Options: ReadyCheck, PullTimer, CancelPull, Break-5, Break-10.\n" ..
 	"\n" ..
@@ -143,56 +143,56 @@ function AZP.OptionsPanels:InstanceLeading()
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:GreatVault()
-	local panelName = "GreatVault"
+function AZP.OptionsPanels:EasierGreatVault()
+	local panelName = "Easier GreatVault"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"GreatVault Module shows the user the current Great Vault reward-choices.\n" ..
+	"AzerPUG's EasierGreatVault shows the user the current Great Vault reward-choices.\n" ..
 	"Eventually, it should also show what to do to upgrade/unlock the choices."
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:ManaGement()
-	local panelName = "ManaGement"
+function AZP.OptionsPanels:ManaManagement()
+	local panelName = "Mana Management"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"ManaGement show a list of all healers with a mana bar to help you track your allies mana.\n" ..
+	"AzerPUG's Man aManagement show a list of all healers with a mana bar to help you track your allies mana.\n" ..
 	"Additionally, it orders the mana bars based on mana % to make things easier to track."
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:RepBars()
-	local panelName = "RepBars"
+function AZP.OptionsPanels:MultipleReputationTracker()
+	local panelName = "Multiple Reputation Tracker"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"RepBars Module provides the option to track several Factions at once.\n" ..
+	"AzerPUG's Multiple Reputation Tracker provides the option to track several Factions at once.\n" ..
 	"The factions can easily be selected within the standard GUI.\n"
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:ChattyThings()
-	local panelName = "ChattyThings"
+function AZP.OptionsPanels:ChatImprovements()
+	local panelName = "Chat Improvements"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"ChattyThings Module provides enhanced chat options.\n" ..
+	"AzerPUG's Chat Improvements provides enhanced chat options.\n" ..
 	"In the options panel, a user defined nickname can be added behind the char name.\n"
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:QuestEfficiency()
-	local panelName = "QuestEfficiency"
+function AZP.OptionsPanels:EfficientQuesting()
+	local panelName = "Efficient Questing"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"QuestEfficiency Module helps the player efficiently sart, do and end quests.\n" ..
+	"AzerPUG's Efficient Questing helps the player efficiently sart, do and end quests.\n" ..
 	"Currently: Pre-Selects the most valuable quest reward.\n"
 	return panelName, panelTitle, panelContent
 end
 
-function AZP.OptionsPanels:LevelStats()
-	local panelName = "LevelStats"
+function AZP.OptionsPanels:LevelingStatistics()
+	local panelName = "Leveling Statistics"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"LevelStats Module calculates the estimated time until the next level.\n" ..
+	"AzerPUG's Leveling Statistics calculates the estimated time until the next level.\n" ..
 	"These stats are based on sessionTime and sessionXP."
 	return panelName, panelTitle, panelContent
 end
@@ -200,7 +200,7 @@ end
 function AZP.OptionsPanels:UnLockables()
 	local panelName = "UnLockables"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
-	local panelContent = "UnLockables Module shows the required quest and/or questlines for certain unlockables."
+	local panelContent = "AzerPUG's UnLockables shows the required quest and/or questlines for certain unlockables."
 	return panelName, panelTitle, panelContent
 end
 

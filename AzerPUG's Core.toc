@@ -11,4 +11,4 @@ embeds.xml
 dataTables.lua
 helperFunctions.lua
 optionsPanels.lua
-main.lua
+Core.lua
