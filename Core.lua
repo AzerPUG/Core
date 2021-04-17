@@ -127,7 +127,7 @@ function AZP.Core:eventAddonLoaded(...)
         OnLoad:UnLockables()
         AZP.Core.AddOns.UL.Loaded = true
     elseif addonName == "AzerPUG's Easy Vendor" then
-        --AZP.Core:AddMainFrameTabButton("VS")
+        --AZP.Core:AddMainFrameTabButton("EV")
         OnLoad:VendorStuff()
         AZP.Core.AddOns.EV.Loaded = true
     end
@@ -270,64 +270,64 @@ function AZP.Core:CreateMainFrame()
     MainTitleFrame.contentText:SetPoint("CENTER", 0, -1)
     MainTitleFrame.contentText:SetText("\124cFF00FFFF" .. promo .. "\124r")
 
-    AZP.Core.AddOns["Tabs"]["Core"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["Core"].contentText = AZP.Core.AddOns["Tabs"]["Core"]:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    AZP.Core.AddOns["Tabs"]["Core"].contentText:SetText("CORE")
-    AZP.Core.AddOns["Tabs"]["Core"].contentText:SetTextColor(0.75, 0.75, 0.75, 1)
-    AZP.Core.AddOns["Tabs"]["Core"]:SetWidth("40")
-    AZP.Core.AddOns["Tabs"]["Core"]:SetHeight("20")
-    AZP.Core.AddOns["Tabs"]["Core"].contentText:SetWidth(AZP.Core.AddOns["Tabs"]["Core"]:GetWidth())
-    AZP.Core.AddOns["Tabs"]["Core"].contentText:SetHeight(AZP.Core.AddOns["Tabs"]["Core"]:GetHeight())
-    AZP.Core.AddOns["Tabs"]["Core"]:SetPoint("TOPLEFT", MainTitleFrame, "BOTTOMLEFT", 2, 2);
-    AZP.Core.AddOns["Tabs"]["Core"].contentText:SetPoint("CENTER", 0, -1)
-    AZP.Core.AddOns["Tabs"]["Core"]:SetBackdrop({
+    AZP.Core.AddOns.CR.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.CR.Tab.contentText = AZP.Core.AddOns.CR.Tab:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    AZP.Core.AddOns.CR.Tab.contentText:SetText("CORE")
+    AZP.Core.AddOns.CR.Tab.contentText:SetTextColor(0.75, 0.75, 0.75, 1)
+    AZP.Core.AddOns.CR.Tab:SetWidth("40")
+    AZP.Core.AddOns.CR.Tab:SetHeight("20")
+    AZP.Core.AddOns.CR.Tab.contentText:SetWidth(AZP.Core.AddOns.CR.Tab:GetWidth())
+    AZP.Core.AddOns.CR.Tab.contentText:SetHeight(AZP.Core.AddOns.CR.Tab:GetHeight())
+    AZP.Core.AddOns.CR.Tab:SetPoint("TOPLEFT", MainTitleFrame, "BOTTOMLEFT", 2, 2);
+    AZP.Core.AddOns.CR.Tab.contentText:SetPoint("CENTER", 0, -1)
+    AZP.Core.AddOns.CR.Tab:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 8,
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
-    AZP.Core.AddOns["Tabs"]["Core"]:SetBackdropColor(0.75, 0.75, 0.75, 1)
-    AZP.Core.AddOns["Tabs"]["Core"]:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns["Frames"]["Core"]) end )
+    AZP.Core.AddOns.CR.Tab:SetBackdropColor(0.75, 0.75, 0.75, 1)
+    AZP.Core.AddOns.CR.Tab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns["Frames"]["Core"]) end )
 
-    AZP.Core.AddOns["Tabs"]["CheckList"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["CheckList"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["CheckList"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["Core"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.PCL.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.PCL.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.PCL.Tab:SetPoint("LEFT", AZP.Core.AddOns.CR.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["ReadyCheck"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["ReadyCheck"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["ReadyCheck"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["CheckList"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.RCE.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.RCE.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.RCE.Tab:SetPoint("LEFT", AZP.Core.AddOns.PCL.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["InstanceLeading"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["InstanceLeading"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["InstanceLeading"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["ReadyCheck"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.IL.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.IL.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.IL.Tab:SetPoint("LEFT", AZP.Core.AddOns.RCE.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["GreatVault"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["GreatVault"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["GreatVault"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["InstanceLeading"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.EGV.Teb = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.EGV.Teb:SetSize(1, 1)
+    AZP.Core.AddOns.EGV.Teb:SetPoint("LEFT", AZP.Core.AddOns.IL.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["ManaGement"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["ManaGement"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["ManaGement"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["GreatVault"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.MM.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.MM.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.MM.Tab:SetPoint("LEFT", AZP.Core.AddOns.EGV.Teb, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["RepBars"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["RepBars"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["RepBars"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["ManaGement"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.MRP.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.MRP.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.MRP.Tab:SetPoint("LEFT", AZP.Core.AddOns.MM.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["ChattyThings"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["ChattyThings"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["ChattyThings"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["RepBars"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.CI.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.CI.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.CI.Tab:SetPoint("LEFT", AZP.Core.AddOns.MRP.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["QuestEfficiency"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["QuestEfficiency"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["QuestEfficiency"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["ChattyThings"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.EQ.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.EQ.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.EQ.Tab:SetPoint("LEFT", AZP.Core.AddOns.CI.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["LevelStats"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["LevelStats"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["LevelStats"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["QuestEfficiency"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.LS.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.LS.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.LS.Tab:SetPoint("LEFT", AZP.Core.AddOns.EQ.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns["Tabs"]["UnLockables"] = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
-    AZP.Core.AddOns["Tabs"]["UnLockables"]:SetSize(1, 1)
-    AZP.Core.AddOns["Tabs"]["UnLockables"]:SetPoint("LEFT", AZP.Core.AddOns["Tabs"]["LevelStats"], "RIGHT", 0, 0);
+    AZP.Core.AddOns.UL.Tab = CreateFrame("Button", nil, InstanceUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.UL.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.UL.Tab:SetPoint("LEFT", AZP.Core.AddOns.LS.Tab, "RIGHT", 0, 0);
 
     local IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", InstanceUtilityAddonFrame, "UIPanelCloseButton")
     IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 3)
