@@ -298,13 +298,9 @@ function AZP.Core:CreateMainFrame()
     AZP.Core.AddOns.IL.Tab:SetSize(1, 1)
     AZP.Core.AddOns.IL.Tab:SetPoint("LEFT", AZP.Core.AddOns.RCE.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.EGV.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
-    AZP.Core.AddOns.EGV.Tab:SetSize(1, 1)
-    AZP.Core.AddOns.EGV.Tab:SetPoint("LEFT", AZP.Core.AddOns.IL.Tab, "RIGHT", 0, 0);
-
     AZP.Core.AddOns.MM.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.MM.Tab:SetSize(1, 1)
-    AZP.Core.AddOns.MM.Tab:SetPoint("LEFT", AZP.Core.AddOns.EGV.Tab, "RIGHT", 0, 0);
+    AZP.Core.AddOns.MM.Tab:SetPoint("LEFT", AZP.Core.AddOns.IL.Tab, "RIGHT", 0, 0);
 
     AZP.Core.AddOns.MRT.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.MRT.Tab:SetSize(1, 1)
@@ -414,29 +410,6 @@ function AZP.Core:AddMainFrameTabButton(tabName)
         })
         CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns.IL.MainFrame) end )
         if AZP.Core.AddOns.IL.MainFrame ~= nil then
-            CurrentTab:SetBackdropColor(AZP.Core.AddOns.CR.Tab:GetBackdropColor())
-            CurrentTab.contentText:SetTextColor(AZP.Core.AddOns.CR.Tab.contentText:GetTextColor())
-        else
-            CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
-            CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
-        end
-    elseif tabName == "EGV" then
-        CurrentTab = AZP.Core.AddOns.EGV.Tab
-        CurrentTab:SetWidth("30")
-        CurrentTab:SetHeight("20")
-        CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        CurrentTab.contentText:SetText("EGV")
-        CurrentTab.contentText:SetWidth(CurrentTab:GetWidth())
-        CurrentTab.contentText:SetHeight(CurrentTab:GetHeight())
-        CurrentTab.contentText:SetPoint("CENTER", 0, -1)
-        CurrentTab:SetBackdrop({
-            bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-            edgeSize = 8,
-            insets = { left = 1, right = 1, top = 1, bottom = 1 },
-        })
-        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns.EGV.MainFrame) end )
-        if AZP.Core.AddOns.EGV.MainFrame ~= nil then
             CurrentTab:SetBackdropColor(AZP.Core.AddOns.CR.Tab:GetBackdropColor())
             CurrentTab.contentText:SetTextColor(AZP.Core.AddOns.CR.Tab.contentText:GetTextColor())
         else
