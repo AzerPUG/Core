@@ -1,12 +1,12 @@
 if AZP == nil then AZP = {} end
 if AZP.Core == nil then AZP.Core = {} end
 
-AZP.Core.ModuleStats =
+AZP.Core.ModuleStats =      -- rename to AZP.Core.AddOns {}
 {
     ["Versions"] =
     {
         ["Core"] = 64,
-        ["CheckList"] = 24,
+        ["PreparationCheckList"] = 24,
         ["ReadyCheck"] = 29,
         ["InstanceLeading"] = 18,
         ["GreatVault"] = 5,
@@ -45,20 +45,22 @@ AZP.Core.ModuleStats =
         ["LevelStats"] = nil,
         ["UnLockables"] = nil,
     },
-    ["Initials"] =
+    ["AddOns"] =        -- remove this part, less indexing in the list.
     {
-        ["CR"] = {["Name"] = "Core", ["Loaded"] = false, ["Position"] = 2},
-        ["TT"] = {["Name"] = "ToolTips", ["Position"] = 3},
-        ["IL"] = {["Name"] = "Instance Leadership", ["Loaded"] = false, ["Position"] = 4},
-        ["RCE"] = {"Core"},
-        ["CheckList"] = {"Core"},
-        ["GreatVault"] = {"Core"},
-        ["ManaGement"] = {"Core"},
-        ["RepBars"] = {"Core"},
-        ["ChattyThings"] = {"Core"},
-        ["QuestEfficiency"] = {"Core"},
-        ["LevelStats"] = {"Core"},
-        ["UnLockables"] = {"Core"},
+        ["CR"]  = {["Name"] = "Core",                        ["Version"] = 64, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["CI"]  = {["Name"] = "Chat Improvements",           ["Version"] = 23, ["Position"] =  3, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  5, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] =  9, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["IL"]  = {["Name"] = "Instance Leadership",         ["Version"] = 18, ["Position"] =  6, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  1, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["IH"]  = {["Name"] = "Interrupt Helper",            ["Version"] =  3, ["Position"] =  8, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] =  9, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["MM"]  = {["Name"] = "Mana Management",             ["Version"] =  8, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["MRT"] = {["Name"] = "Multiple Reputation Tracker", ["Version"] = 13, ["Position"] = 11, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] = 24, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] = 29, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] = 26, ["Position"] = 14, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+        ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =  5, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     }
     -- ["OptionPanels"] =
     -- {
@@ -83,7 +85,7 @@ AZP.initialConfig =     -- DO NOT DELETE, DYNAMIC USE!
     ["checkItemIDs"] = {}
 }
 
-AZP.itemData =
+AZP.itemData =          -- Replace to the addons actually using this. IEStatement to check if empty or not.
 {
     {
         "Flasks",
