@@ -156,7 +156,7 @@ function AZP.OptionsPanels:ManaManagement()
 	local panelName = "Mana Management"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
 	local panelContent =
-	"AzerPUG's Man aManagement show a list of all healers with a mana bar to help you track your allies mana.\n" ..
+	"AzerPUG's Mana Management show a list of all healers with a mana bar to help you track your allies mana.\n" ..
 	"Additionally, it orders the mana bars based on mana % to make things easier to track."
 	return panelName, panelTitle, panelContent
 end
@@ -230,14 +230,14 @@ function AZP.OptionsPanels:CreatePanels()
     AZP.OptionsPanels:Core()
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ToolTips())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:InterruptHelper())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:CheckList())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ReadyCheck())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:InstanceLeading())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:GreatVault())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ManaGement())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:RepBars())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ChattyThings())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:QuestEfficiency())
-	AZP.OptionsPanels:Generic(AZP.OptionsPanels:LevelStats())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:PreparationCheckList())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ReadyCheckEnhanced())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:InstanceLeadership())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:EasierGreatVault())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ManaManagement())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:MultipleReputationTracker())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ChatImprovements())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:EfficientQuesting())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:LevelingStatistics())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:UnLockables())
 end

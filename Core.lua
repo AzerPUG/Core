@@ -13,7 +13,6 @@ local nameFull = "AzerPUG's " .. name
 local nameShort = "AZP Core v" .. AZP.VersionControl.Core
 local promo = nameFull .. dash ..  "v" .. AZP.VersionControl.Core
 
-local OptionsCorePanel
 local addonOutOfDateMessage = true
 
 local AZPCoreCollectiveMainFrame
@@ -285,7 +284,7 @@ function AZP.Core:CreateMainFrame()
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
     AZP.Core.AddOns.CR.Tab:SetBackdropColor(0.75, 0.75, 0.75, 1)
-    AZP.Core.AddOns.CR.Tab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns["Frames"]["Core"]) end )
+    AZP.Core.AddOns.CR.Tab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns.CR.MainFrame) end )
 
     AZP.Core.AddOns.PCL.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.PCL.Tab:SetSize(1, 1)
@@ -299,21 +298,21 @@ function AZP.Core:CreateMainFrame()
     AZP.Core.AddOns.IL.Tab:SetSize(1, 1)
     AZP.Core.AddOns.IL.Tab:SetPoint("LEFT", AZP.Core.AddOns.RCE.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.EGV.Teb = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
-    AZP.Core.AddOns.EGV.Teb:SetSize(1, 1)
-    AZP.Core.AddOns.EGV.Teb:SetPoint("LEFT", AZP.Core.AddOns.IL.Tab, "RIGHT", 0, 0);
+    AZP.Core.AddOns.EGV.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
+    AZP.Core.AddOns.EGV.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.EGV.Tab:SetPoint("LEFT", AZP.Core.AddOns.IL.Tab, "RIGHT", 0, 0);
 
     AZP.Core.AddOns.MM.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.MM.Tab:SetSize(1, 1)
-    AZP.Core.AddOns.MM.Tab:SetPoint("LEFT", AZP.Core.AddOns.EGV.Teb, "RIGHT", 0, 0);
+    AZP.Core.AddOns.MM.Tab:SetPoint("LEFT", AZP.Core.AddOns.EGV.Tab, "RIGHT", 0, 0);
 
-    AZP.Core.AddOns.MRP.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
-    AZP.Core.AddOns.MRP.Tab:SetSize(1, 1)
-    AZP.Core.AddOns.MRP.Tab:SetPoint("LEFT", AZP.Core.AddOns.MM.Tab, "RIGHT", 0, 0);
+    AZP.Core.AddOns.MRT.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
+    AZP.Core.AddOns.MRT.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.MRT.Tab:SetPoint("LEFT", AZP.Core.AddOns.MM.Tab, "RIGHT", 0, 0);
 
     AZP.Core.AddOns.CI.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.CI.Tab:SetSize(1, 1)
-    AZP.Core.AddOns.CI.Tab:SetPoint("LEFT", AZP.Core.AddOns.MRP.Tab, "RIGHT", 0, 0);
+    AZP.Core.AddOns.CI.Tab:SetPoint("LEFT", AZP.Core.AddOns.MRT.Tab, "RIGHT", 0, 0);
 
     AZP.Core.AddOns.EQ.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.EQ.Tab:SetSize(1, 1)
@@ -423,7 +422,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
         end
     elseif tabName == "EGV" then
         CurrentTab = AZP.Core.AddOns.EGV.Tab
-        CurrentTab:SetWidth("20")
+        CurrentTab:SetWidth("30")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         CurrentTab.contentText:SetText("EGV")
@@ -606,10 +605,10 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.PCL.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AAZP.Core.AddOns.IL.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
-    AAZP.Core.AddOns.IL.MainFrame:SetPoint("TOPLEFT", 0, -36)
-    AAZP.Core.AddOns.IL.MainFrame:SetPoint("BOTTOMRIGHT")
-    AAZP.Core.AddOns.IL.MainFrame:SetBackdrop({
+    AZP.Core.AddOns.IL.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
+    AZP.Core.AddOns.IL.MainFrame:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.AddOns.IL.MainFrame:SetPoint("BOTTOMRIGHT")
+    AZP.Core.AddOns.IL.MainFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 12,
@@ -639,7 +638,7 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.MM.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.Core.AddOns.MRT.MainFrame = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.MRT.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.MRT.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AZP.Core.AddOns.MRT.MainFrame:SetPoint("BOTTOMRIGHT")
     AZP.Core.AddOns.MRT.MainFrame:SetBackdrop({
@@ -650,7 +649,7 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.MRT.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.Core.AddOns.LS.MainFrame = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.LS.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.LS.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AZP.Core.AddOns.LS.MainFrame:SetPoint("BOTTOMRIGHT")
     AZP.Core.AddOns.LS.MainFrame:SetBackdrop({
@@ -661,7 +660,7 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.LS.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
-    AZP.Core.AddOns.UL.MainFrame = CreateFrame("FRAME", nil, GameUtilityAddonFrame, "BackdropTemplate")
+    AZP.Core.AddOns.UL.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.UL.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AZP.Core.AddOns.UL.MainFrame:SetPoint("BOTTOMRIGHT")
     AZP.Core.AddOns.UL.MainFrame:SetBackdrop({
@@ -671,6 +670,7 @@ function AZP.Core:CreateSubFrames()
         insets = { left = 1, right = 1, top = 1, bottom = 1 },
     })
     AZP.Core.AddOns.UL.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+
     AZP.Core:CoreSubFrame()
 end
 
@@ -765,7 +765,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUG's Easier GreatVault") then
-            GreatVaultVersion = AZP.VersionControl:GreatVault()
+            GreatVaultVersion = AZP.VersionControl.EasierGreatVault
             if GreatVaultVersion < AZP.Core.AddOns.EGV.Version then
                 tempText = tempText .. "\n\124cFFFF0000Easier GreatVault\124r"
             elseif GreatVaultVersion > AZP.Core.AddOns.EGV.Version then
@@ -875,23 +875,23 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
     local versString = VersionChunkFormat:format("CR", AZP.VersionControl.Core)
 
     if IsAddOnLoaded("AzerPUG's Preparation CheckList") then
-        versString = versString .. VersionChunkFormat:format("PCL", AZP.VersionControl:PreparationCheckList)
+        versString = versString .. VersionChunkFormat:format("PCL", AZP.VersionControl.PreparationCheckList)
     end
 
     if IsAddOnLoaded("AzerPUG's ReadyCheck Enhanced") then
-        versString = versString .. VersionChunkFormat:format("RCE", AZP.VersionControl:ReadyCheckEnhanced)
+        versString = versString .. VersionChunkFormat:format("RCE", AZP.VersionControl.ReadyCheckEnhanced)
     end
 
     if IsAddOnLoaded("AzerPUG's Instance Leadership") then
-        versString = versString .. VersionChunkFormat:format("IL", AZP.VersionControl:InstanceLeadership)
+        versString = versString .. VersionChunkFormat:format("IL", AZP.VersionControl.InstanceLeadership)
     end
 
     if IsAddOnLoaded("AzerPUG's Easier GreatVault") then
-        versString = versString .. VersionChunkFormat:format("EGV", AZP.VersionControl:EasierGreatVault)
+        versString = versString .. VersionChunkFormat:format("EGV", AZP.VersionControl.EasierGreatVault)
     end
 
     if IsAddOnLoaded("AzerPUG's ManaManagement") then
-        versString = versString .. VersionChunkFormat:format("MM", AZP.VersionControl:ManaManagement)
+        versString = versString .. VersionChunkFormat:format("MM", AZP.VersionControl.ManaManagement)
     end
 
     if IsAddOnLoaded("AzerPUG's ToolTips") then
