@@ -82,8 +82,8 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.ToolTips.OnLoadCore()
         AZP.Core.AddOns.TT.Loaded = true
     elseif addonName == "AzerPUG's Preparation CheckList" then
-        AZP.Core:AddMainFrameTabButton("CL")
-        OnLoad:CheckList()
+        AZP.Core:AddMainFrameTabButton("PCL")
+        AZP.PreparationCheckList:OnLoadCore()
         AZP.Core.AddOns.PCL.Loaded = true
     elseif addonName == "AzerPUG's ReadyCheck Enhanced" then
         AZP.Core:AddMainFrameTabButton("RC")
@@ -98,7 +98,6 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.InstanceLeadership.OnLoadCore()
         AZP.Core.AddOns.IL.Loaded = true
     elseif addonName =="AzerPUG's Easier GreatVault" then
-        AZP.Core:AddMainFrameTabButton("EGV")
         AZP.EasierGreatVault:OnLoadCore()
         AZP.Core.AddOns.EGV.Loaded = true
     elseif addonName == "AzerPUG's Mana Management" then
@@ -711,7 +710,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         local coreVersionUpdated = true
 
         if IsAddOnLoaded("AzerPUG's  Preparation CheckList") then
-            CheckListVersion = AZP.VersionControl:PreparationCheckList()
+            CheckListVersion = AZP.VersionControl.PreparationCheckList
             if CheckListVersion < AZP.Core.AddOns.PCL.Version then
                 tempText = tempText .. "\n\124cFFFF0000Preparation CheckList\124r"
             elseif CheckListVersion > AZP.Core.AddOns.PCL.Version then
@@ -720,7 +719,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUG's ReadyCheck Enhanced") then
-            ReadyCheckVersion = AZP.VersionControl:ReadyCheckEnhanced()
+            ReadyCheckVersion = AZP.VersionControl.ReadyCheckEnhanced
             if ReadyCheckVersion < AZP.Core.AddOns.RCE.Version then
                 tempText = tempText .. "\n\124cFFFF0000ReadyCheck Enhanced\124r"
             elseif ReadyCheckVersion > AZP.Core.AddOns.RCE.Version then
@@ -729,7 +728,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUG's Instance Leadership") then
-            InstanceLeadingVersion = AZP.VersionControl:InstanceLeading()
+            InstanceLeadingVersion = AZP.VersionControl.InstanceLeadership
             if InstanceLeadingVersion < AZP.Core.AddOns.IL.Version then
                 tempText = tempText .. "\n\124cFFFF0000Instance Leadership\124r"
             elseif InstanceLeadingVersion > AZP.Core.AddOns.IL.Version then
