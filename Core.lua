@@ -2,7 +2,7 @@ if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 if AZP.OnLoad == nil then AZP.OnLoad = {} end
 if AZP.OnEvent == nil then AZP.OnEvent = {} end
-if AZP.OnEvent == nil then AZP.OnEvent = {} end
+
 
 AZP.VersionControl.Core = 64
 if AZP.Core == nil then AZP.Core = {} end
@@ -101,8 +101,8 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.EasierGreatVault:OnLoadCore()
         AZP.Core.AddOns.EGV.Loaded = true
     elseif addonName == "AzerPUG's Mana Management" then
-        AZP.Core:AddMainFrameTabButton("MG")
-        OnLoad:ManaGement()
+        AZP.Core:AddMainFrameTabButton("MM")
+        AZP.ManaManagement:OnLoadCore()
         AZP.Core.AddOns.MM.Loaded = true
     elseif addonName == "AzerPUG's Multiple Reputation Tracker" then
         AZP.Core:AddMainFrameTabButton("RB")
@@ -746,7 +746,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUG's Mana Management") then
-            ManaGementVersion = AZP.VersionControl:ManaGement()
+            ManaGementVersion = AZP.VersionControl.ManaManagement
             if ManaGementVersion < AZP.Core.AddOns.MM.Version then
                 tempText = tempText .. "\n\124cFFFF0000Mana Management\124r"
             elseif ManaGementVersion > AZP.Core.AddOns.MM.Version then
@@ -896,3 +896,6 @@ function AZP.OnEvent:Core(_, event, ...)
 end
 
 AZP.Core:OnLoad()
+AZP.SlashCommands[""] = function ()
+    AZPCoreCollectiveMainFrame:Show()
+end
