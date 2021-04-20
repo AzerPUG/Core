@@ -156,12 +156,23 @@ function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
             local versions = AZP.Core:ParseVersionString(payload)
             AZP.Core:CreateVersionFrame()
 
+            local sortedAddons = {}
+
             for key, value in pairs(versions) do
-                if value ~= nil and AZP.Core.AddOns.AddOns[key].Loaded then
-                    UpdateFrame.addonNames[AZP.Core.AddOns.AddOns[key].Position]:SetText(AZP.Core.AddOns.AddOns[key].Name)
-                    UpdateFrame.addonFoundVersions[AZP.Core.AddOns.AddOns[key].Position]:SetText(versions[key])
-                    UpdateFrame.addonCurrentVersions[AZP.Core.AddOns.AddOns[key].Position]:SetText(AZP.VersionControl[AZP.Core.AddOns.AddOns[key].Name])
+                local addon = AZP.Core.AddOns[key]
+                if value ~= nil and addon ~= nil and addon.Loaded then
+                    sortedAddons[#sortedAddons + 1] = {['Pos'] = addon.Position, ['Addon'] = addon, ['FoundVersion'] = value}
                 end
+            end
+
+            table.sort(sortedAddons, function (a, b)
+                return a.Pos < b.Pos
+            end)
+
+            for position, value in ipairs(sortedAddons) do
+                UpdateFrame.addonNames[position+1]:SetText(value.Addon.Name)
+                UpdateFrame.addonFoundVersions[position+1]:SetText(value.FoundVersion)
+                UpdateFrame.addonCurrentVersions[position+1]:SetText(AZP.VersionControl[value.Addon.Name])
             end
 
             UpdateFrame:Show()
