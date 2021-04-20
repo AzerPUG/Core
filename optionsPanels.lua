@@ -108,6 +108,16 @@ function AZP.OptionsPanels:InterruptHelper()
 	return panelName, panelTitle, panelContent
 end
 
+function AZP.OptionsPanels:InterfaceCompanion()
+	local panelName = "Interface Companion"
+	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
+	local panelContent =
+	"AzerPUG's Interface Companion adds a nice companion to your interface.\n" ..
+	"Companion can be easily shown/hidden or moved though the option panel.\n" ..
+	"Do you want to be my friend?\n"
+	return panelName, panelTitle, panelContent
+end
+
 function AZP.OptionsPanels:PreparationCheckList()
 	local panelName = "Preparation CheckList"
 	local panelTitle = "\124cFFFF0000AzerPUG's " .. panelName .. " not installed/loaded!\124r\n"
@@ -233,6 +243,7 @@ function AZP.OptionsPanels:CreatePanels()
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:PreparationCheckList())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ReadyCheckEnhanced())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:InstanceLeadership())
+	AZP.OptionsPanels:Generic(AZP.OptionsPanels:InterfaceCompanion())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:EasierGreatVault())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:ManaManagement())
 	AZP.OptionsPanels:Generic(AZP.OptionsPanels:MultipleReputationTracker())
