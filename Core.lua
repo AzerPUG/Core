@@ -907,6 +907,11 @@ function AZP.OnEvent:Core(_, event, ...)
 end
 
 AZP.Core:OnLoad()
-AZP.SlashCommands[""] = function ()
-    AZPCoreCollectiveMainFrame:Show()
+
+AZP.SlashCommands[""] = function()
+    if AZPCoreCollectiveMainFrame ~= nil then AZPCoreCollectiveMainFrame:Show() end
 end
+
+AZP.SlashCommands["CR"] = AZP.SlashCommands[""]
+AZP.SlashCommands["cr"] = AZP.SlashCommands[""]
+AZP.SlashCommands["core"] = AZP.SlashCommands[""]
