@@ -46,10 +46,10 @@ end
 function AZP.Core:ShowHideFrame()
     if AZPCoreCollectiveMainFrame:IsShown() then
         AZPCoreCollectiveMainFrame:Hide()
-        AIUFrameShown = false
+        AZPCoreShown = false
     elseif not AZPCoreCollectiveMainFrame:IsShown() then
         AZPCoreCollectiveMainFrame:Show()
-        AIUFrameShown = true
+        AZPCoreShown = true
     end
 end
 
@@ -62,7 +62,6 @@ end
 function AZP.Core:eventPlayerEnteringWorld()
     AZP.Core:VersionControl()       -- Find more efficient place, maybe in the eventAddonLoaded?
     AZP.Core:ShowHideSubFrames(AZP.Core.AddOns.CR.MainFrame)
-    if AIUFrameShown == false then AZPCoreCollectiveMainFrame:Hide() end
 end
 
 function AZP.Core:eventCombatLogEventUnfiltered()
@@ -71,6 +70,12 @@ end
 
 function AZP.Core:eventPlayerLogin()
 
+end
+
+function AZP.Core:SaveLocation()
+    local temp = {}
+    temp[1], temp[2], temp[3], temp[4], temp[5] = AZPCoreLocation:GetPoint()
+    AZPCoreLocation = temp
 end
 
 function AZP.Core:eventAddonLoaded(...)
@@ -97,7 +102,7 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.Core:AddMainFrameTabButton("IL")
         AZP.InstanceLeadership.OnLoadCore()
         AZP.Core.AddOns.IL.Loaded = true
-    elseif addonName =="AzerPUG's Easier GreatVault" then
+    elseif addonName == "AzerPUG's Easier GreatVault" then
         AZP.EasierGreatVault:OnLoadCore()
         AZP.Core.AddOns.EGV.Loaded = true
     elseif addonName == "AzerPUG's Mana Management" then
@@ -131,18 +136,18 @@ function AZP.Core:eventAddonLoaded(...)
 end
 
 function AZP.Core:ParseVersionString(versionString)
-        local versions = {}
-        local pattern = "|([A-Z]+):([0-9]+)|"
-        local index = 1
+    local versions = {}
+    local pattern = "|([A-Z]+):([0-9]+)|"
+    local index = 1
 
-        while index < #versionString do
-            local _, endPos = string.find(versionString, pattern, index)
-            local addon, version = string.match(versionString, pattern, index)
-            index = endPos + 1
-            versions[addon] = tonumber(version)
-        end
+    while index < #versionString do
+        local _, endPos = string.find(versionString, pattern, index)
+        local addon, version = string.match(versionString, pattern, index)
+        index = endPos + 1
+        versions[addon] = tonumber(version)
+    end
 
-        return versions
+    return versions
 end
 
 function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
@@ -161,18 +166,22 @@ function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
             for key, value in pairs(versions) do
                 local addon = AZP.Core.AddOns[key]
                 if value ~= nil and addon ~= nil and addon.Loaded then
-                    sortedAddons[#sortedAddons + 1] = {['Pos'] = addon.Position, ['Addon'] = addon, ['FoundVersion'] = value}
+                    sortedAddons[#sortedAddons + 1] = {
+                        ['Pos'] = addon.Position,
+                        ['Addon'] = addon,
+                        ['FoundVersion'] = value
+                    }
                 end
             end
 
-            table.sort(sortedAddons, function (a, b)
+            table.sort(sortedAddons, function(a, b)
                 return a.Pos < b.Pos
             end)
 
             for position, value in ipairs(sortedAddons) do
-                UpdateFrame.addonNames[position+1]:SetText(value.Addon.Name)
-                UpdateFrame.addonFoundVersions[position+1]:SetText(value.FoundVersion)
-                UpdateFrame.addonCurrentVersions[position+1]:SetText(AZP.VersionControl[value.Addon.Name])
+                UpdateFrame.addonNames[position + 1]:SetText(value.Addon.Name)
+                UpdateFrame.addonFoundVersions[position + 1]:SetText(value.FoundVersion)
+                UpdateFrame.addonCurrentVersions[position + 1]:SetText(AZP.VersionControl[value.Addon.Name])
             end
 
             UpdateFrame:Show()
@@ -240,8 +249,13 @@ function AZP.Core:CreateMainFrame()
     AZPCoreCollectiveMainFrame:SetSize(325, 220)
     AZPCoreCollectiveMainFrame:SetMinResize(325, 220)
     AZPCoreCollectiveMainFrame:SetScript("OnDragStart", AZPCoreCollectiveMainFrame.StartMoving)
-    AZPCoreCollectiveMainFrame:SetScript("OnDragStop", AZPCoreCollectiveMainFrame.StopMovingOrSizing)
-    AZPCoreCollectiveMainFrame:SetScript("OnEvent", function(...) AZP.OnEvent:Core(...) end)
+    AZPCoreCollectiveMainFrame:SetScript("OnDragStop", function()
+        AZPCoreCollectiveMainFrame.StopMovingOrSizing()
+        AZP.Core:SaveLocation()
+    end)
+    AZPCoreCollectiveMainFrame:SetScript("OnEvent", function(...)
+        AZP.OnEvent:Core(...)
+    end)
     AZPCoreCollectiveMainFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -851,6 +865,15 @@ function AZP.Core:OnLoadedSelf()
         OpenSettingsButton:Show()
         OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
     end
+
+    if not AZPCoreShown then
+        AZPCoreCollectiveMainFrame:Hide()
+    end
+
+    if AZPCoreLocation == nil then
+        AZPCoreLocation = {"CENTER", nil, nil, 200, 0}
+    end
+    AZPCoreCollectiveMainFrame:SetPoint(AZPCoreLocation[1], AZPCoreLocation[4], AZPCoreLocation[5])
 end
 
 function AZP.Core:VersionString()       -- rewrite to not index several sublists everytime.
@@ -909,7 +932,7 @@ end
 AZP.Core:OnLoad()
 
 AZP.SlashCommands[""] = function()
-    if AZPCoreCollectiveMainFrame ~= nil then AZPCoreCollectiveMainFrame:Show() end
+    if AZPCoreCollectiveMainFrame ~= nil then AZP.Core:ShowHideFrame() end
 end
 
 AZP.SlashCommands["CR"] = AZP.SlashCommands[""]
