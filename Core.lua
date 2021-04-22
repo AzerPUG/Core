@@ -84,7 +84,7 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.Core:OnLoadedSelf()
         AZP.Core.AddOns.CR.Loaded = true
     elseif addonName == "AzerPUG's ToolTips" then
-        AZP.ToolTips.OnLoadCore()
+        AZP.ToolTips:OnLoadCore()
         AZP.Core.AddOns.TT.Loaded = true
     elseif addonName == "AzerPUG's Preparation CheckList" then
         AZP.Core:AddMainFrameTabButton("PCL")
@@ -96,11 +96,11 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.Core.AddOns.RCE.Loaded = true
     elseif addonName == "AzerPUG's Interrupt Helper" then
         AZP.Core:AddMainFrameTabButton("IH")
-        AZP.InterruptHelper.OnLoadCore()
+        AZP.InterruptHelper:OnLoadCore()
         AZP.Core.AddOns.IL.Loaded = true
     elseif addonName == "AzerPUG's Instance Leadership" then
         AZP.Core:AddMainFrameTabButton("IL")
-        AZP.InstanceLeadership.OnLoadCore()
+        AZP.InstanceLeadership:OnLoadCore()
         AZP.Core.AddOns.IL.Loaded = true
     elseif addonName == "AzerPUG's Easier GreatVault" then
         AZP.EasierGreatVault:OnLoadCore()
