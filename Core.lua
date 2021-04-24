@@ -20,6 +20,7 @@ local MainTitleFrame
 local VersionControlFrame
 local CoreButtonsFrame
 local UpdateFrame = nil
+local MiniButton = nil
 
 local ReloadButton
 local OpenSettingsButton
@@ -30,6 +31,7 @@ function AZP.Core:OnLoad()
     AZP.Core:initializeConfig()
     AZP.OptionsPanels:CreatePanels()
     AZP.Core:CreateMainFrame()
+    AZP.Core:CreateMiniButton()
     AZP.Core:CreateVersionFrame()
 
     C_ChatInfo.RegisterAddonMessagePrefix("AZPREQUEST")
@@ -75,10 +77,16 @@ function AZP.Core:eventPlayerLogin()
 
 end
 
-function AZP.Core:SaveLocation()
+function AZP.Core:SaveMainFrameLocation()
     local temp = {}
-    temp[1], temp[2], temp[3], temp[4], temp[5] = AZPCoreLocation:GetPoint()
+    temp[1], temp[2], temp[3], temp[4], temp[5] = AZPCoreCollectiveMainFrame:GetPoint()
     AZPCoreLocation = temp
+end
+
+function AZP.Core:SaveMiniButtonLocation()
+    local temp = {}
+    temp[1], temp[2], temp[3], temp[4], temp[5] = MiniButton:GetPoint()
+    AZPMiniButtonLocation = temp
 end
 
 function AZP.Core:eventAddonLoaded(...)
@@ -138,6 +146,22 @@ function AZP.Core:eventAddonLoaded(...)
     end
 end
 
+function AZP.Core:eventVariablesLoaded(...)
+    if not AZPCoreShown then
+        AZPCoreCollectiveMainFrame:Hide()
+    end
+
+    if AZPCoreLocation == nil then
+        AZPCoreLocation = {"CENTER", nil, nil, 200, 0}
+    end
+    AZPCoreCollectiveMainFrame:SetPoint(AZPCoreLocation[1], AZPCoreLocation[4], AZPCoreLocation[5])
+
+    if AZPMiniButtonLocation == nil then
+        AZPMiniButtonLocation = {"CENTER", nil, nil, 0, 0}
+    end
+    MiniButton:SetPoint(AZPMiniButtonLocation[1], AZPMiniButtonLocation[4], AZPMiniButtonLocation[5])
+end
+
 function AZP.Core:ParseVersionString(versionString)
     local versions = {}
     local pattern = "|([A-Z]+):([0-9]+)|"
@@ -156,7 +180,7 @@ end
 function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
     local playerName = UnitName("player")
     local playerServer = GetRealmName()
-    if sender ~= (playerName .. "-" .. playerServer) then
+    -- if sender ~= (playerName .. "-" .. playerServer) then
         if prefix == "AZPREQUEST" then
             local versString = AZP.Core:VersionString()
             C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
@@ -195,7 +219,7 @@ function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
 
             UpdateFrame:Show()
         end
-    end
+    -- end
 end
 
 function AZP.Core:CreateVersionFrame()
@@ -259,8 +283,8 @@ function AZP.Core:CreateMainFrame()
     AZPCoreCollectiveMainFrame:SetMinResize(325, 220)
     AZPCoreCollectiveMainFrame:SetScript("OnDragStart", AZPCoreCollectiveMainFrame.StartMoving)
     AZPCoreCollectiveMainFrame:SetScript("OnDragStop", function()
-        AZPCoreCollectiveMainFrame.StopMovingOrSizing()
-        AZP.Core:SaveLocation()
+        AZPCoreCollectiveMainFrame:StopMovingOrSizing()
+        AZP.Core:SaveMainFrameLocation()
     end)
     AZPCoreCollectiveMainFrame:SetScript("OnEvent", function(...)
         AZP.OnEvent:Core(...)
@@ -280,6 +304,7 @@ function AZP.Core:CreateMainFrame()
     AZP.Core:RegisterEvents("CHAT_MSG_ADDON", function(...) AZP.Core:eventChatMsgAddon(...) end)
     AZP.Core:RegisterEvents("GROUP_ROSTER_UPDATE", AZP.Core.ShareVersions)
     AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", AZP.Core.ShareVersions)
+    AZP.Core:RegisterEvents("VARIABLES_LOADED", function(...) AZP.Core:eventVariablesLoaded(...) end)
     -- AZP.Core:RegisterEvents("UPDATE_FACTION", AZP.Core.ShareVersions)     Change to RepBars
 
     MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", AZPCoreCollectiveMainFrame, "BackdropTemplate")
@@ -377,6 +402,32 @@ function AZP.Core:CreateMainFrame()
     IUAddonFrameResizeButton:RegisterForDrag("LeftButton")
     IUAddonFrameResizeButton:EnableMouse(true)
     AZP.Core:CreateSubFrames()
+end
+
+function AZP.Core:CreateMiniButton()
+    local SizeAndPosition = {30, 52, 20}      -- Standard Sizes
+
+    MiniButton = CreateFrame("Button", nil, UIParent)
+    MiniButton:SetFrameStrata("MEDIUM")
+    MiniButton:SetSize(SizeAndPosition[1], SizeAndPosition[1])
+    MiniButton:SetFrameLevel(8)
+    MiniButton:RegisterForDrag("LeftButton")
+    MiniButton:SetMovable(true)
+    MiniButton:EnableMouse(true)
+    MiniButton:SetHighlightTexture(136477)
+    MiniButton:SetScript("OnDragStart", MiniButton.StartMoving)
+    MiniButton:SetScript("OnDragStop", function() MiniButton:StopMovingOrSizing() AZP.Core:SaveMiniButtonLocation() end)
+    MiniButton:SetScript("OnClick", function() AZP.Core:ShowHideFrame() end)
+
+    local OverlayFrame = MiniButton:CreateTexture(nil, nil)
+    OverlayFrame:SetSize(SizeAndPosition[2], SizeAndPosition[2])
+    OverlayFrame:SetTexture(136430)
+    OverlayFrame:SetPoint("TOPLEFT", 0, 0)
+
+    local LogoFrame = MiniButton:CreateTexture(nil, nil)
+    LogoFrame:SetSize(SizeAndPosition[3], SizeAndPosition[3])
+    LogoFrame:SetTexture("Interface\\AddOns\\AzerPUG's Core\\Media\\AZPLogoSmall.blp")
+    LogoFrame:SetPoint("CENTER", 0, 0)
 end
 
 function AZP.Core:AddMainFrameTabButton(tabName)
@@ -874,15 +925,6 @@ function AZP.Core:OnLoadedSelf()
         OpenSettingsButton:Show()
         OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
     end
-
-    if not AZPCoreShown then
-        AZPCoreCollectiveMainFrame:Hide()
-    end
-
-    if AZPCoreLocation == nil then
-        AZPCoreLocation = {"CENTER", nil, nil, 200, 0}
-    end
-    AZPCoreCollectiveMainFrame:SetPoint(AZPCoreLocation[1], AZPCoreLocation[4], AZPCoreLocation[5])
 end
 
 function AZP.Core:VersionString()       -- rewrite to not index several sublists everytime.
