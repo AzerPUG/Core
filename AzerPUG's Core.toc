@@ -4,7 +4,7 @@
 ## Notes: Utility for Instances (Raids and Dungeons)!
 ## Version: SL 9.0.5 (For actual addon version, check main.lua)
 ## SavedVariables: InstanceUtilityLDB
-## SavedVariablesPerCharacter: AZPCoreLocation AZPCoreShown AIUCheckedData
+## SavedVariablesPerCharacter: AZPCoreLocation AZPMiniButtonLocation AZPCoreShown AIUCheckedData
 
 embeds.xml
 
