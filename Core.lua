@@ -24,10 +24,13 @@ local UpdateFrame = nil
 local ReloadButton
 local OpenSettingsButton
 
+local HighestVersionsReceived = {}
+
 function AZP.Core:OnLoad()
     AZP.Core:initializeConfig()
     AZP.OptionsPanels:CreatePanels()
     AZP.Core:CreateMainFrame()
+    AZP.Core:CreateVersionFrame()
 
     C_ChatInfo.RegisterAddonMessagePrefix("AZPREQUEST")
     C_ChatInfo.RegisterAddonMessagePrefix("AZPVERSIONS")
@@ -159,11 +162,17 @@ function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
             C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
         elseif prefix == "AZPVERSIONS" then
             local versions = AZP.Core:ParseVersionString(payload)
-            AZP.Core:CreateVersionFrame()
 
             local sortedAddons = {}
 
             for key, value in pairs(versions) do
+                local currentHighest = HighestVersionsReceived[key]
+                if currentHighest == nil or currentHighest < value then
+                    HighestVersionsReceived[key] = value
+                end
+            end
+
+            for key, value in pairs(HighestVersionsReceived) do
                 local addon = AZP.Core.AddOns[key]
                 if value ~= nil and addon ~= nil and addon.Loaded then
                     sortedAddons[#sortedAddons + 1] = {
@@ -744,7 +753,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUG's ReadyCheck Enhanced") then
-            ReadyCheckVersion = AZP.VersionControl.ReadyCheckEnhanced
+            ReadyCheckVersion = AZP.VersionControl["ReadyCheck Enhanced"]
             if ReadyCheckVersion < AZP.Core.AddOns.RCE.Version then
                 tempText = tempText .. "\n\124cFFFF0000ReadyCheck Enhanced\124r"
             elseif ReadyCheckVersion > AZP.Core.AddOns.RCE.Version then
@@ -885,7 +894,7 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
     end
 
     if IsAddOnLoaded("AzerPUG's ReadyCheck Enhanced") then
-        versString = versString .. VersionChunkFormat:format("RCE", AZP.VersionControl.ReadyCheckEnhanced)
+        versString = versString .. VersionChunkFormat:format("RCE", AZP.VersionControl["ReadyCheck Enhanced"])
     end
 
     if IsAddOnLoaded("AzerPUG's Instance Leadership") then

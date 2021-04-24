@@ -215,17 +215,11 @@ function AZP.OptionsPanels:UnLockables()
 end
 
 function AZP.OptionsPanels:RemovePanel(PanelName)
-	local Parent = OptionsCorePanel
+	local Parent = OptionsCorePanel.name
 	local bChildPanel = true
  	for Key, Value in pairs(INTERFACEOPTIONS_ADDONCATEGORIES) do
  		if (bChildPanel and ((Value.parent == Parent) and (Value.name == PanelName))) then
- 			INTERFACEOPTIONS_ADDONCATEGORIES[Key] = nil
- 		end
-
- 		if (not(bChildPanel) and ((Value.parent == nil) and (Value.name == PanelName))) then
- 			INTERFACEOPTIONS_ADDONCATEGORIES[Key] = nil
- 		elseif (not(bChildPanel) and ((Value.parent == Parent))) then
- 			INTERFACEOPTIONS_ADDONCATEGORIES[Key] = nil
+ 			tremove(INTERFACEOPTIONS_ADDONCATEGORIES, Key)
  		end
  	end
 
