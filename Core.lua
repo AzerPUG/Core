@@ -156,45 +156,50 @@ end
 function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
     local playerName = UnitName("player")
     local playerServer = GetRealmName()
-    if sender ~= (playerName .. "-" .. playerServer) then
-        if prefix == "AZPREQUEST" then
-            local versString = AZP.Core:VersionString()
-            C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
-        elseif prefix == "AZPVERSIONS" then
-            local versions = AZP.Core:ParseVersionString(payload)
+    if prefix == "AZPREQUEST" then
+        local versString = AZP.Core:VersionString()
+        C_ChatInfo.SendAddonMessage("AZPRESPONSE", versString, "RAID", 1)
+    elseif prefix == "AZPVERSIONS" then
+        local versions = AZP.Core:ParseVersionString(payload)
 
-            local sortedAddons = {}
+        local sortedAddons = {}
+        local updatedVersionFound = false
 
-            for key, value in pairs(versions) do
-                local currentHighest = HighestVersionsReceived[key]
-                if currentHighest == nil or currentHighest < value then
-                    HighestVersionsReceived[key] = value
-                end
-            end
-
-            for key, value in pairs(HighestVersionsReceived) do
+        for key, value in pairs(versions) do
+            local currentHighest = HighestVersionsReceived[key]
+            if currentHighest == nil then 
+                HighestVersionsReceived[key] = value
+            elseif currentHighest < value  then 
+                HighestVersionsReceived[key] = value
                 local addon = AZP.Core.AddOns[key]
-                if value ~= nil and addon ~= nil and addon.Loaded then
-                    sortedAddons[#sortedAddons + 1] = {
-                        ['Pos'] = addon.Position,
-                        ['Addon'] = addon,
-                        ['FoundVersion'] = value
-                    }
+                if addon.Loaded and AZP.VersionControl[addon.Name] < value then
+                    updatedVersionFound = true
                 end
             end
-
-            table.sort(sortedAddons, function(a, b)
-                return a.Pos < b.Pos
-            end)
-
-            for position, value in ipairs(sortedAddons) do
-                UpdateFrame.addonNames[position + 1]:SetText(value.Addon.Name)
-                UpdateFrame.addonFoundVersions[position + 1]:SetText(value.FoundVersion)
-                UpdateFrame.addonCurrentVersions[position + 1]:SetText(AZP.VersionControl[value.Addon.Name])
-            end
-
-            UpdateFrame:Show()
         end
+
+        for key, value in pairs(HighestVersionsReceived) do
+            local addon = AZP.Core.AddOns[key]
+            if value ~= nil and addon ~= nil and addon.Loaded then
+                sortedAddons[#sortedAddons + 1] = {
+                    ['Pos'] = addon.Position,
+                    ['Addon'] = addon,
+                    ['FoundVersion'] = value
+                }
+            end
+        end
+
+        table.sort(sortedAddons, function(a, b)
+            return a.Pos < b.Pos
+        end)
+
+        for position, value in ipairs(sortedAddons) do
+            UpdateFrame.addonNames[position + 1]:SetText(value.Addon.Name)
+            UpdateFrame.addonFoundVersions[position + 1]:SetText(value.FoundVersion)
+            UpdateFrame.addonCurrentVersions[position + 1]:SetText(AZP.VersionControl[value.Addon.Name])
+        end
+
+        if updatedVersionFound then UpdateFrame:Show() end
     end
 end
 
