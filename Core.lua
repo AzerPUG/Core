@@ -836,7 +836,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUG's Mana Management") then
-            ManaGementVersion = AZP.VersionControl.ManaManagement
+            ManaGementVersion = AZP.VersionControl["Mana Management"]
             if ManaGementVersion < AZP.Core.AddOns.MM.Version then
                 tempText = tempText .. "\n\124cFFFF0000Mana Management\124r"
             elseif ManaGementVersion > AZP.Core.AddOns.MM.Version then
@@ -953,7 +953,7 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
     end
 
     if IsAddOnLoaded("AzerPUG's ManaManagement") then
-        versString = versString .. VersionChunkFormat:format("MM", AZP.VersionControl.ManaManagement)
+        versString = versString .. VersionChunkFormat:format("MM", AZP.VersionControl["Mana Management"])
     end
 
     if IsAddOnLoaded("AzerPUG's ToolTips") then
