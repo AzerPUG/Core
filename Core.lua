@@ -818,7 +818,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUG's Instance Leadership") then
-            InstanceLeadingVersion = AZP.VersionControl.InstanceLeadership
+            InstanceLeadingVersion = AZP.VersionControl["Instance Leadership"]
             if InstanceLeadingVersion < AZP.Core.AddOns.IL.Version then
                 tempText = tempText .. "\n\124cFFFF0000Instance Leadership\124r"
             elseif InstanceLeadingVersion > AZP.Core.AddOns.IL.Version then
@@ -945,7 +945,7 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
     end
 
     if IsAddOnLoaded("AzerPUG's Instance Leadership") then
-        versString = versString .. VersionChunkFormat:format("IL", AZP.VersionControl.InstanceLeadership)
+        versString = versString .. VersionChunkFormat:format("IL", AZP.VersionControl["Instance Leadership"])
     end
 
     if IsAddOnLoaded("AzerPUG's Easier GreatVault") then
