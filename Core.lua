@@ -102,13 +102,13 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.PreparationCheckList:OnLoadCore()
         AZP.Core.AddOns.PCL.Loaded = true
     elseif addonName == "AzerPUG's ReadyCheck Enhanced" then
-        AZP.Core:AddMainFrameTabButton("RC")
+        AZP.Core:AddMainFrameTabButton("RCE")
         AZP.AddonHelper:DelayedExecution(5, function() AZP.ReadyCheckEnhanced:OnLoadCore() end)
         AZP.Core.AddOns.RCE.Loaded = true
     elseif addonName == "AzerPUG's Interrupt Helper" then
         AZP.Core:AddMainFrameTabButton("IH")
         AZP.InterruptHelper:OnLoadCore()
-        AZP.Core.AddOns.IL.Loaded = true
+        AZP.Core.AddOns.IH.Loaded = true
     elseif addonName == "AzerPUG's Instance Leadership" then
         AZP.Core:AddMainFrameTabButton("IL")
         AZP.InstanceLeadership:OnLoadCore()
@@ -121,27 +121,29 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.ManaManagement:OnLoadCore()
         AZP.Core.AddOns.MM.Loaded = true
     elseif addonName == "AzerPUG's Multiple Reputation Tracker" then
-        AZP.Core:AddMainFrameTabButton("RB")
-        OnLoad:RepBars()
+        AZP.Core:AddMainFrameTabButton("MRT")
+        AZP.MultipleReputationTracker:OnLoadCore()
         AZP.Core.AddOns.MRT.Loaded = true
     elseif addonName == "AzerPUG's Chat Improvements" then
-        AZP.Core:AddMainFrameTabButton("CT")
-        OnLoad:ChattyThings()
+        AZP.Core:AddMainFrameTabButton("CI")
+        AZP.ChatImprovements:OnLoadCore()
         AZP.Core.AddOns.CI.Loaded = true
-    elseif addonName == "AzerPUG's 'Efficient Questing" then
-        AZP.Core:AddMainFrameTabButton("QE")
-        OnLoad:QuestEfficiency()
+    elseif addonName == "AzerPUG's Efficient Questing" then
+        AZP.Core:AddMainFrameTabButton("EQ")
+        AZP.EfficientQuesting:OnLoadCore()
         AZP.Core.AddOns.EQ.Loaded = true
     elseif addonName == "AzerPUG's Leveling Statistics" then
         AZP.Core:AddMainFrameTabButton("LS")
-        OnLoad:LevelStats()
+        AZP.LevelingStatistics:OnLoadCore()
         AZP.Core.AddOns.AddOns.LS.Loaded = true
     elseif addonName == "AzerPUG's UnLockables" then
         AZP.Core:AddMainFrameTabButton("UL")
-        OnLoad:UnLockables()
-        AZP.Core.AddOns.UL.Loaded = true
+        AZP.UnLockables:OnLoadCore()
+    elseif addonName == "AzerPUG's Interface Companion" then
+        AZP.InterfaceCompanion:OnLoadCore()
+        AZP.Core.AddOns.IC.Loaded = true
     elseif addonName == "AzerPUG's Easy Vendor" then
-        OnLoad:VendorStuff()
+        AZP.EasyVendor:OnLoadCore()
         AZP.Core.AddOns.EV.Loaded = true
     end
 end
@@ -644,7 +646,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
     end
 end
 
-function AZP.Core:CreateSubFrames() 
+function AZP.Core:CreateSubFrames()
     AZP.Core.AddOns.CR.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
     AZP.Core.AddOns.CR.MainFrame:SetPoint("TOPLEFT", 0, -36)
     AZP.Core.AddOns.CR.MainFrame:SetPoint("BOTTOMRIGHT")
@@ -799,7 +801,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         local UnLockablesVersion
         local coreVersionUpdated = true
 
-        if IsAddOnLoaded("AzerPUG's  Preparation CheckList") then
+        if IsAddOnLoaded("AzerPUG's Preparation CheckList") then
             CheckListVersion = AZP.VersionControl.PreparationCheckList
             if CheckListVersion < AZP.Core.AddOns.PCL.Version then
                 tempText = tempText .. "\n\124cFFFF0000Preparation CheckList\124r"
