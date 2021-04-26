@@ -1,13 +1,15 @@
 ## Interface: 90005
-## Title: |cFF00FFFFAZP|r |cFFFF00FFInstanceUtility|r |cFFFFFF00Core|r |cFFFF0000(REQUIRED!)|r
+## Title: |cFF00FFFFAzerPUG's|r |cFFFF00FFCore|r
 ## Author: Tex & AzerPUG Gaming Community (www.azerpug.com/discord)
 ## Notes: Utility for Instances (Raids and Dungeons)!
 ## Version: SL 9.0.5 (For actual addon version, check main.lua)
 ## SavedVariables: InstanceUtilityLDB
-## SavedVariablesPerCharacter: AIUFrameShown AIUCheckedData
+## SavedVariablesPerCharacter: AZPCoreLocation AZPMiniButtonLocation AZPCoreShown AIUCheckedData
 
 embeds.xml
 
 dataTables.lua
 helperFunctions.lua
-main.lua
+optionsPanels.lua
+SlashCommands.lua
+Core.lua
