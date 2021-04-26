@@ -94,7 +94,7 @@ function AZP.Core:eventAddonLoaded(...)
     elseif addonName == "AzerPUG's ToolTips" then
         AZP.ToolTips:OnLoadCore()
         AZP.Core.AddOns.TT.Loaded = true
-    elseif addonName == "AzerPUG's Preparation CheckList" then
+    elseif addonName == "AzerPUGsPreparationCheckList" then
         AZP.Core:AddMainFrameTabButton("PCL")
         AZP.PreparationCheckList:OnLoadCore()
         AZP.Core.AddOns.PCL.Loaded = true
@@ -798,7 +798,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         local UnLockablesVersion
         local coreVersionUpdated = true
 
-        if IsAddOnLoaded("AzerPUG's Preparation CheckList") then
+        if IsAddOnLoaded("AzerPUGsPreparationCheckList") then
             CheckListVersion = AZP.VersionControl["Preparation CheckList"]
             if CheckListVersion < AZP.Core.AddOns.PCL.Version then
                 tempText = tempText .. "\n\124cFFFF0000Preparation CheckList\124r"
@@ -935,7 +935,7 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
     local VersionChunkFormat = "|%s:%d|"
     local versString = VersionChunkFormat:format("CR", AZP.VersionControl["Core"])
 
-    if IsAddOnLoaded("AzerPUG's Preparation CheckList") then
+    if IsAddOnLoaded("AzerPUGsPreparationCheckList") then
         versString = versString .. VersionChunkFormat:format("PCL", AZP.VersionControl["Preparation CheckList"])
     end
 
