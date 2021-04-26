@@ -88,17 +88,17 @@ end
 
 function AZP.Core:eventAddonLoaded(...)
     local addonName = ...
-    if addonName == "AzerPUG's Core" then
+    if addonName == "AzerPUGsCore" then
         AZP.Core:OnLoadedSelf()
         AZP.Core.AddOns.CR.Loaded = true
-    elseif addonName == "AzerPUG's ToolTips" then
+    elseif addonName == "AzerPUGsToolTips" then
         AZP.ToolTips:OnLoadCore()
         AZP.Core.AddOns.TT.Loaded = true
     elseif addonName == "AzerPUGsPreparationCheckList" then
         AZP.Core:AddMainFrameTabButton("PCL")
         AZP.PreparationCheckList:OnLoadCore()
         AZP.Core.AddOns.PCL.Loaded = true
-    elseif addonName == "AzerPUG's ReadyCheck Enhanced" then
+    elseif addonName == "AzerPUGsReadyCheckEnhanced" then
         AZP.Core:AddMainFrameTabButton("RCE")
         AZP.AddonHelper:DelayedExecution(5, function() AZP.ReadyCheckEnhanced:OnLoadCore() end)
         AZP.Core.AddOns.RCE.Loaded = true
@@ -106,40 +106,40 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.Core:AddMainFrameTabButton("IH")
         AZP.InterruptHelper:OnLoadCore()
         AZP.Core.AddOns.IH.Loaded = true
-    elseif addonName == "AzerPUG's Instance Leadership" then
+    elseif addonName == "AzerPUGsInstanceLeadership" then
         AZP.Core:AddMainFrameTabButton("IL")
         AZP.InstanceLeadership:OnLoadCore()
         AZP.Core.AddOns.IL.Loaded = true
-    elseif addonName == "AzerPUG's Easier GreatVault" then
+    elseif addonName == "AzerPUGsEasierGreatVault" then
         AZP.EasierGreatVault:OnLoadCore()
         AZP.Core.AddOns.EGV.Loaded = true
-    elseif addonName == "AzerPUG's Mana Management" then
+    elseif addonName == "AzerPUGsManaManagement" then
         AZP.Core:AddMainFrameTabButton("MM")
         AZP.ManaManagement:OnLoadCore()
         AZP.Core.AddOns.MM.Loaded = true
-    elseif addonName == "AzerPUG's Multiple Reputation Tracker" then
+    elseif addonName == "AzerPUGsMultipleReputationTracker" then
         AZP.Core:AddMainFrameTabButton("MRT")
         AZP.MultipleReputationTracker:OnLoadCore()
         AZP.Core.AddOns.MRT.Loaded = true
-    elseif addonName == "AzerPUG's Chat Improvements" then
+    elseif addonName == "AzerPUGsChatImprovements" then
         AZP.Core:AddMainFrameTabButton("CI")
         AZP.ChatImprovements:OnLoadCore()
         AZP.Core.AddOns.CI.Loaded = true
-    elseif addonName == "AzerPUG's Efficient Questing" then
+    elseif addonName == "AzerPUGsEfficientQuesting" then
         AZP.Core:AddMainFrameTabButton("EQ")
         AZP.EfficientQuesting:OnLoadCore()
         AZP.Core.AddOns.EQ.Loaded = true
-    elseif addonName == "AzerPUG's Leveling Statistics" then
+    elseif addonName == "AzerPUGsLevelingStatistics" then
         AZP.Core:AddMainFrameTabButton("LS")
         AZP.LevelingStatistics:OnLoadCore()
         AZP.Core.AddOns.AddOns.LS.Loaded = true
-    elseif addonName == "AzerPUG's UnLockables" then
+    elseif addonName == "AzerPUGsUnLockables" then
         AZP.Core:AddMainFrameTabButton("UL")
         AZP.UnLockables:OnLoadCore()
-    elseif addonName == "AzerPUG's Interface Companion" then
+    elseif addonName == "AzerPUGsInterfaceCompanion" then
         AZP.InterfaceCompanion:OnLoadCore()
         AZP.Core.AddOns.IC.Loaded = true
-    elseif addonName == "AzerPUG's Easy Vendor" then
+    elseif addonName == "AzerPUGsEasyVendor" then
         AZP.EasyVendor:OnLoadCore()
         AZP.Core.AddOns.EV.Loaded = true
     end
@@ -430,7 +430,7 @@ function AZP.Core:CreateMiniButton()
 
     local LogoFrame = MiniButton:CreateTexture(nil, nil)
     LogoFrame:SetSize(SizeAndPosition[3], SizeAndPosition[3])
-    LogoFrame:SetTexture("Interface\\AddOns\\AzerPUG's Core\\Media\\AZPLogoSmall.blp")
+    LogoFrame:SetTexture("Interface\\AddOns\\AzerPUGsCore\\Media\\AZPLogoSmall.blp")
     LogoFrame:SetPoint("CENTER", 0, 0)
 end
 
@@ -807,7 +807,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's ReadyCheck Enhanced") then
+        if IsAddOnLoaded("AzerPUGsReadyCheckEnhanced") then
             ReadyCheckVersion = AZP.VersionControl["ReadyCheck Enhanced"]
             if ReadyCheckVersion < AZP.Core.AddOns.RCE.Version then
                 tempText = tempText .. "\n\124cFFFF0000ReadyCheck Enhanced\124r"
@@ -816,7 +816,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's Instance Leadership") then
+        if IsAddOnLoaded("AzerPUGsInstanceLeadership") then
             InstanceLeadingVersion = AZP.VersionControl["Instance Leadership"]
             if InstanceLeadingVersion < AZP.Core.AddOns.IL.Version then
                 tempText = tempText .. "\n\124cFFFF0000Instance Leadership\124r"
@@ -825,7 +825,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's Easier GreatVault") then
+        if IsAddOnLoaded("AzerPUGsEasierGreatVault") then
             GreatVaultVersion = AZP.VersionControl["Easier GreatVault"]
             if GreatVaultVersion < AZP.Core.AddOns.EGV.Version then
                 tempText = tempText .. "\n\124cFFFF0000Easier GreatVault\124r"
@@ -834,7 +834,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's Mana Management") then
+        if IsAddOnLoaded("AzerPUGsManaManagement") then
             ManaGementVersion = AZP.VersionControl["Mana Management"]
             if ManaGementVersion < AZP.Core.AddOns.MM.Version then
                 tempText = tempText .. "\n\124cFFFF0000Mana Management\124r"
@@ -843,7 +843,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's Multiple Reputation Tracker") then
+        if IsAddOnLoaded("AzerPUGsMultipleReputationTracker") then
             RepBarsVersion = VersionControl:RepBars()
             if RepBarsVersion < AZP.Core.AddOns.MRT.Version then
                 tempText = tempText .. "\n\124cFFFF0000Multiple Reputation Tracker\124r"
@@ -852,7 +852,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's Chat Improvements") then
+        if IsAddOnLoaded("AzerPUGsChatImprovements") then
             ChattyThingsVersion = AZP.VersionControl.ChatImprovements
             if ChattyThingsVersion < AZP.Core.AddOns.CI.Version then
                 tempText = tempText .. "\n\124cFFFF0000Chat Improvements\124r"
@@ -861,7 +861,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's Efficient Questing") then
+        if IsAddOnLoaded("AzerPUGsEfficientQuesting") then
             QuestEfficiencyVersion = VersionControl:QuestEfficiency()
             if QuestEfficiencyVersion < AZP.Core.AddOns.EQ.Version then
                 tempText = tempText .. "\n\124cFFFF0000Efficient Questing\124r"
@@ -870,7 +870,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's Leveling Statistics") then
+        if IsAddOnLoaded("AzerPUGsLevelingStatistics") then
             LevelStatsVersion = VersionControl:LevelStats()
             if LevelStatsVersion < AZP.Core.AddOns.LS.Version then
                 tempText = tempText .. "\n\124cFFFF0000Leveling Statistics\124r"
@@ -879,7 +879,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
-        if IsAddOnLoaded("AzerPUG's UnLockables") then
+        if IsAddOnLoaded("AzerPUGsUnLockables") then
             UnLockablesVersion = VersionControl:UnLockables()
             if UnLockablesVersion < AZP.Core.AddOns.UL.Version then
                 tempText = tempText .. "\n\124cFFFF0000UnLockables\124r"
@@ -939,15 +939,15 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
         versString = versString .. VersionChunkFormat:format("PCL", AZP.VersionControl["Preparation CheckList"])
     end
 
-    if IsAddOnLoaded("AzerPUG's ReadyCheck Enhanced") then
+    if IsAddOnLoaded("AzerPUGsReadyCheckEnhanced") then
         versString = versString .. VersionChunkFormat:format("RCE", AZP.VersionControl["ReadyCheck Enhanced"])
     end
 
-    if IsAddOnLoaded("AzerPUG's Instance Leadership") then
+    if IsAddOnLoaded("AzerPUGsInstanceLeadership") then
         versString = versString .. VersionChunkFormat:format("IL", AZP.VersionControl["Instance Leadership"])
     end
 
-    if IsAddOnLoaded("AzerPUG's Easier GreatVault") then
+    if IsAddOnLoaded("AzerPUGsEasierGreatVault") then
         versString = versString .. VersionChunkFormat:format("EGV", AZP.VersionControl["Easier GreatVault"])
     end
 
@@ -955,7 +955,7 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
         versString = versString .. VersionChunkFormat:format("MM", AZP.VersionControl["Mana Management"])
     end
 
-    if IsAddOnLoaded("AzerPUG's ToolTips") then
+    if IsAddOnLoaded("AzerPUGsToolTips") then
         versString = versString .. VersionChunkFormat:format("TT", AZP.VersionControl.ToolTips)
     end
 
