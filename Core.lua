@@ -102,7 +102,7 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.Core:AddMainFrameTabButton("RCE")
         AZP.AddonHelper:DelayedExecution(5, function() AZP.ReadyCheckEnhanced:OnLoadCore() end)
         AZP.Core.AddOns.RCE.Loaded = true
-    elseif addonName == "AzerPUG's Interrupt Helper" then
+    elseif addonName == "AzerPUGsInterruptHelper" then
         AZP.Core:AddMainFrameTabButton("IH")
         AZP.InterruptHelper:OnLoadCore()
         AZP.Core.AddOns.IH.Loaded = true
