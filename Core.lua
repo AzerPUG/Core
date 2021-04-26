@@ -802,7 +802,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         local coreVersionUpdated = true
 
         if IsAddOnLoaded("AzerPUG's Preparation CheckList") then
-            CheckListVersion = AZP.VersionControl.PreparationCheckList
+            CheckListVersion = AZP.VersionControl["Preparation CheckList"]
             if CheckListVersion < AZP.Core.AddOns.PCL.Version then
                 tempText = tempText .. "\n\124cFFFF0000Preparation CheckList\124r"
             elseif CheckListVersion > AZP.Core.AddOns.PCL.Version then
@@ -939,7 +939,7 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
     local versString = VersionChunkFormat:format("CR", AZP.VersionControl.Core)
 
     if IsAddOnLoaded("AzerPUG's Preparation CheckList") then
-        versString = versString .. VersionChunkFormat:format("PCL", AZP.VersionControl.PreparationCheckList)
+        versString = versString .. VersionChunkFormat:format("PCL", AZP.VersionControl["Preparation CheckList"])
     end
 
     if IsAddOnLoaded("AzerPUG's ReadyCheck Enhanced") then
