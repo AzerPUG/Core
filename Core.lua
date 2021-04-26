@@ -853,7 +853,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUGsChatImprovements") then
-            ChattyThingsVersion = AZP.VersionControl.ChatImprovements
+            ChattyThingsVersion = AZP.VersionControl["Chat Improvements"]
             if ChattyThingsVersion < AZP.Core.AddOns.CI.Version then
                 tempText = tempText .. "\n\124cFFFF0000Chat Improvements\124r"
             elseif ChattyThingsVersion > AZP.Core.AddOns.CI.Version then
