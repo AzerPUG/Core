@@ -291,7 +291,7 @@ function AZP.Core:CreateMainFrame()
         AZP.Core:SaveMainFrameLocation()
     end)
     AZPCoreCollectiveMainFrame:SetScript("OnEvent", function(...)
-        AZP.OnEvent:Core(...)
+        AZP.Core:OnEvent(...)
     end)
     AZPCoreCollectiveMainFrame:SetBackdrop({
         bgFile = "Interface/Tooltips/UI-Tooltip-Background",
@@ -978,7 +978,7 @@ function AZP.Core:ShareVersions()       -- Get rid of DelayedExecution, use wow 
     end)
 end
 
-function AZP.OnEvent:Core(_, event, ...)
+function AZP.Core:OnEvent(_, event, ...)
     for _, handler in pairs(AZP.RegisteredEvents[event]) do
         handler(...)
     end
