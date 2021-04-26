@@ -829,7 +829,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUG's Easier GreatVault") then
-            GreatVaultVersion = AZP.VersionControl.EasierGreatVault
+            GreatVaultVersion = AZP.VersionControl["Easier GreatVault"]
             if GreatVaultVersion < AZP.Core.AddOns.EGV.Version then
                 tempText = tempText .. "\n\124cFFFF0000Easier GreatVault\124r"
             elseif GreatVaultVersion > AZP.Core.AddOns.EGV.Version then
@@ -951,7 +951,7 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
     end
 
     if IsAddOnLoaded("AzerPUG's Easier GreatVault") then
-        versString = versString .. VersionChunkFormat:format("EGV", AZP.VersionControl.EasierGreatVault)
+        versString = versString .. VersionChunkFormat:format("EGV", AZP.VersionControl["Easier GreatVault"])
     end
 
     if IsAddOnLoaded("AzerPUG's ManaManagement") then
