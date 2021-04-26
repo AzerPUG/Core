@@ -1,17 +1,14 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
-if AZP.OnLoad == nil then AZP.OnLoad = {} end
-if AZP.OnEvent == nil then AZP.OnEvent = {} end
 
-
-AZP.VersionControl.Core = 64
+AZP.VersionControl["Core"] = 64
 if AZP.Core == nil then AZP.Core = {} end
 
 local dash = " - "
 local name = "Core"
 local nameFull = "AzerPUG's " .. name
-local nameShort = "AZP Core v" .. AZP.VersionControl.Core
-local promo = nameFull .. dash ..  "v" .. AZP.VersionControl.Core
+local nameShort = "AZP Core v" .. AZP.VersionControl["Core"]
+local promo = nameFull .. dash ..  "v" .. AZP.VersionControl["Core"]
 
 local addonOutOfDateMessage = true
 
@@ -936,7 +933,7 @@ end
 
 function AZP.Core:VersionString()       -- rewrite to not index several sublists everytime.
     local VersionChunkFormat = "|%s:%d|"
-    local versString = VersionChunkFormat:format("CR", AZP.VersionControl.Core)
+    local versString = VersionChunkFormat:format("CR", AZP.VersionControl["Core"])
 
     if IsAddOnLoaded("AzerPUG's Preparation CheckList") then
         versString = versString .. VersionChunkFormat:format("PCL", AZP.VersionControl["Preparation CheckList"])
