@@ -16,7 +16,6 @@ function AZP.OptionsPanels:Generic(panelName, panelTitle, panelContent)
 	if type(panelContent) == "string" then
 		optionFrame.placeholder = optionFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 		optionFrame.placeholder:SetSize(optionFrame:GetWidth(), 500)
-		print(optionFrame:GetWidth())
 		optionFrame.placeholder:SetPoint("TOP", 0, -50)
 		optionFrame.placeholder:SetJustifyH("LEFT")
 		optionFrame.placeholder:SetJustifyV("TOP")
