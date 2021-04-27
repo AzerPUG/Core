@@ -190,9 +190,7 @@ function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
 
         for key, value in pairs(versions) do
             local currentHighest = HighestVersionsReceived[key]
-            if currentHighest == nil then 
-                HighestVersionsReceived[key] = value
-            elseif currentHighest < value  then 
+            if currentHighest == nil or currentHighest < value then 
                 HighestVersionsReceived[key] = value
                 local addon = AZP.Core.AddOns[key]
                 if addon.Loaded and AZP.VersionControl[addon.Name] < value then
@@ -529,7 +527,7 @@ function AZP.Core:AddMainFrameTabButton(tabName)
         end
     elseif tabName == "MRT" then
         CurrentTab = AZP.Core.AddOns.MRT.Tab
-        CurrentTab:SetWidth("20")
+        CurrentTab:SetWidth("30")
         CurrentTab:SetHeight("20")
         CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         CurrentTab.contentText:SetText("MRT")
