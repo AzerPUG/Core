@@ -132,7 +132,7 @@ function AZP.Core:eventAddonLoaded(...)
     elseif addonName == "AzerPUGsLevelingStatistics" then
         AZP.Core:AddMainFrameTabButton("LS")
         AZP.LevelingStatistics:OnLoadCore()
-        AZP.Core.AddOns.AddOns.LS.Loaded = true
+        AZP.Core.AddOns.LS.Loaded = true
     elseif addonName == "AzerPUGsUnLockables" then
         AZP.Core:AddMainFrameTabButton("UL")
         AZP.UnLockables:OnLoadCore()
@@ -844,7 +844,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUGsMultipleReputationTracker") then
-            RepBarsVersion = VersionControl:RepBars()
+            RepBarsVersion = AZP.VersionControl["Multiple Reputation Tracker"]
             if RepBarsVersion < AZP.Core.AddOns.MRT.Version then
                 tempText = tempText .. "\n\124cFFFF0000Multiple Reputation Tracker\124r"
             elseif RepBarsVersion > AZP.Core.AddOns.MRT.Version then
