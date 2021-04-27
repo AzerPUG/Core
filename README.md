@@ -16,7 +16,7 @@
 AzerPUG's Core is an AddOn that does very little by itself. This optional dependency for all other AzerPUG AddOns makes them work together a lot nicer. With this optional dependency, your other AzerPUG AddOns will delegate a part of the work to this Core, to make things a lot more efficient. The core will handle the option panels as well as the version control. There is also an additional level to the Version Control with this optional dependency installed!
 
 # Bugs, Errors, Glitches and Requests.
-If you find any of the above, please do not hessitate to create a GitHub Issue here: https://github.com/AzerPUG/Instance-Utility-Core-ReName/issues  
+If you find any of the above, please do not hessitate to create a GitHub Issue here: https://github.com/AzerPUG/Core/issues  
 Or you can join our Discord and let us know in the AzerTech channel: http://www.azerpug.com/discord  
 Please note that our Discord Verification level prevents new people from talking/commenting/ranking in the first 10 minutes!
 
