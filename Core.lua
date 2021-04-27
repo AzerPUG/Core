@@ -860,7 +860,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUGsEfficientQuesting") then
-            QuestEfficiencyVersion = VersionControl:QuestEfficiency()
+            QuestEfficiencyVersion = AZP.VersionControl["Efficient Questing"]
             if QuestEfficiencyVersion < AZP.Core.AddOns.EQ.Version then
                 tempText = tempText .. "\n\124cFFFF0000Efficient Questing\124r"
             elseif QuestEfficiencyVersion > AZP.Core.AddOns.EQ.Version then
@@ -869,7 +869,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUGsLevelingStatistics") then
-            LevelStatsVersion = VersionControl:LevelStats()
+            LevelStatsVersion = AZP.VersionControl["Leveling Statistics"]
             if LevelStatsVersion < AZP.Core.AddOns.LS.Version then
                 tempText = tempText .. "\n\124cFFFF0000Leveling Statistics\124r"
             elseif LevelStatsVersion > AZP.Core.AddOns.LS.Version then
@@ -878,7 +878,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUGsUnLockables") then
-            UnLockablesVersion = VersionControl:UnLockables()
+            UnLockablesVersion = AZP.VersionControl["UnLockables"]
             if UnLockablesVersion < AZP.Core.AddOns.UL.Version then
                 tempText = tempText .. "\n\124cFFFF0000UnLockables\124r"
             elseif UnLockablesVersion > AZP.Core.AddOns.UL.Version then
