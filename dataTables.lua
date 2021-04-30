@@ -11,7 +11,7 @@ AZP.Core.AddOns =
     ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  3, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["IH"]  = {["Name"] = "Interrupt Helper",            ["Version"] =  7, ["Position"] =  8, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] = 10, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["MM"]  = {["Name"] = "Mana Management",             ["Version"] = 12, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["MM"]  = {["Name"] = "Mana Management",             ["Version"] = 11, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MRT"] = {["Name"] = "Multiple Reputation Tracker", ["Version"] = 14, ["Position"] = 11, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] = 26, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] = 30, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
