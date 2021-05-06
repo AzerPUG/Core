@@ -26,6 +26,7 @@ function AZP.OptionsPanels:Generic(panelName, panelTitle, panelContent)
 end
 
 function AZP.OptionsPanels:Core()
+	local promo = "|cFF00FFFFAzerPUG's Core Option Panel|r"
 	local OptionsCoreTitle = OptionsCorePanel:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
     OptionsCoreTitle:SetText(promo)
     OptionsCoreTitle:SetWidth(OptionsCorePanel:GetWidth())
@@ -76,9 +77,34 @@ function AZP.OptionsPanels:Core()
         end
     end)
 
+	local MiniButtonSizeFrame = CreateFrame("Frame", nil, OptionsCorePanel)
+    MiniButtonSizeFrame:SetSize(500, 50)
+    MiniButtonSizeFrame:SetPoint("TOP", 0, -100)
+    MiniButtonSizeFrame.text = MiniButtonSizeFrame:CreateFontString("MiniButtonSizeFrameText", "ARTWORK", "GameFontNormalLarge")
+    MiniButtonSizeFrame.text:SetPoint("LEFT", 20, -1)
+    MiniButtonSizeFrame.text:SetJustifyH("LEFT")
+    MiniButtonSizeFrame.text:SetText("Bigger MiniButton.")
+
+    MiniButtonSizeCheckBox = CreateFrame("CheckButton", nil, MiniButtonSizeFrame, "ChatConfigCheckButtonTemplate")
+    MiniButtonSizeCheckBox:SetSize(20, 20)
+    MiniButtonSizeCheckBox:SetPoint("LEFT", 0, 0)
+    MiniButtonSizeCheckBox:SetHitRectInsets(0, 0, 0, 0)
+    MiniButtonSizeCheckBox:SetChecked(AZP.initialConfig["optionsChecked"]["MiniButtonSizeCheckBox"])
+    MiniButtonSizeCheckBox:SetScript("OnClick", function()
+        if AIUCheckedData["optionsChecked"] == nil then AIUCheckedData["optionsChecked"] = {} end
+        if MiniButtonSizeCheckBox:GetChecked() == true then
+			AZPMiniButtonSize = true
+            AIUCheckedData["optionsChecked"]["MiniButtonSizeCheckBox"] = true
+        elseif MiniButtonSizeCheckBox:GetChecked() == false then
+			AZPMiniButtonSize = false
+            AIUCheckedData["optionsChecked"]["MiniButtonSizeCheckBox"] = false
+        end
+		AZP.Core:MiniButtonChangeScale()
+    end)
+
     local OptionsCoreText = CreateFrame("Frame", "OptionsCoreText", OptionsCorePanel)
     OptionsCoreText:SetSize(500, 500)
-    OptionsCoreText:SetPoint("TOP", 0, -125)
+    OptionsCoreText:SetPoint("TOP", 0, -150)
     OptionsCoreText.contentText = OptionsCoreText:CreateFontString("OptionsCoreText", "ARTWORK", "GameFontNormalLarge")
     OptionsCoreText.contentText:SetPoint("TOPLEFT")
     OptionsCoreText.contentText:SetJustifyH("LEFT")

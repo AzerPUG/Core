@@ -17,7 +17,8 @@ local MainTitleFrame
 local VersionControlFrame
 local CoreButtonsFrame
 local UpdateFrame = nil
-local MiniButton = nil
+MiniButton = nil
+local currentMiniButtonScale
 
 local ReloadButton
 local OpenSettingsButton
@@ -28,7 +29,6 @@ function AZP.Core:OnLoad()
     AZP.Core:initializeConfig()
     AZP.OptionsPanels:CreatePanels()
     AZP.Core:CreateMainFrame()
-    AZP.Core:CreateMiniButton()
     AZP.Core:CreateVersionFrame()
 
     C_ChatInfo.RegisterAddonMessagePrefix("AZPREQUEST")
@@ -83,6 +83,8 @@ end
 function AZP.Core:SaveMiniButtonLocation()
     local temp = {}
     temp[1], temp[2], temp[3], temp[4], temp[5] = MiniButton:GetPoint()
+    temp[4] = temp[4] * currentMiniButtonScale
+    temp[5] = temp[5] * currentMiniButtonScale
     AZPMiniButtonLocation = temp
 end
 
@@ -158,7 +160,8 @@ function AZP.Core:eventVariablesLoaded(...)
     if AZPMiniButtonLocation == nil then
         AZPMiniButtonLocation = {"CENTER", nil, nil, 0, 0}
     end
-    MiniButton:SetPoint(AZPMiniButtonLocation[1], AZPMiniButtonLocation[4], AZPMiniButtonLocation[5])
+    AZP.Core:GetMiniButtonScale()
+    AZP.Core:CreateMiniButton()
 end
 
 function AZP.Core:ParseVersionString(versionString)
@@ -407,7 +410,9 @@ function AZP.Core:CreateMainFrame()
 end
 
 function AZP.Core:CreateMiniButton()
-    local SizeAndPosition = {30, 52, 20}      -- Standard Sizes
+    if AZPMiniButtonSize == nil then AZPMiniButtonSize = false end
+
+    local SizeAndPosition = {45, 78, 30}
 
     MiniButton = CreateFrame("Button", nil, UIParent)
     MiniButton:SetFrameStrata("MEDIUM")
@@ -421,15 +426,17 @@ function AZP.Core:CreateMiniButton()
     MiniButton:SetScript("OnDragStop", function() MiniButton:StopMovingOrSizing() AZP.Core:SaveMiniButtonLocation() end)
     MiniButton:SetScript("OnClick", function() AZP.Core:ShowHideFrame() end)
 
-    local OverlayFrame = MiniButton:CreateTexture(nil, nil)
-    OverlayFrame:SetSize(SizeAndPosition[2], SizeAndPosition[2])
-    OverlayFrame:SetTexture(136430)
-    OverlayFrame:SetPoint("TOPLEFT", 0, 0)
+    MiniButton.OverlayFrame = MiniButton:CreateTexture(nil, nil)
+    MiniButton.OverlayFrame:SetSize(SizeAndPosition[2], SizeAndPosition[2])
+    MiniButton.OverlayFrame:SetTexture(136430)
+    MiniButton.OverlayFrame:SetPoint("CENTER", 16, -17)
 
-    local LogoFrame = MiniButton:CreateTexture(nil, nil)
-    LogoFrame:SetSize(SizeAndPosition[3], SizeAndPosition[3])
-    LogoFrame:SetTexture("Interface\\AddOns\\AzerPUGsCore\\Media\\AZPLogoSmall.blp")
-    LogoFrame:SetPoint("CENTER", 0, 0)
+    MiniButton.LogoFrame = MiniButton:CreateTexture(nil, nil)
+    MiniButton.LogoFrame:SetSize(SizeAndPosition[3], SizeAndPosition[3])
+    MiniButton.LogoFrame:SetTexture("Interface\\AddOns\\AzerPUGsCore\\Media\\AZPLogoSmall.blp")
+    MiniButton.LogoFrame:SetPoint("CENTER", 0, 0)
+
+    AZP.Core:MiniButtonChangeScale()
 end
 
 function AZP.Core:AddMainFrameTabButton(tabName)
@@ -899,6 +906,20 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
     end
 end
 
+function AZP.Core:GetMiniButtonScale()
+    if AZPMiniButtonSize == true then
+        currentMiniButtonScale = 1
+    else
+        currentMiniButtonScale = 0.75
+    end
+end
+
+function AZP.Core:MiniButtonChangeScale()
+    AZP.Core:GetMiniButtonScale()
+    MiniButton:SetScale(currentMiniButtonScale)
+    MiniButton:SetPoint(AZPMiniButtonLocation[1], AZPMiniButtonLocation[4] / currentMiniButtonScale, AZPMiniButtonLocation[5] / currentMiniButtonScale)
+end
+
 function AZP.Core:OnLoadedSelf()
     if AIUCheckedData["optionsChecked"] == nil then
         AIUCheckedData["optionsChecked"] = {}
@@ -925,7 +946,11 @@ function AZP.Core:OnLoadedSelf()
         OpenSettingsButton.contentText:SetSize(OpenSettingsButton:GetWidth(), 15)
         OpenSettingsButton.contentText:SetPoint("CENTER", 0, -1)
         OpenSettingsButton:Show()
-        OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel); end )
+        OpenSettingsButton:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel) InterfaceOptionsFrame_OpenToCategory(OptionsCorePanel) end )
+    end
+
+    if (AIUCheckedData["optionsChecked"]["MiniButtonSizeCheckBox"]) then
+        MiniButtonSizeCheckBox:SetChecked(true)
     end
 end
 
