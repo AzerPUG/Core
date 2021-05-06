@@ -153,7 +153,7 @@ function AZP.Core:eventVariablesLoaded(...)
     end
 
     if AZPCoreLocation == nil then
-        AZPCoreLocation = {"CENTER", nil, nil, 200, 0}
+        AZPCoreLocation = {"CENTER", 200, 0}
     end
     AZPCoreCollectiveMainFrame:ClearAllPoints()
     AZPCoreCollectiveMainFrame:SetPoint(AZPCoreLocation[1], AZPCoreLocation[4], AZPCoreLocation[5])

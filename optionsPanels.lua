@@ -1,5 +1,8 @@
 AZP.OptionsPanels = {}
 
+local OptionsPromoPanels = nil
+local CopyPasteEditBoxFrame = nil
+
 function AZP.OptionsPanels:Generic(panelName, panelTitle, panelContent)
 	local optionFrame = CreateFrame("FRAME")
 	optionFrame:SetSize(500, 500)
@@ -35,9 +38,9 @@ function AZP.OptionsPanels:Core()
 
     local ReloadFrame = CreateFrame("Frame", nil, OptionsCorePanel)
     ReloadFrame:SetSize(500, 50)
-    ReloadFrame:SetPoint("TOP", 0, -50)
+    ReloadFrame:SetPoint("TOP", 0, -150)
     ReloadFrame.text = ReloadFrame:CreateFontString("ReloadFrameText", "ARTWORK", "GameFontNormalLarge")
-    ReloadFrame.text:SetPoint("LEFT", 20, -1)
+    ReloadFrame.text:SetPoint("LEFT", 22, -1)
     ReloadFrame.text:SetJustifyH("LEFT")
     ReloadFrame.text:SetText("Show/Hide reload button.")
 
@@ -57,9 +60,9 @@ function AZP.OptionsPanels:Core()
 
     local OpenOptionsFrame = CreateFrame("Frame", nil, OptionsCorePanel)
     OpenOptionsFrame:SetSize(500, 50)
-    OpenOptionsFrame:SetPoint("TOP", 0, -75)
+    OpenOptionsFrame:SetPoint("TOP", 0, -175)
     OpenOptionsFrame.text = OpenOptionsFrame:CreateFontString("OpenOptionsFrameText", "ARTWORK", "GameFontNormalLarge")
-    OpenOptionsFrame.text:SetPoint("LEFT", 20, -1)
+    OpenOptionsFrame.text:SetPoint("LEFT", 22, -1)
     OpenOptionsFrame.text:SetJustifyH("LEFT")
     OpenOptionsFrame.text:SetText("Show/Hide options button.")
 
@@ -79,9 +82,9 @@ function AZP.OptionsPanels:Core()
 
 	local MiniButtonSizeFrame = CreateFrame("Frame", nil, OptionsCorePanel)
     MiniButtonSizeFrame:SetSize(500, 50)
-    MiniButtonSizeFrame:SetPoint("TOP", 0, -100)
+    MiniButtonSizeFrame:SetPoint("TOP", 0, -200)
     MiniButtonSizeFrame.text = MiniButtonSizeFrame:CreateFontString("MiniButtonSizeFrameText", "ARTWORK", "GameFontNormalLarge")
-    MiniButtonSizeFrame.text:SetPoint("LEFT", 20, -1)
+    MiniButtonSizeFrame.text:SetPoint("LEFT", 22, -1)
     MiniButtonSizeFrame.text:SetJustifyH("LEFT")
     MiniButtonSizeFrame.text:SetText("Bigger MiniButton.")
 
@@ -102,18 +105,79 @@ function AZP.OptionsPanels:Core()
 		AZP.Core:MiniButtonChangeScale()
     end)
 
-    local OptionsCoreText = CreateFrame("Frame", "OptionsCoreText", OptionsCorePanel)
-    OptionsCoreText:SetSize(500, 500)
-    OptionsCoreText:SetPoint("TOP", 0, -150)
-    OptionsCoreText.contentText = OptionsCoreText:CreateFontString("OptionsCoreText", "ARTWORK", "GameFontNormalLarge")
-    OptionsCoreText.contentText:SetPoint("TOPLEFT")
-    OptionsCoreText.contentText:SetJustifyH("LEFT")
-    OptionsCoreText.contentText:SetText(
-        "AzerPUG Links:\n" ..
-        "Website: www.azerpug.com\n" ..
-        "Discord: www.azerpug.com/discord\n" ..
-        "Twitch: www.twitch.tv/azerpug\n"
-    )
+	OptionsPromoPanels = CreateFrame("Frame", nil, OptionsCorePanel)
+    OptionsPromoPanels:SetSize(500, 100)
+    OptionsPromoPanels:SetPoint("TOP", 0, 25)
+
+	local c1, c2, c3, c4 = -192, -64, 64, 192
+	local r1, r2 = -45, -90
+
+	AZP.OptionsPanels:CreatePromoPanels(c1, r1, AZP.Core.Media["Website"])
+	AZP.OptionsPanels:CreatePromoPanels(c2, r1, AZP.Core.Media["Discord"])
+	AZP.OptionsPanels:CreatePromoPanels(c3, r1, AZP.Core.Media["CurseForge"])
+	AZP.OptionsPanels:CreatePromoPanels(c4, r1, AZP.Core.Media["Twitch"])
+	AZP.OptionsPanels:CreatePromoPanels(c1, r2, AZP.Core.Media["Insta"])
+	AZP.OptionsPanels:CreatePromoPanels(c2, r2, AZP.Core.Media["Twitter"])
+	AZP.OptionsPanels:CreatePromoPanels(c3, r2, AZP.Core.Media["GitHub"])
+	AZP.OptionsPanels:CreatePromoPanels(c4, r2, AZP.Core.Media["TouTube"])
+
+	-- local c1, c2, c3, c4 = -195, -65, 65, 195
+	-- local r1, r2, r3 = -50, -100, -150
+
+	-- AZP.OptionsPanels:CreatePromoPanels(c1, r1, AZP.Core.Media["Website"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c2, r1, AZP.Core.Media["Discord"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c3, r1, AZP.Core.Media["Twitch"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c4, r1, AZP.Core.Media["TouTube"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c1 - 65, r2, AZP.Core.Media["CurseForge"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c2 - 65, r2, AZP.Core.Media["GitHub"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c3 - 65, r2, AZP.Core.Media["Charity"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c4 - 65, r2, AZP.Core.Media["Patreon"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c4 + 65, r2, AZP.Core.Media["Merch"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c1, r3, AZP.Core.Media["PayPal"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c2, r3, AZP.Core.Media["Fiverr"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c3, r3, AZP.Core.Media["Twitter"])
+	-- AZP.OptionsPanels:CreatePromoPanels(c4, r3, AZP.Core.Media["Insta"])
+
+	AZP.OptionsPanels:CreateCopyPasteEditBox()
+end
+
+function AZP.OptionsPanels:CreatePromoPanels(pointX, pointY, tableLinkTexture)
+	OptionsPromoPanels.Frame = CreateFrame("Button", nil, OptionsPromoPanels)
+	OptionsPromoPanels.Frame:SetSize(128, 42)
+	OptionsPromoPanels.Frame:SetPoint("CENTER", pointX, pointY)
+	OptionsPromoPanels.Frame:SetScript("OnClick", function() AZP.OptionsPanels:FillCopyPasteEditBox(tableLinkTexture[1]) end)
+	OptionsPromoPanels.Frame.texture = OptionsPromoPanels.Frame:CreateTexture(nil, nil)
+    OptionsPromoPanels.Frame.texture:SetSize(128, 128)
+	OptionsPromoPanels.Frame.texture:SetTexture(tableLinkTexture[2])
+    OptionsPromoPanels.Frame.texture:SetPoint("CENTER", 0, 0)
+end
+
+function AZP.OptionsPanels:CreateCopyPasteEditBox()
+	CopyPasteEditBoxFrame = CreateFrame("Frame", nil, UIParent)
+	CopyPasteEditBoxFrame:SetSize(200, 25)
+	CopyPasteEditBoxFrame:SetPoint("CENTER", 0, 250)
+
+	CopyPasteEditBoxFrame.EditBox = CreateFrame("EditBox", "AZPAutoInviteEditBox", CopyPasteEditBoxFrame, "InputBoxTemplate")
+    CopyPasteEditBoxFrame.EditBox:SetSize(CopyPasteEditBoxFrame:GetWidth() - 10, CopyPasteEditBoxFrame:GetHeight())
+    CopyPasteEditBoxFrame.EditBox:SetPoint("LEFT", 2, 0)
+    CopyPasteEditBoxFrame.EditBox:SetAutoFocus(true)
+    CopyPasteEditBoxFrame.EditBox:SetFrameStrata("DIALOG")
+    CopyPasteEditBoxFrame.EditBox:SetFontObject("ChatFontNormal")
+    CopyPasteEditBoxFrame.EditBox:SetText("ERROR!")
+
+	CopyPasteEditBoxFrame.EditBox.CloseButton = CreateFrame("Button", nil, CopyPasteEditBoxFrame.EditBox, "UIPanelCloseButton")
+    CopyPasteEditBoxFrame.EditBox.CloseButton:SetWidth(25)
+    CopyPasteEditBoxFrame.EditBox.CloseButton:SetHeight(25)
+    CopyPasteEditBoxFrame.EditBox.CloseButton:SetPoint("RIGHT", 2, 0)
+    CopyPasteEditBoxFrame.EditBox.CloseButton:SetScript("OnClick", function() CopyPasteEditBoxFrame:Hide() end )
+
+	CopyPasteEditBoxFrame:Hide()
+end
+
+function AZP.OptionsPanels:FillCopyPasteEditBox(link)
+	if CopyPasteEditBoxFrame:IsShown() then CopyPasteEditBoxFrame:Hide() else CopyPasteEditBoxFrame:Show() end
+	CopyPasteEditBoxFrame.EditBox:SetText(link)
+	CopyPasteEditBoxFrame.EditBox:SetAutoFocus(true)
 end
 
 function AZP.OptionsPanels:ToolTips()
