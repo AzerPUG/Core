@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 71
+AZP.VersionControl["Core"] = 72
 if AZP.Core == nil then AZP.Core = {} end
 
 local dash = " - "
@@ -985,9 +985,12 @@ end
 AZP.Core:OnLoad()
 
 AZP.SlashCommands[""] = function()
+    if MiniButton:IsShown() then MiniButton:Hide() else MiniButton:Show() end
+end
+
+AZP.SlashCommands["CR"] = function()
     if AZPCoreCollectiveMainFrame ~= nil then AZP.Core:ShowHideFrame() end
 end
 
-AZP.SlashCommands["CR"] = AZP.SlashCommands[""]
-AZP.SlashCommands["cr"] = AZP.SlashCommands[""]
-AZP.SlashCommands["core"] = AZP.SlashCommands[""]
+AZP.SlashCommands["cr"] = AZP.SlashCommands["CR"]
+AZP.SlashCommands["core"] = AZP.SlashCommands["CR"]
