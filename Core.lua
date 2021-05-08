@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 72
+AZP.VersionControl["Core"] = 73
 if AZP.Core == nil then AZP.Core = {} end
 
 local dash = " - "
