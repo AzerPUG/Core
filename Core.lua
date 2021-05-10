@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 73
+AZP.VersionControl["Core"] = 74
 if AZP.Core == nil then AZP.Core = {} end
 
 local dash = " - "
@@ -155,6 +155,7 @@ function AZP.Core:eventVariablesLoaded(...)
     if AZPCoreLocation == nil then
         AZPCoreLocation = {"CENTER", nil, nil, 200, 0}
     end
+    AZPCoreCollectiveMainFrame:ClearAllPoints()
     AZPCoreCollectiveMainFrame:SetPoint(AZPCoreLocation[1], AZPCoreLocation[4], AZPCoreLocation[5])
 
     if AZPMiniButtonLocation == nil then
