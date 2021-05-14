@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 75
+AZP.VersionControl["Core"] = 76
 if AZP.Core == nil then AZP.Core = {} end
 
 local dash = " - "
@@ -989,15 +989,19 @@ end
 function AZP.Core:ShareVersions()       -- Get rid of DelayedExecution, use wow native timer after variables loaded event ?
     local versionString = AZP.Core:VersionString()
     AZP.AddonHelper:DelayedExecution(10, function()
-        if IsInGroup() then
-            if IsInRaid() then
-                C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"RAID", 1)
-            else
-                C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"PARTY", 1)
+        if UnitInBattleground("player") ~= nil then
+            -- BG stuff?
+        else
+            if IsInGroup() then
+                if IsInRaid() then
+                    C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"RAID", 1)
+                else
+                    C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"PARTY", 1)
+                end
             end
-        end
-        if IsInGuild() then
-            C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"GUILD", 1)
+            if IsInGuild() then
+                C_ChatInfo.SendAddonMessage("AZPVERSIONS", versionString ,"GUILD", 1)
+            end
         end
     end)
 end
