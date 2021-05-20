@@ -144,6 +144,8 @@ function AZP.Core:eventAddonLoaded(...)
     elseif addonName == "AzerPUGsEasyVendor" then
         AZP.EasyVendor:OnLoadCore()
         AZP.Core.AddOns.EV.Loaded = true
+    elseif addonName == "ElvUI" then
+        AZP.Core:ElvUIDataText()
     end
 end
 
