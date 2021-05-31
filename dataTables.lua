@@ -21,7 +21,7 @@ AZP.Core.AddOns =
 
 AZP.RegisteredEvents = {} -- DO NOT DELETE, DYNAMIC USE!
 
-AZP.initialConfig =     -- DO NOT DELETE, DYNAMIC USE!
+AZP.initialConfig = -- DO NOT DELETE, DYNAMIC USE!
 {
     ["optionsChecked"] = {},
     ["checkItemIDs"] = {}
