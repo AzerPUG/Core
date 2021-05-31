@@ -12,5 +12,5 @@ dataTables.lua
 helperFunctions.lua
 optionsPanels.lua
 SlashCommands.lua
-Core.lua
 ElvUIDataText.lua
+Core.lua

@@ -2,6 +2,7 @@ if AZP == nil then AZP = {} end
 if AZP.Core == nil then AZP.Core = {} end
 
 function AZP.Core:ElvUIDataText()
+    print("ElvUI DataText Loaded!")
     local E = unpack(ElvUI)
     local DT = E:GetModule('DataTexts')
 

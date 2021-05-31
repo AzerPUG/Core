@@ -145,11 +145,14 @@ function AZP.Core:eventAddonLoaded(...)
         AZP.EasyVendor:OnLoadCore()
         AZP.Core.AddOns.EV.Loaded = true
     elseif addonName == "ElvUI" then
+    elseif addonName == "ElvUI_OptionsUI" then
         AZP.Core:ElvUIDataText()
     end
 end
 
 function AZP.Core:eventVariablesLoaded(...)
+    if IsAddOnLoaded("ElvUI") then AZP.Core:ElvUIDataText() end
+
     if not AZPCoreShown then
         AZPCoreCollectiveMainFrame:Hide()
     end
