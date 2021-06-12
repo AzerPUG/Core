@@ -67,11 +67,11 @@ function AZP.Core:eventPlayerEnteringWorld()
 end
 
 function AZP.Core:eventCombatLogEventUnfiltered()
-
+    -- Dafuq, why does this even exist?
 end
 
 function AZP.Core:eventPlayerLogin()
-
+    -- Dafuq, why does this even exist?
 end
 
 function AZP.Core:SaveMainFrameLocation()
@@ -144,6 +144,9 @@ function AZP.Core:eventAddonLoaded(...)
     elseif addonName == "AzerPUGsEasyVendor" then
         AZP.EasyVendor:OnLoadCore()
         AZP.Core.AddOns.EV.Loaded = true
+    elseif addonName == "AzerPUGsTimedEncounters" then
+        AZP.TimedEncounters:OnLoadCore()
+        AZP.Core.AddOns.TE.Loaded = true
     end
 end
 
@@ -802,6 +805,7 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         local QuestEfficiencyVersion
         local LevelStatsVersion
         local UnLockablesVersion
+        local TimedEncountersVersion
         local coreVersionUpdated = true
 
         if IsAddOnLoaded("AzerPUGsPreparationCheckList") then
@@ -894,6 +898,15 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
             end
         end
 
+        if IsAddOnLoaded("AzerPUGsTimedEncounters") then
+            TimedEncountersVersion = AZP.VersionControl["TimedEncounters"]
+            if TimedEncountersVersion < AZP.Core.AddOns.TE.Version then
+                tempText = tempText .. "\n\124cFFFF0000TimedEncounters\124r"
+            elseif TimedEncountersVersion > AZP.Core.AddOns.TE.Version then
+                coreVersionUpdated = false
+            end
+        end
+
         if coreVersionUpdated == false then
             tempText = tempText .. "\n\124cFFFF0000Core\124r"
         end
@@ -981,6 +994,10 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
 
     if IsAddOnLoaded("AzerPUGsToolTips") then
         versString = versString .. VersionChunkFormat:format("TT", AZP.VersionControl.ToolTips)
+    end
+
+    if IsAddOnLoaded("AzerPUGsTimedEncounters") then
+        versString = versString .. VersionChunkFormat:format("TE", AZP.VersionControl.TimedEncounters)
     end
 
     return versString
