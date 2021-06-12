@@ -17,7 +17,7 @@ AZP.Core.AddOns =
     ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] = 31, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] = 29, ["Position"] = 14, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =  5, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["TE"]  = {["Name"] = "TimedEncounters",             ["Version"] =  4, ["Position"] = 16, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["TE"]  = {["Name"] = "TimedEncounters",             ["Version"] =  3, ["Position"] = 16, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
 }
 
 AZP.RegisteredEvents = {} -- DO NOT DELETE, DYNAMIC USE!
