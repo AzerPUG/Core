@@ -1,8 +1,9 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 86
+AZP.VersionControl["Core"] = 87
 if AZP.Core == nil then AZP.Core = {} end
+if AZP.Core.Events == nil then AZP.Core.Events = {} end
 
 local dash = " - "
 local name = "Core"
@@ -61,16 +62,16 @@ function AZP.Core:initializeConfig()
     end
 end
 
-function AZP.Core:eventPlayerEnteringWorld()
+function AZP.Core.Events:PlayerEnteringWorld()
     AZP.Core:VersionControl()       -- Find more efficient place, maybe in the eventAddonLoaded?
     AZP.Core:ShowHideSubFrames(AZP.Core.AddOns.CR.MainFrame)
 end
 
-function AZP.Core:eventCombatLogEventUnfiltered()
+function AZP.Core.Events:CombatLogEventUnfiltered()
     -- Dafuq, why does this even exist?
 end
 
-function AZP.Core:eventPlayerLogin()
+function AZP.Core.Events:PlayerLogin()
     -- Dafuq, why does this even exist?
 end
 
@@ -88,7 +89,7 @@ function AZP.Core:SaveMiniButtonLocation()
     AZPMiniButtonLocation = temp
 end
 
-function AZP.Core:eventAddonLoaded(...)
+function AZP.Core.Events:AddonLoaded(...)
     local addonName = ...
     if addonName == "AzerPUGsCore" then
         AZP.Core:OnLoadedSelf()
@@ -150,7 +151,7 @@ function AZP.Core:eventAddonLoaded(...)
     end
 end
 
-function AZP.Core:eventVariablesLoaded(...)
+function AZP.Core.Events:VariablesLoaded(...)
     if not AZPCoreShown then
         AZPCoreCollectiveMainFrame:Hide()
     end
@@ -183,7 +184,7 @@ function AZP.Core:ParseVersionString(versionString)
     return versions
 end
 
-function AZP.Core:eventChatMsgAddon(prefix, payload, channel, sender)
+function AZP.Core.Events:ChatMsgAddon(prefix, payload, channel, sender)
     local playerName = UnitName("player")
     local playerServer = GetRealmName()
     if prefix == "AZPREQUEST" then
@@ -306,14 +307,14 @@ function AZP.Core:CreateMainFrame()
     })
     AZPCoreCollectiveMainFrame:SetBackdropColor(0.5, 0.5, 0.5, 0.75)
 
-    AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", function(...) AZP.Core:eventPlayerEnteringWorld(...) end)
-    AZP.Core:RegisterEvents("COMBAT_LOG_EVENT_UNFILTERED", function(...) AZP.Core:eventCombatLogEventUnfiltered(...) end)
-    AZP.Core:RegisterEvents("PLAYER_LOGIN", function(...) AZP.Core:eventPlayerLogin(...) end)
-    AZP.Core:RegisterEvents("ADDON_LOADED", function(...) AZP.Core:eventAddonLoaded(...) end)
-    AZP.Core:RegisterEvents("CHAT_MSG_ADDON", function(...) AZP.Core:eventChatMsgAddon(...) end)
-    AZP.Core:RegisterEvents("GROUP_ROSTER_UPDATE", AZP.Core.ShareVersions)
-    AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", AZP.Core.ShareVersions)
-    AZP.Core:RegisterEvents("VARIABLES_LOADED", function(...) AZP.Core:eventVariablesLoaded(...) end)
+    AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", function(...) AZP.Core.Events:PlayerEnteringWorld(...) end)
+    AZP.Core:RegisterEvents("COMBAT_LOG_EVENT_UNFILTERED", function(...) AZP.Core.Events:CombatLogEventUnfiltered(...) end)
+    AZP.Core:RegisterEvents("PLAYER_LOGIN", function(...) AZP.Core.Events:PlayerLogin(...) end)
+    AZP.Core:RegisterEvents("ADDON_LOADED", function(...) AZP.Core.Events:AddonLoaded(...) end)
+    AZP.Core:RegisterEvents("CHAT_MSG_ADDON", function(...) AZP.Core.Events:ChatMsgAddon(...) end)
+    AZP.Core:RegisterEvents("GROUP_ROSTER_UPDATE", function(...) AZP.Core.ShareVersions() end)
+    AZP.Core:RegisterEvents("PLAYER_ENTERING_WORLD", function(...) AZP.Core.ShareVersions() end)
+    AZP.Core:RegisterEvents("VARIABLES_LOADED", function(...) AZP.Core.Events:VariablesLoaded(...) end)
     -- AZP.Core:RegisterEvents("UPDATE_FACTION", AZP.Core.ShareVersions)     Change to RepBars
 
     MainTitleFrame = CreateFrame("Frame", "MainTitleFrame", AZPCoreCollectiveMainFrame, "BackdropTemplate")
