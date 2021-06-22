@@ -3,7 +3,7 @@ if AZP.Core == nil then AZP.Core = {} end
 
 AZP.Core.AddOns =
 {
-    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 87, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 88, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["CI"]  = {["Name"] = "Chat Improvements",           ["Version"] = 28, ["Position"] =  3, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  9, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] = 12, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
@@ -17,7 +17,7 @@ AZP.Core.AddOns =
     ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] = 32, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["TE"]  = {["Name"] = "TimedEncounters",             ["Version"] =  5, ["Position"] = 14, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] = 30, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =  6, ["Position"] = 16, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =  7, ["Position"] = 16, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
 }
 
 AZP.RegisteredEvents = {} -- DO NOT DELETE, DYNAMIC USE!

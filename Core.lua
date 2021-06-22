@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 87
+AZP.VersionControl["Core"] = 88
 if AZP.Core == nil then AZP.Core = {} end
 if AZP.Core.Events == nil then AZP.Core.Events = {} end
 
@@ -139,6 +139,7 @@ function AZP.Core.Events:AddonLoaded(...)
     elseif addonName == "AzerPUGsUnLockables" then
         AZP.Core:AddMainFrameTabButton("UL")
         AZP.UnLockables:OnLoadCore()
+        AZP.Core.AddOns.UL.Loaded = true
     elseif addonName == "AzerPUGsInterfaceCompanion" then
         AZP.InterfaceCompanion:OnLoadCore()
         AZP.Core.AddOns.IC.Loaded = true
