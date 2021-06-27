@@ -13,8 +13,7 @@
 
 [![](https://github.com/AzerPUG/AZP-Files/raw/main/Panels/YouTube%20Panel%20Small.png "")](http://www.azerpug.com/youtube "") 
 [![](https://github.com/AzerPUG/AZP-Files/raw/main/Panels/Twitter%20Panel%20Small.png "")](http://www.azerpug.com/twitter "") 
-[![](https://github.com/AzerPUG/AZP-Files/raw/main/Panels/Instagram%20Panel%20Small.png "")](http://www.azerpug.com/instagram "") 
-
+[![](https://github.com/AzerPUG/AZP-Files/raw/main/Panels/Instagram%20Panel%20Small.png "")](http://www.azerpug.com/instagram "")  
 
 # Description and Features
 AzerPUG's Core is an AddOn that does very little by itself. This optional dependency for all other AzerPUG AddOns makes them work together a lot nicer. With this optional dependency, your other AzerPUG AddOns will delegate a part of the work to this Core, to make things a lot more efficient. The core will handle the option panels as well as the version control. There is also an additional level to the Version Control with this optional dependency installed!
