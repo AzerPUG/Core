@@ -29,7 +29,7 @@ function AZP.OptionsPanels:Core()
 	local promo = "|cFF00FFFFAzerPUG's Core Option Panel|r"
 	local OptionsCoreTitle = OptionsCorePanel:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
     OptionsCoreTitle:SetText(promo)
-    OptionsCoreTitle:SetWidth(OptionsCorePanel:GetWidth())
+    OptionsCoreTitle:SetWidth(OptionsCorePanel:GetWidth())		-- Which dumbass wrote thise? Put on one line ffs!
     OptionsCoreTitle:SetHeight(OptionsCorePanel:GetHeight())
     OptionsCoreTitle:SetPoint("TOP", 0, -10)
 
