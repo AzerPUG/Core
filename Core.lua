@@ -147,6 +147,7 @@ function AZP.Core.Events:AddonLoaded(...)
         AZP.EasyVendor:OnLoadCore()
         AZP.Core.AddOns.EV.Loaded = true
     elseif addonName == "AzerPUGsTimedEncounters" then
+        AZP.Core:AddMainFrameTabButton("TE")
         AZP.TimedEncounters:OnLoadCore()
         AZP.Core.AddOns.TE.Loaded = true
     end
@@ -391,6 +392,10 @@ function AZP.Core:CreateMainFrame()
     AZP.Core.AddOns.UL.Tab:SetSize(1, 1)
     AZP.Core.AddOns.UL.Tab:SetPoint("LEFT", AZP.Core.AddOns.LS.Tab, "RIGHT", 0, 0);
 
+    AZP.Core.AddOns.TE.Tab = CreateFrame("Button", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
+    AZP.Core.AddOns.TE.Tab:SetSize(1, 1)
+    AZP.Core.AddOns.TE.Tab:SetPoint("LEFT", AZP.Core.AddOns.UL.Tab, "RIGHT", 0, 0);
+
     local IUAddonFrameCloseButton = CreateFrame("Button", "IUAddonFrameCloseButton", AZPCoreCollectiveMainFrame, "UIPanelCloseButton")
     IUAddonFrameCloseButton:SetWidth(MainTitleFrame:GetHeight() + 3)
     IUAddonFrameCloseButton:SetHeight(MainTitleFrame:GetHeight() + 4)
@@ -446,7 +451,7 @@ function AZP.Core:CreateMiniButton()
 end
 
 function AZP.Core:AddMainFrameTabButton(tabName)
-    local CurrentTab
+    local CurrentTab = nil
     if tabName == "PCL" then
         CurrentTab = AZP.Core.AddOns.PCL.Tab
         CurrentTab:SetWidth("20")
@@ -651,6 +656,29 @@ function AZP.Core:AddMainFrameTabButton(tabName)
             CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
             CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
         end
+    elseif tabName == "TE" then
+        CurrentTab = AZP.Core.AddOns.TE.Tab
+        CurrentTab:SetWidth("20")
+        CurrentTab:SetHeight("20")
+        CurrentTab.contentText = CurrentTab:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        CurrentTab.contentText:SetText("TE")
+        CurrentTab.contentText:SetWidth(CurrentTab:GetWidth())
+        CurrentTab.contentText:SetHeight(CurrentTab:GetHeight())
+        CurrentTab.contentText:SetPoint("CENTER", 0, 0)
+        CurrentTab:SetBackdrop({
+            bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 8,
+            insets = { left = 1, right = 1, top = 1, bottom = 1 },
+        })
+        CurrentTab:SetScript("OnClick", function() AZP.Core:ShowHideSubFrames(AZP.Core.AddOns.TE.MainFrame) end )
+        if AZP.Core.AddOns.TE.MainFrame ~= nil then
+            CurrentTab:SetBackdropColor(AZP.Core.AddOns.CR.Tab:GetBackdropColor())
+            CurrentTab.contentText:SetTextColor(AZP.Core.AddOns.CR.Tab.contentText:GetTextColor())
+        else
+            CurrentTab:SetBackdropColor(0.25, 0.25, 0.25, 0.75)
+            CurrentTab.contentText:SetTextColor(0.5, 0.5, 0.5, 0.75)
+        end
     end
 end
 
@@ -743,6 +771,17 @@ function AZP.Core:CreateSubFrames()
     })
     AZP.Core.AddOns.UL.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
 
+    AZP.Core.AddOns.TE.MainFrame = CreateFrame("FRAME", nil, AZPCoreCollectiveMainFrame, "BackdropTemplate")
+    AZP.Core.AddOns.TE.MainFrame:SetPoint("TOPLEFT", 0, -36)
+    AZP.Core.AddOns.TE.MainFrame:SetPoint("BOTTOMRIGHT")
+    AZP.Core.AddOns.TE.MainFrame:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    AZP.Core.AddOns.TE.MainFrame:SetBackdropColor(0.75, 0.75, 0.75, 0.5)
+
     AZP.Core:CoreSubFrame()
 end
 
@@ -781,6 +820,7 @@ function AZP.Core:ShowHideSubFrames(ShowFrame)
     AZP.Core.AddOns.MRT.MainFrame:Hide()
     AZP.Core.AddOns.LS.MainFrame:Hide()
     AZP.Core.AddOns.UL.MainFrame:Hide()
+    AZP.Core.AddOns.TE.MainFrame:Hide()
 
     ShowFrame:Show()
     AZPCoreCollectiveMainFrame:SetSize(ShowFrame:GetWidth(), ShowFrame:GetHeight() + 36)
@@ -901,9 +941,9 @@ function AZP.Core:VersionControl()      -- rewrite to be more generic, able to r
         end
 
         if IsAddOnLoaded("AzerPUGsTimedEncounters") then
-            TimedEncountersVersion = AZP.VersionControl["TimedEncounters"]
+            TimedEncountersVersion = AZP.VersionControl["Timed Encounters"]
             if TimedEncountersVersion < AZP.Core.AddOns.TE.Version then
-                tempText = tempText .. "\n\124cFFFF0000TimedEncounters\124r"
+                tempText = tempText .. "\n\124cFFFF0000Timed Encounters\124r"
             elseif TimedEncountersVersion > AZP.Core.AddOns.TE.Version then
                 coreVersionUpdated = false
             end
@@ -990,16 +1030,20 @@ function AZP.Core:VersionString()       -- rewrite to not index several sublists
         versString = versString .. VersionChunkFormat:format("EGV", AZP.VersionControl["Easier GreatVault"])
     end
 
-    if IsAddOnLoaded("AzerPUG's ManaManagement") then
+    if IsAddOnLoaded("AzerPUGsManaManagement") then
         versString = versString .. VersionChunkFormat:format("MM", AZP.VersionControl["Mana Management"])
     end
 
     if IsAddOnLoaded("AzerPUGsToolTips") then
-        versString = versString .. VersionChunkFormat:format("TT", AZP.VersionControl.ToolTips)
+        versString = versString .. VersionChunkFormat:format("TT", AZP.VersionControl["ToolTips"])
+    end
+
+    if IsAddOnLoaded("AzerPUGsUnLockables") then
+        versString = versString .. VersionChunkFormat:format("UL", AZP.VersionControl["UnLockables"])
     end
 
     if IsAddOnLoaded("AzerPUGsTimedEncounters") then
-        versString = versString .. VersionChunkFormat:format("TE", AZP.VersionControl.TimedEncounters)
+        versString = versString .. VersionChunkFormat:format("TE", AZP.VersionControl["Timed Encounters"])
     end
 
     return versString
