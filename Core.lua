@@ -150,6 +150,8 @@ function AZP.Core.Events:AddonLoaded(...)
         AZP.Core:AddMainFrameTabButton("TE")
         AZP.TimedEncounters:OnLoadCore()
         AZP.Core.AddOns.TE.Loaded = true
+    elseif addonName == "AzerPUGsRohKaloHelper" then
+        AZP.RohKaloHelper:OnLoadCore()
     end
 end
 
