@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 101
+AZP.VersionControl["Core"] = 102
 if AZP.Core == nil then AZP.Core = {} end
 if AZP.Core.Events == nil then AZP.Core.Events = {} end
 
@@ -18,7 +18,7 @@ local MainTitleFrame
 local VersionControlFrame
 local CoreButtonsFrame
 local UpdateFrame = nil
-MiniButton = nil
+local MiniButton = nil
 local currentMiniButtonScale
 
 local ReloadButton
