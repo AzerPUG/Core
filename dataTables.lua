@@ -20,6 +20,25 @@ AZP.Core.AddOns =
     ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =   9, ["Position"] = 16, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
 }
 
+AZP.Core.Markers =
+{
+          Star = "\124TInterface\\TargetingFrame\\UI-RaidTargetingIcon_1.png:14\124t",
+        Circle = "\124TInterface\\TargetingFrame\\UI-RaidTargetingIcon_2.png:14\124t",
+    GayDiamond = "\124TInterface\\TargetingFrame\\UI-RaidTargetingIcon_3.png:14\124t",
+      Triangle = "\124TInterface\\TargetingFrame\\UI-RaidTargetingIcon_4.png:14\124t",
+          Moon = "\124TInterface\\TargetingFrame\\UI-RaidTargetingIcon_5.png:14\124t",
+        Square = "\124TInterface\\TargetingFrame\\UI-RaidTargetingIcon_6.png:14\124t",
+         Cross = "\124TInterface\\TargetingFrame\\UI-RaidTargetingIcon_7.png:14\124t",
+         Skull = "\124TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8.png:14\124t",
+}
+
+AZP.Core.UnitGUIDs =
+{
+    ["Player-1329-04191B82"] = "AzerPUG Lead Developer",    -- Ravencrest, Tex
+    ["Player-1329-06B5Fe23"] = "AzerPUG Developer",         -- Ravencrest, Wiredruid
+    ["Player-1329-0931FF1D"] = "AzerPUG Developer",         -- Ravencrest, Wiremage
+}
+
 AZP.RegisteredEvents = {} -- DO NOT DELETE, DYNAMIC USE!
 
 AZP.initialConfig = -- DO NOT DELETE, DYNAMIC USE!

@@ -34,6 +34,15 @@ function AZP.Core:OnLoad()
 
     C_ChatInfo.RegisterAddonMessagePrefix("AZPREQUEST")
     C_ChatInfo.RegisterAddonMessagePrefix("AZPVERSIONS")
+
+    GameTooltip:HookScript("OnTooltipSetUnit", function(...)
+        local curGUID = UnitGUID("MouseOver")
+        if AZP.Core.UnitGUIDs[curGUID] ~= nil then
+            GameTooltip:AddLine(" ")
+            GameTooltip:AddLine(string.format("%s %s %s", AZP.Core.Markers.GayDiamond, AZP.Core.UnitGUIDs[curGUID], AZP.Core.Markers.GayDiamond))
+            GameTooltip:AddLine(" ")
+        end
+    end)
 end
 
 function AZP.Core:RegisterEvents(event, func)
