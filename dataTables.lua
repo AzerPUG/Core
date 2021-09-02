@@ -35,7 +35,7 @@ AZP.Core.Markers =
 AZP.Core.UnitGUIDs =
 {
     ["Player-1329-04191B82"] = "AzerPUG Lead Developer",    -- Ravencrest, Tex
-    ["Player-1329-06B5Fe23"] = "AzerPUG Developer",         -- Ravencrest, Wiredruid
+    ["Player-1329-06B5FE23"] = "AzerPUG Developer",         -- Ravencrest, Wiredruid
     ["Player-1329-0931FF1D"] = "AzerPUG Developer",         -- Ravencrest, Wiremage
 }
 
