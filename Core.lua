@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 109
+AZP.VersionControl["Core"] = 110
 if AZP.Core == nil then AZP.Core = {} end
 if AZP.Core.Events == nil then AZP.Core.Events = {} end
 
@@ -25,6 +25,7 @@ local ReloadButton
 local OpenSettingsButton
 
 local HighestVersionsReceived = {}
+local UpdateFrameDismissed = false
 
 function AZP.Core:OnLoad()
     AZP.Core:initializeConfig()
@@ -240,7 +241,7 @@ function AZP.Core.Events:ChatMsgAddon(prefix, payload, channel, sender)
             UpdateFrame.addonCurrentVersions[position + 1]:SetText(AZP.VersionControl[value.Addon.Name])
         end
 
-        if updatedVersionFound then UpdateFrame:Show() end
+        if updatedVersionFound and not UpdateFrameDismissed then UpdateFrame:Show() UpdateFrameDismissed = true end
     end
 end
 
