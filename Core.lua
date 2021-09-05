@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 110
+AZP.VersionControl["Core"] = 111
 if AZP.Core == nil then AZP.Core = {} end
 if AZP.Core.Events == nil then AZP.Core.Events = {} end
 
@@ -38,11 +38,13 @@ function AZP.Core:OnLoad()
 
     GameTooltip:HookScript("OnTooltipSetUnit", function(...)
         local name, unitID = GameTooltip:GetUnit()
-        local curGUID = UnitGUID(unitID)
-        if AZP.Core.UnitGUIDs[curGUID] ~= nil then
-            GameTooltip:AddLine(" ")
-            GameTooltip:AddLine(string.format("%s %s %s", AZP.Core.Markers.GayDiamond, AZP.Core.UnitGUIDs[curGUID], AZP.Core.Markers.GayDiamond))
-            GameTooltip:AddLine(" ")
+        if unitID ~= nil then
+            local curGUID = UnitGUID(unitID)
+            if AZP.Core.UnitGUIDs[curGUID] ~= nil then
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine(string.format("%s %s %s", AZP.Core.Markers.GayDiamond, AZP.Core.UnitGUIDs[curGUID], AZP.Core.Markers.GayDiamond))
+                GameTooltip:AddLine(" ")
+            end
         end
     end)
 end
