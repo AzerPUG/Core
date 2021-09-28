@@ -8,7 +8,7 @@ AZP.Core.AddOns =
     ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  10, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] =  13, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["IL"]  = {["Name"] = "Instance Leadership",         ["Version"] =  23, ["Position"] =  6, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  20, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  21, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["IH"]  = {["Name"] = "Interrupt Helper",            ["Version"] =  19, ["Position"] =  8, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] =  13, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MM"]  = {["Name"] = "Mana Management",             ["Version"] =  16, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
