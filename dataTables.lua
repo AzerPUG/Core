@@ -3,12 +3,12 @@ if AZP.Core == nil then AZP.Core = {} end
 
 AZP.Core.AddOns =
 {
-    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 117, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 118, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["CI"]  = {["Name"] = "Chat Improvements",           ["Version"] =  29, ["Position"] =  3, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  10, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] =  13, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["IL"]  = {["Name"] = "Instance Leadership",         ["Version"] =  23, ["Position"] =  6, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  23, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  24, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["IH"]  = {["Name"] = "Interrupt Helper",            ["Version"] =  19, ["Position"] =  8, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] =  13, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MM"]  = {["Name"] = "Mana Management",             ["Version"] =  16, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
