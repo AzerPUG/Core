@@ -3,7 +3,7 @@ if AZP.Core == nil then AZP.Core = {} end
 
 AZP.Core.AddOns =
 {
-    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 130, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 131, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["CI"]  = {["Name"] = "Chat Improvements",           ["Version"] =  30, ["Position"] =  3, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  11, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] =  14, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
