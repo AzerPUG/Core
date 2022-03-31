@@ -3,7 +3,7 @@ if AZP.Core == nil then AZP.Core = {} end
 
 AZP.Core.AddOns =
 {
-    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 133, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 134, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["CI"]  = {["Name"] = "Chat Improvements",           ["Version"] =  33, ["Position"] =  3, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  12, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] =  15, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
@@ -13,10 +13,10 @@ AZP.Core.AddOns =
     ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] =  15, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MM"]  = {["Name"] = "Mana Management",             ["Version"] =  19, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MRT"] = {["Name"] = "Multiple Reputation Tracker", ["Version"] =  20, ["Position"] = 11, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] =  34, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] =  49, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] =  35, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] =  50, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["TE"]  = {["Name"] = "Timed Encounters",            ["Version"] =  14, ["Position"] = 14, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] =  50, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] =  51, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =  11, ["Position"] = 16, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
 }
 
