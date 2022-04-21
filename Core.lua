@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 136
+AZP.VersionControl["Core"] = 137
 if AZP.Core == nil then AZP.Core = {} end
 if AZP.Core.Events == nil then AZP.Core.Events = {} end
 
@@ -438,7 +438,7 @@ function AZP.Core:CreateMiniButton()
 
     local SizeAndPosition = {45, 78, 30}
 
-    MiniButton = CreateFrame("Button", nil, UIParent)
+    MiniButton = CreateFrame("Button", "AZPCoreMiniButton", UIParent)
     MiniButton:SetFrameStrata("MEDIUM")
     MiniButton:SetSize(SizeAndPosition[1], SizeAndPosition[1])
     MiniButton:SetFrameLevel(8)
