@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 137
+AZP.VersionControl["Core"] = 138
 if AZP.Core == nil then AZP.Core = {} end
 if AZP.Core.Events == nil then AZP.Core.Events = {} end
 
