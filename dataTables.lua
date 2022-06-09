@@ -13,7 +13,7 @@ AZP.Core.AddOns =
     ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] =  16, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MM"]  = {["Name"] = "Mana Management",             ["Version"] =  20, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MRT"] = {["Name"] = "Multiple Reputation Tracker", ["Version"] =  21, ["Position"] = 11, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] =  36, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] =  37, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] =  58, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["TE"]  = {["Name"] = "Timed Encounters",            ["Version"] =  15, ["Position"] = 14, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] =  52, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
