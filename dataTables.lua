@@ -3,18 +3,18 @@ if AZP.Core == nil then AZP.Core = {} end
 
 AZP.Core.AddOns =
 {
-    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 147, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["CR"]  = {["Name"] = "Core",                        ["Version"] = 148, ["Position"] =  2, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["CI"]  = {["Name"] = "Chat Improvements",           ["Version"] =  34, ["Position"] =  3, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EGV"] = {["Name"] = "Easier GreatVault",           ["Version"] =  14, ["Position"] =  4, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["EQ"]  = {["Name"] = "Efficient Questing",          ["Version"] =  16, ["Position"] =  5, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["IL"]  = {["Name"] = "Instance Leadership",         ["Version"] =  27, ["Position"] =  6, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  44, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["IC"]  = {["Name"] = "Interface Companion",         ["Version"] =  45, ["Position"] =  7, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["IH"]  = {["Name"] = "Interrupt Helper",            ["Version"] =  23, ["Position"] =  8, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["LS"]  = {["Name"] = "Leveling Statistics",         ["Version"] =  16, ["Position"] =  9, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MM"]  = {["Name"] = "Mana Management",             ["Version"] =  20, ["Position"] = 10, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["MRT"] = {["Name"] = "Multiple Reputation Tracker", ["Version"] =  21, ["Position"] = 11, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["PCL"] = {["Name"] = "Preparation CheckList",       ["Version"] =  37, ["Position"] = 12, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
-    ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] =  58, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
+    ["RCE"] = {["Name"] = "ReadyCheck Enhanced",         ["Version"] =  60, ["Position"] = 13, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["TE"]  = {["Name"] = "Timed Encounters",            ["Version"] =  15, ["Position"] = 14, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["TT"]  = {["Name"] = "ToolTips",                    ["Version"] =  52, ["Position"] = 15, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
     ["UL"]  = {["Name"] = "UnLockables",                 ["Version"] =  12, ["Position"] = 16, ["Loaded"] = false, ["MainFrame"] = nil, ["Tab"] = nil},
