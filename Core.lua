@@ -1,7 +1,7 @@
 if AZP == nil then AZP = {} end
 if AZP.VersionControl == nil then AZP.VersionControl = {} end
 
-AZP.VersionControl["Core"] = 149
+AZP.VersionControl["Core"] = 150
 if AZP.Core == nil then AZP.Core = {} end
 if AZP.Core.Events == nil then AZP.Core.Events = {} end
 
@@ -49,6 +49,19 @@ function AZP.Core:OnLoad()
     end)
 end
 
+function AZP.Core:TestFunction()
+    local testFrame = CreateFrame("FRAME", nil, UIParent, "BackdropTemplate")
+    testFrame:SetPoint("CENTER", 0, 0)
+    testFrame:SetSize(100, 100)
+    testFrame:SetBackdrop({
+        bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 1, right = 1, top = 1, bottom = 1 },
+    })
+    testFrame:SetBackdropColor(0.25, 0.25, 0.25, 0.80)
+end
+
 function AZP.Core:RegisterEvents(event, func)
     local handlers = AZP.RegisteredEvents[event]
     if handlers == nil then
@@ -57,6 +70,10 @@ function AZP.Core:RegisterEvents(event, func)
         AZPCoreCollectiveMainFrame:RegisterEvent(event)
     end
     handlers[#handlers + 1] = func
+end
+
+function AZP.Core:UnRegisterEvents(event)
+    AZPCoreCollectiveMainFrame:UnregisterEvent(event)
 end
 
 function AZP.Core:ShowHideFrame()
