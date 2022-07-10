@@ -72,8 +72,11 @@ function AZP.Core:RegisterEvents(event, func)
     handlers[#handlers + 1] = func
 end
 
-function AZP.Core:UnRegisterEvents(event)
-    AZPCoreCollectiveMainFrame:UnregisterEvent(event)
+function AZP.Core:UnRegisterEvents(event, func)
+    local handlers = AZP.RegisteredEvents[event]
+    if handlers ~= nil and tContains(handlers, func) then
+        AZPCoreCollectiveMainFrame:UnregisterEvent(event)
+    end
 end
 
 function AZP.Core:ShowHideFrame()
