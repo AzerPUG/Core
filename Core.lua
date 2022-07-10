@@ -62,20 +62,33 @@ function AZP.Core:TestFunction()
     testFrame:SetBackdropColor(0.25, 0.25, 0.25, 0.80)
 end
 
-function AZP.Core:RegisterEvents(event, func)
+function AZP.Core:RegisterEvents(event, func, tag)
     local handlers = AZP.RegisteredEvents[event]
     if handlers == nil then
         handlers = {}
         AZP.RegisteredEvents[event] = handlers
         AZPCoreCollectiveMainFrame:RegisterEvent(event)
     end
-    handlers[#handlers + 1] = func
+
+    if tag ~= nil then
+        handlers[tag] = func
+    else
+        handlers[#handlers + 1] = func
+    end
 end
 
-function AZP.Core:UnRegisterEvents(event, func)
+function AZP.Core:UnRegisterEvents(event, tag)
     local handlers = AZP.RegisteredEvents[event]
-    if handlers ~= nil and tContains(handlers, func) then
+    handlers[tag] = nil
+
+    local empty = true
+    for k, v in pairs(handlers) do
+        empty = false
+    end
+
+    if empty and #handlers == 0 then
         AZPCoreCollectiveMainFrame:UnregisterEvent(event)
+        AZP.RegisteredEvents[event] = nil
     end
 end
 
